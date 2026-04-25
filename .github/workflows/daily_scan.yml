@@ -2,19 +2,22 @@ name: 100k Agent Daily Scan
 
 on:
   schedule:
-    # 한국 시간(KST) 오전 8시는 UTC 기준 전날 오후 11시입니다.
-    - cron: '0 23 * * *'
+    # 한국 시간(KST) 오전 8시(23:00 UTC)와 오후 10시(13:00 UTC)에 실행
+    - cron: '0 13,23 * * *'
   workflow_dispatch: # 수동으로도 실행 가능하게 설정
+
+permissions:
+  contents: write # 이 부분이 빠져서 에러가 났을 확률이 높습니다.
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # 최신 버전으로 업데이트
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # 최신 버전으로 업데이트
         with:
           python-version: '3.9'
 
@@ -24,6 +27,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run 100k Agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python agent.py
 
       - name: Commit and Push changes
@@ -31,5 +36,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add memory/*.md
-          git commit -m "Auto-update: Daily Business Ideas $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git commit -m "Auto-update: Daily Team Report $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push
