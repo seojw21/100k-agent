@@ -15,12 +15,18 @@ DEBUG_LOG = ""
 def generate_content_rest(prompt):
     if not API_KEY:
         raise ValueError("API Key is missing")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
     headers = {'Content-Type': 'application/json'}
     data = {"contents": [{"parts":[{"text": prompt}]}]}
     response = requests.post(url, headers=headers, json=data, timeout=30)
     if response.status_code != 200:
-        raise Exception(f"API Error {response.status_code}: {response.text}")
+        # 오류 발생 시 어떤 모델이 사용 가능한지 조회해서 에러 메시지에 추가
+        models_url = f"https://generativelanguage.googleapis.com/v1beta/models?key={API_KEY}"
+        models_res = requests.get(models_url)
+        available = "조회 불가"
+        if models_res.status_code == 200:
+            available = ", ".join([m['name'] for m in models_res.json().get('models', [])])
+        raise Exception(f"API Error {response.status_code}: {response.text}\n사용 가능한 모델 목록: {available}")
     return response.json()['candidates'][0]['content']['parts'][0]['text']
 
 MEMORY_DIR = "./memory"
