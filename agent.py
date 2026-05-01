@@ -82,7 +82,7 @@ def main():
         # 2. 분석/기획/마케팅 (AI 활용)
         if API_KEY:
             try:
-                analysis_prompt = f"다음은 오늘 수집된 IT/비즈니스 트렌드 뉴스입니다.\n{info}\n\n이 뉴스들을 분석하여, 가장 잠재력 있는 '1인 비즈니스(Micro-SaaS) 아이디어'를 1개 도출하고, 그 이유를 분석해줘."
+                analysis_prompt = f"다음은 오늘 수집된 IT/비즈니스 트렌드 뉴스입니다.\n{info}\n\n이 뉴스들을 분석하여, 가장 잠재력 있는 '사업/창업 아이디어(IT, B2B, B2C, 오프라인, 콘텐츠 등 분야 무관)'를 1개 도출하고, 그 이유를 분석해줘."
                 analysis = generate_content_rest(analysis_prompt)
                 DEBUG_LOG += "✅ 분석가 단계 완료\n"
                 
