@@ -1,23 +1,19 @@
 """
 build_knowledge.py
 ==================
-레딧 핵심통증.txt (TSV) → JSON DB + ChromaDB 벡터 인덱스 구축 스크립트
-
-실행 방법:
-    python build_knowledge.py
+레딧 핵심통증.txt (TSV) + reddit add row.txt → 통합 JSON DB + 999개 MD 세컨드 브레인 구축 스크립트
 
 결과물:
-    knowledge/pain_db.json          - 전체 정제 데이터
+    knowledge/pain_db.json          - 전체 정제 및 병합 데이터
     knowledge/index.json            - 카테고리/점수 인덱스
     knowledge/top_ideas.md          - 상위 아이디어 요약
-    knowledge/chroma_db/            - ChromaDB 벡터 인덱스
+    knowledge/md_brain/             - 999개 Markdown 파일 (Connect AI Lab 시각화용)
 """
 
 import os
 import json
 import csv
 import re
-import traceback
 from datetime import datetime
 from pathlib import Path
 
@@ -25,9 +21,11 @@ from pathlib import Path
 # 경로 설정
 # ─────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent
-SOURCE_FILE = BASE_DIR / "레딧 핵심통증.txt"
+SOURCE_FILE_1 = BASE_DIR / "레딧 핵심통증.txt"
+SOURCE_FILE_2 = Path("D:/AUTOPUS/daangn-lead-discovery/reddit add row.txt")
+
 KNOWLEDGE_DIR = BASE_DIR / "knowledge"
-CHROMA_DIR = KNOWLEDGE_DIR / "chroma_db"
+MD_BRAIN_DIR = KNOWLEDGE_DIR / "md_brain"
 
 PAIN_DB_PATH = KNOWLEDGE_DIR / "pain_db.json"
 INDEX_PATH = KNOWLEDGE_DIR / "index.json"
@@ -37,18 +35,18 @@ TOP_IDEAS_PATH = KNOWLEDGE_DIR / "top_ideas.md"
 # 카테고리 자동 분류 키워드 맵
 # ─────────────────────────────────────────────
 CATEGORY_KEYWORDS = {
-    "AI/자동화": ["AI", "LLM", "GPT", "자동화", "에이전트", "머신러닝", "생성형"],
-    "마케팅/영업": ["마케팅", "SEO", "콘텐츠", "리드", "아웃리치", "광고", "콜드 이메일", "GTM"],
-    "개발자 도구": ["개발자", "API", "코드", "SaaS", "IDE", "Git", "스크래핑", "웹훅"],
-    "이커머스/쇼핑": ["쇼핑", "이커머스", "Shopify", "아마존", "드롭쉬핑", "판매자"],
-    "생산성/업무": ["생산성", "회의", "일정", "노트", "문서", "할 일", "업무"],
-    "HR/채용": ["채용", "이력서", "구직", "HR", "온보딩", "직원"],
-    "재무/결제": ["결제", "재무", "구독", "차지백", "Stripe", "인보이스", "수익"],
-    "교육/학습": ["교육", "학습", "학교", "강의", "수업", "공부", "튜터"],
-    "헬스/웰니스": ["헬스", "건강", "운동", "수면", "멘탈", "웰니스"],
-    "법무/규정": ["법률", "규정", "GDPR", "컴플라이언스", "보안", "개인정보"],
-    "B2B SaaS": ["B2B", "엔터프라이즈", "기업", "스타트업", "CRM", "대시보드"],
-    "콘텐츠 창작": ["콘텐츠", "유튜브", "소셜미디어", "크리에이터", "블로그", "영상"],
+    "AI_자동화": ["AI", "LLM", "GPT", "자동화", "에이전트", "머신러닝", "생성형"],
+    "마케팅_영업": ["마케팅", "SEO", "콘텐츠", "리드", "아웃리치", "광고", "콜드 이메일", "GTM"],
+    "개발자_도구": ["개발자", "API", "코드", "SaaS", "IDE", "Git", "스크래핑", "웹훅"],
+    "이커머스_쇼핑": ["쇼핑", "이커머스", "Shopify", "아마존", "드롭쉬핑", "판매자"],
+    "생산성_업무": ["생산성", "회의", "일정", "노트", "문서", "할 일", "업무"],
+    "HR_채용": ["채용", "이력서", "구직", "HR", "온보딩", "직원"],
+    "재무_결제": ["결제", "재무", "구독", "차지백", "Stripe", "인보이스", "수익"],
+    "교육_학습": ["교육", "학습", "학교", "강의", "수업", "공부", "튜터"],
+    "헬스_웰니스": ["헬스", "건강", "운동", "수면", "멘탈", "웰니스"],
+    "법무_규정": ["법률", "규정", "GDPR", "컴플라이언스", "보안", "개인정보"],
+    "B2B_SaaS": ["B2B", "엔터프라이즈", "기업", "스타트업", "CRM", "대시보드"],
+    "콘텐츠_창작": ["콘텐츠", "유튜브", "소셜미디어", "크리에이터", "블로그", "영상"],
 }
 
 def classify_category(text: str) -> str:
@@ -66,18 +64,19 @@ def classify_category(text: str) -> str:
 def parse_tsv(filepath: Path) -> list[dict]:
     """TSV 파일을 파싱하여 레코드 리스트 반환"""
     records = []
-    
+    if not filepath.exists():
+        print(f"⚠️ 파일이 존재하지 않습니다: {filepath}")
+        return records
+
     with open(filepath, "r", encoding="utf-8-sig") as f:
         # 헤더 읽기
         header_line = f.readline().strip()
-        # 탭 또는 혼합 구분자 처리
         if "\t" in header_line:
             delimiter = "\t"
         else:
             delimiter = ","
         
         headers = [h.strip() for h in header_line.split(delimiter)]
-        print(f"📋 헤더 감지: {headers}")
         
         # 한국어 헤더 → 영어 키 매핑
         key_map = {
@@ -123,10 +122,6 @@ def parse_tsv(filepath: Path) -> list[dict]:
                 record.get("solution", ""),
             ])
             record["category"] = classify_category(combined)
-            
-            # 고유 ID 부여
-            record["id"] = f"idea_{line_num:04d}"
-            
             records.append(record)
     
     return records
@@ -141,21 +136,18 @@ def build_index(records: list[dict]) -> dict:
         "top_10": [],
     }
     
-    # 카테고리별
     for r in records:
         cat = r["category"]
         if cat not in index["by_category"]:
             index["by_category"][cat] = []
         index["by_category"][cat].append(r["id"])
     
-    # 점수별
     for r in records:
         score_key = str(r["score"])
         if score_key not in index["by_score"]:
             index["by_score"][score_key] = []
         index["by_score"][score_key].append(r["id"])
     
-    # 상위 10개 (점수 기준)
     sorted_records = sorted(records, key=lambda x: x["score"], reverse=True)
     index["top_10"] = [
         {
@@ -181,7 +173,6 @@ def build_top_ideas_md(records: list[dict]) -> str:
         "",
     ]
     
-    # 카테고리별 그룹핑
     by_cat = {}
     for r in top_30:
         cat = r["category"]
@@ -200,98 +191,84 @@ def build_top_ideas_md(records: list[dict]) -> str:
     
     return "\n".join(lines)
 
-def build_chromadb(records: list[dict]):
-    """ChromaDB 벡터 인덱스 구축"""
-    try:
-        import chromadb
-        from chromadb.utils import embedding_functions
-    except ImportError:
-        print("❌ chromadb 패키지가 없습니다. pip install chromadb 실행 후 재시도하세요.")
-        return False
+def sanitize_filename(name: str) -> str:
+    """파일명에서 사용할 수 없는 문자 제거 및 정제"""
+    cleaned = re.sub(r'[\/:*?"<>|]', ' ', name)
+    cleaned = re.sub(r'\s+', '_', cleaned.strip())
+    return cleaned[:60]
+
+def build_md_brain(records: list[dict]):
+    """Connect AI Lab 및 Ezerai 시각화용 999개 Markdown 파일 생성"""
+    print(f"\n📂 999개 Markdown 파일 생성 중... (경로: {MD_BRAIN_DIR})")
+    MD_BRAIN_DIR.mkdir(exist_ok=True, parents=True)
     
-    print("🧠 ChromaDB 벡터 인덱스 구축 중...")
+    # 기존 파일 삭제 (초기화)
+    for f in MD_BRAIN_DIR.glob("*.md"):
+        try:
+            f.unlink()
+        except Exception:
+            pass
+            
+    # 점수 높은 상위 999개 선별
+    sorted_records = sorted(records, key=lambda x: x["score"], reverse=True)
+    top_999 = sorted_records[:999]
     
-    # 다국어 임베딩 함수 (한국어 지원)
-    try:
-        from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
-        embedding_fn = SentenceTransformerEmbeddingFunction(
-            model_name="paraphrase-multilingual-MiniLM-L12-v2"
-        )
-        print("  ✅ 다국어 임베딩 모델 로드 완료")
-    except Exception as e:
-        print(f"  ⚠️ SentenceTransformer 로드 실패: {e}")
-        print("  🔄 기본 임베딩 함수로 폴백...")
-        embedding_fn = embedding_functions.DefaultEmbeddingFunction()
-    
-    # ChromaDB 클라이언트 초기화
-    client = chromadb.PersistentClient(path=str(CHROMA_DIR))
-    
-    # 기존 컬렉션 삭제 후 재생성
-    try:
-        client.delete_collection("pain_points")
-        print("  🗑️ 기존 컬렉션 삭제")
-    except Exception:
-        pass
-    
-    collection = client.create_collection(
-        name="pain_points",
-        embedding_function=embedding_fn,
-        metadata={"description": "레딧 핵심통증 벡터 DB", "hnsw:space": "cosine"},
-    )
-    
-    # 배치 단위로 삽입 (ChromaDB 권장 배치 크기: 100~500)
-    BATCH_SIZE = 200
-    total = len(records)
-    
-    for batch_start in range(0, total, BATCH_SIZE):
-        batch = records[batch_start : batch_start + BATCH_SIZE]
+    for i, r in enumerate(top_999, 1):
+        safe_name = sanitize_filename(r["idea_name"])
+        filename = f"idea_{i:03d}_{safe_name}.md"
+        filepath = MD_BRAIN_DIR / filename
         
-        ids = [r["id"] for r in batch]
-        
-        # 검색에 사용될 텍스트 (아이디어명 + 통증 + 해결방안 결합)
-        documents = [
-            f"{r.get('idea_name', '')} | {r.get('pain_point', '')} | {r.get('solution', '')}"
-            for r in batch
-        ]
-        
-        # 메타데이터 (필터링에 활용)
-        metadatas = [
-            {
-                "idea_name": r.get("idea_name", "")[:100],
-                "category": r.get("category", "기타"),
-                "score": r.get("score", 0),
-                "url": r.get("url", "")[:200],
-                "pain_point": r.get("pain_point", "")[:300],
-                "solution": r.get("solution", "")[:300],
-                "monetization": r.get("monetization", "")[:200],
-            }
-            for r in batch
-        ]
-        
-        collection.add(ids=ids, documents=documents, metadatas=metadatas)
-        print(f"  📥 {min(batch_start + BATCH_SIZE, total)}/{total} 삽입 완료")
-    
-    print(f"✅ ChromaDB 벡터 인덱스 완성: {total}개 레코드")
-    return True
+        # MD 내용 작성
+        content = f"""# {r['idea_name']}
+**카테고리:** {r['category']}
+**점수:** {r['score']}
+**태그:** #{r['category']} #{r['score']}점
+
+## 😟 핵심 통증 (Pain Point)
+{r.get('pain_point', '정보 없음')}
+
+## 💡 해결 방안 (Solution)
+{r.get('solution', '정보 없음')}
+
+## 💰 수익화 근거 (Monetization)
+{r.get('monetization', '정보 없음')}
+
+---
+- **출처 URL:** {r.get('url', 'N/A')}
+- **수집일:** {r.get('collected_at', 'N/A')}
+"""
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(content)
+            
+    print(f"✅ MD 브레인 생성 완료: {len(top_999)}개 마크다운 파일")
 
 def main():
     print("=" * 60)
-    print("🚀 레딧 핵심통증 지식 베이스 구축 시작")
+    print("🚀 레딧 핵심통증 지식 베이스 및 세컨드 브레인 구축 시작")
     print("=" * 60)
     
-    # 디렉토리 생성
     KNOWLEDGE_DIR.mkdir(exist_ok=True)
-    CHROMA_DIR.mkdir(exist_ok=True)
+    MD_BRAIN_DIR.mkdir(exist_ok=True)
     
-    # 1. TSV 파싱
-    print(f"\n📂 파일 읽는 중: {SOURCE_FILE}")
-    if not SOURCE_FILE.exists():
-        print(f"❌ 파일이 없습니다: {SOURCE_FILE}")
-        return
+    # 1. 파일들 읽기 및 병합
+    records = []
+    seen_ideas = set()
     
-    records = parse_tsv(SOURCE_FILE)
-    print(f"✅ 파싱 완료: {len(records)}개 레코드")
+    for source in [SOURCE_FILE_1, SOURCE_FILE_2]:
+        if source.exists():
+            print(f"\n📂 파일 파싱 중: {source}")
+            parsed = parse_tsv(source)
+            for r in parsed:
+                if r["idea_name"] not in seen_ideas:
+                    seen_ideas.add(r["idea_name"])
+                    records.append(r)
+                    
+    print(f"\n✅ 파싱 및 중복 제거 완료: {len(records)}개 고유 레코드")
     
+    # 고유 ID 부여
+    for i, r in enumerate(records, start=1):
+        r["id"] = f"idea_{i:04d}"
+        
     # 카테고리 분포 출력
     cat_counts = {}
     for r in records:
@@ -300,7 +277,7 @@ def main():
     print("\n📊 카테고리 분포:")
     for cat, cnt in sorted(cat_counts.items(), key=lambda x: -x[1]):
         print(f"  {cat:20s}: {cnt}개")
-    
+        
     # 2. JSON DB 저장
     print(f"\n💾 JSON DB 저장 중...")
     with open(PAIN_DB_PATH, "w", encoding="utf-8") as f:
@@ -314,29 +291,24 @@ def main():
         json.dump(index, f, ensure_ascii=False, indent=2)
     print(f"✅ 인덱스 저장 완료: {INDEX_PATH}")
     
-    # 4. Top Ideas 마크다운
+    # 4. Top Ideas 마크다운 요약 생성
     print(f"\n📝 Top 30 아이디어 요약 생성 중...")
     top_md = build_top_ideas_md(records)
     with open(TOP_IDEAS_PATH, "w", encoding="utf-8") as f:
         f.write(top_md)
     print(f"✅ Top Ideas 저장 완료: {TOP_IDEAS_PATH}")
     
-    # 5. ChromaDB 벡터 인덱스
-    print(f"\n🔍 벡터 인덱스 구축 중...")
-    success = build_chromadb(records)
+    # 5. Connect AI Lab 시각화용 MD 브레인 생성
+    build_md_brain(records)
     
     print("\n" + "=" * 60)
-    if success:
-        print("🎉 모든 지식 베이스 구축 완료!")
-    else:
-        print("⚠️ JSON/인덱스는 완료, ChromaDB는 패키지 설치 후 재실행 필요")
+    print("🎉 모든 지식 베이스 및 MD 세컨드 브레인 구축 완료!")
     print("=" * 60)
-    print(f"\n생성된 파일:")
+    print(f"\n생성된 파일 및 폴더:")
     print(f"  📄 {PAIN_DB_PATH}")
     print(f"  📄 {INDEX_PATH}")
     print(f"  📄 {TOP_IDEAS_PATH}")
-    if success:
-        print(f"  🗄️ {CHROMA_DIR}/")
+    print(f"  📁 {MD_BRAIN_DIR}/ (999개 파일)")
 
 if __name__ == "__main__":
     main()
