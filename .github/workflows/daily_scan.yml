@@ -38,6 +38,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add memory/*.md
-          git commit -m "Auto-update: Interior Business Report $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git add memory/*.md knowledge/ || true
+          git commit -m "Auto-update: Agent Report + Knowledge $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push
