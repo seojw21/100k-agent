@@ -20,3 +20,4 @@ knowledge/chroma_db/
 # knowledge/top_ideas.md
 # knowledge/collected_ids.json
 # knowledge/processed_ids.json
+memory/*_debug_result.md
