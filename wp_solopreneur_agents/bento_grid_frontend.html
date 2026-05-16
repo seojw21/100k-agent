@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents for Solopreneurs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(99, 102, 241, 0.5);
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --btn-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --btn-hover: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15), transparent 25%);
+            display: flex;
+            justify-content: center;
+            padding: 3rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(150px, auto);
+            gap: 1.5rem;
+        }
+
+        /* Glassmorphism Card Style */
+        .bento-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Grid Placements */
+        .featured-agent {
+            grid-column: span 8;
+            grid-row: span 2;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+        }
+
+        .cost-calculator {
+            grid-column: span 4;
+            grid-row: span 2;
+        }
+
+        .tool-card {
+            grid-column: span 4;
+            grid-row: span 1;
+        }
+
+        /* Card Contents */
+        .card-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a855f7;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .featured-agent h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .featured-agent p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 80%;
+        }
+
+        .action-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            background: var(--btn-primary);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+        }
+
+        .action-btn:hover {
+            background: var(--btn-hover);
+            transform: scale(1.05);
+        }
+
+        /* Calculator Specifics */
+        .calculator-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+        }
+        
+        .calc-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-family: inherit;
+            margin-bottom: 1rem;
+        }
+
+        .calc-input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .calc-result {
+            margin-top: auto;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .calc-result span {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #a855f7;
+        }
+
+        /* Tool Cards */
+        .tool-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tool-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .copy-prompt-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .copy-prompt-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 900px) {
+            .featured-agent { grid-column: span 12; }
+            .cost-calculator { grid-column: span 12; }
+            .tool-card { grid-column: span 6; }
+        }
+
+        @media (max-width: 600px) {
+            .tool-card { grid-column: span 12; }
+            header h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>AI Agents for Solopreneurs</h1>
+            <p>1-Person Businesses Scaled by AI Workflows</p>
+        </header>
+
+        <div class="bento-grid">
+            <!-- Top Left: Featured Agent Recipe -->
+            <div class="bento-card featured-agent">
+                <span class="card-tag">✨ Agent of the Week</span>
+                <h2>Auto-Blogging SEO Machine</h2>
+                <p>Connect Make.com with Claude 3.5 Sonnet and WordPress REST API. This automated workflow pulls trending topics from Reddit, structures the data, localizes the content, and publishes directly to your WordPress site while you sleep.</p>
+                <button class="action-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Make.com Blueprint
+                </button>
+            </div>
+
+            <!-- Top Right: Utility Calculator -->
+            <div class="bento-card cost-calculator">
+                <span class="card-tag">📊 Utility</span>
+                <h3>API Cost Estimator</h3>
+                <div class="calculator-wrapper">
+                    <div>
+                        <label style="font-size: 0.9rem; color: #94a3b8; display: block; margin-bottom: 5px;">Est. Monthly Articles</label>
+                        <input type="number" id="articleCount" class="calc-input" value="30" oninput="calculateCost()">
+                    </div>
+                    <div class="calc-result">
+                        <span id="costDisplay">$4.50</span>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Estimated Claude API Cost</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Tool Cards -->
+            <div class="bento-card tool-card">
+                <span class="card-tag">Marketing</span>
+                <h3>Social Media Agent</h3>
+                <p>Automates Twitter & LinkedIn scheduling by rewriting your blog posts into engaging threads.</p>
+                <button class="copy-prompt-btn" onclick="copyPrompt(this)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy System Prompt
+                </button>
+            </div>
+
+            <div class="bento-card tool-card">
+                <span class="card-tag">Customer Support</span>
+                <h3>Zendesk + AI Responder</h3>
+                <p>Auto-drafts email replies using past ticket history via vector database retrieval.</p>
+                <button class="copy-prompt-btn" onclick="copyPrompt(this)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy System Prompt
+                </button>
+            </div>
+
+            <div class="bento-card tool-card">
+                <span class="card-tag">Analytics</span>
+                <h3>Stripe Churn Predictor</h3>
+                <p>Analyzes Stripe webhooks to detect users likely to cancel and sends automated retention offers.</p>
+                <button class="copy-prompt-btn" onclick="copyPrompt(this)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy System Prompt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateCost() {
+            const count = document.getElementById('articleCount').value;
+            // Rough estimation: $0.15 per long-form article using Claude 3.5 Sonnet
+            const cost = (count * 0.15).toFixed(2);
+            document.getElementById('costDisplay').innerText = `$${cost}`;
+        }
+
+        function copyPrompt(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `✓ Copied!`;
+            btn.style.background = 'rgba(99, 102, 241, 0.4)';
+            btn.style.borderColor = '#6366f1';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = 'rgba(255, 255, 255, 0.05)';
+                btn.style.borderColor = 'rgba(255,255,255,0.1)';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
