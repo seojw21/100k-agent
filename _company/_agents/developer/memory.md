@@ -8,3 +8,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-05-16] [A.U 히든 커맨드: 💻 코다리 에이전트가 방금 'Landing Kit (SaaS 랜딩 페이지)' 템플릿 팩 주입받았습니다. 코드 boilerplate 3개 파일 + README. 매트릭스 톤으로 한 줄. "💻 코다리, Landing Kit (SaaS 랜딩 페이지) 템플릿 3개 파일 장착. 다음 작업에 자동 활용." 부가 설명 X.] → 산출물 sessions/2026-05-16T16-02/developer.md
 - [2026-05-17] Business 에이전트가 선정한 템플릿 주제 중 가장 유망한 주제 1개를 선정하여, 해당 → 산출물 sessions/2026-05-17T01-31/developer.md
 - [2026-05-17] Business 에이전트가 선정한 최우선 템플릿 주제 1개를 선정하고, 해당 템플릿 구현에 필요한 기술 스택 및 필수 API 통합(예: PayPal 연동)을 포함한 초기 아키텍처 구상 및 코드 boilerplate 구조를 설계하라. → 산출물 sessions/2026-05-17T01-28/developer.md
+- [2026-05-17] business 에이전트가 선정한 최우선 주제에 기반하여, 'Landing Kit (SaaS 랜딩 페이지)' 템플릿 중 가장 핵심적인 구조(HTML/CSS/JS)와 데이터 흐름을 포함하는 초기 아키텍처를 설계하고, 필요한 API 연동 계획(예: PayPal 등)을 구체화하라. → 산출물 sessions/2026-05-17T04-09/developer.md
