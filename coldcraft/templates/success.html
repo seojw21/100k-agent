@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Successful – ColdCraft</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e8e8e8; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+  .card { background: #16161f; border: 1px solid #2a2a3a; border-radius: 20px; padding: 48px 40px; max-width: 480px; width: 100%; text-align: center; }
+  .icon { font-size: 64px; margin-bottom: 24px; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+  p { color: #9ca3af; font-size: 16px; line-height: 1.6; margin-bottom: 8px; }
+  .email { color: #7c3aed; font-weight: 600; }
+  .btn { display: inline-block; margin-top: 32px; background: #7c3aed; color: #fff; padding: 13px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px; }
+  .btn:hover { background: #6d28d9; }
+</style>
+</head>
+<body>
+<div class="card">
+  {% if success %}
+    <div class="icon">🎉</div>
+    <h1>You're on Pro!</h1>
+    <p>Your account <span class="email">{{ email }}</span> is now upgraded.</p>
+    <p>You have <strong>300 emails/month</strong> starting now.</p>
+    <a href="/" class="btn">Start Generating Emails →</a>
+  {% else %}
+    <div class="icon">⚠️</div>
+    <h1>Payment issue</h1>
+    <p>We couldn't confirm your payment. Please try again or contact us.</p>
+    <a href="/" class="btn">Go Back</a>
+  {% endif %}
+</div>
+</body>
+</html>

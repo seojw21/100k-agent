@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ColdCraft – AI Cold Emails That Actually Get Replies</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e8e8e8; }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #1e1e2e; }
+  .logo { font-size: 22px; font-weight: 700; color: #7c3aed; letter-spacing: -0.5px; }
+  .logo span { color: #e8e8e8; }
+  .nav-cta { background: #7c3aed; color: #fff; padding: 9px 22px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 90px 24px 60px; max-width: 760px; margin: 0 auto; }
+  .badge { display: inline-block; background: #1e1e2e; border: 1px solid #7c3aed44; color: #a78bfa; font-size: 13px; padding: 5px 14px; border-radius: 100px; margin-bottom: 28px; }
+  h1 { font-size: clamp(36px, 6vw, 60px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+  h1 em { color: #7c3aed; font-style: normal; }
+  .sub { font-size: 18px; color: #9ca3af; line-height: 1.6; max-width: 540px; margin: 0 auto 40px; }
+  .hero-stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat .num { font-size: 28px; font-weight: 700; color: #7c3aed; }
+  .stat .lbl { font-size: 13px; color: #6b7280; margin-top: 2px; }
+
+  /* TOOL */
+  .tool-wrap { max-width: 780px; margin: 0 auto 80px; padding: 0 20px; }
+  .tool-card { background: #16161f; border: 1px solid #2a2a3a; border-radius: 16px; overflow: hidden; }
+  .tool-header { padding: 24px 28px 0; border-bottom: 1px solid #2a2a3a; display: flex; gap: 12px; }
+  .tab { padding: 10px 18px 12px; font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; color: #6b7280; }
+  .tab.active { color: #7c3aed; border-color: #7c3aed; }
+  .tool-body { padding: 28px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+  label { font-size: 13px; font-weight: 600; color: #9ca3af; }
+  input, select, textarea {
+    background: #0f0f13; border: 1px solid #2a2a3a; border-radius: 8px;
+    padding: 11px 14px; color: #e8e8e8; font-size: 14px; outline: none;
+    transition: border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #7c3aed; }
+  select option { background: #0f0f13; }
+
+  .btn-generate {
+    width: 100%; background: #7c3aed; color: #fff; border: none;
+    padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: background .15s, transform .1s;
+  }
+  .btn-generate:hover { background: #6d28d9; }
+  .btn-generate:active { transform: scale(.98); }
+  .btn-generate:disabled { background: #4c4c6a; cursor: not-allowed; }
+
+  .usage-bar-wrap { margin-bottom: 20px; }
+  .usage-info { display: flex; justify-content: space-between; font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+  .usage-bar { height: 4px; background: #2a2a3a; border-radius: 100px; }
+  .usage-fill { height: 100%; background: #7c3aed; border-radius: 100px; transition: width .4s; }
+
+  /* OUTPUT */
+  .output-box { display: none; margin-top: 24px; background: #0f0f13; border: 1px solid #2a2a3a; border-radius: 10px; padding: 20px; position: relative; }
+  .output-box.show { display: block; }
+  .output-label { font-size: 12px; font-weight: 600; color: #7c3aed; margin-bottom: 10px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .output-text { font-size: 14px; line-height: 1.7; white-space: pre-wrap; color: #d1d5db; }
+  .copy-btn {
+    position: absolute; top: 14px; right: 14px;
+    background: #2a2a3a; border: none; color: #9ca3af;
+    padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;
+  }
+  .copy-btn:hover { background: #3a3a4a; color: #fff; }
+
+  /* PAYWALL */
+  .paywall { display: none; text-align: center; padding: 36px 24px; }
+  .paywall.show { display: block; }
+  .paywall h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .paywall p { color: #9ca3af; font-size: 15px; margin-bottom: 28px; }
+  .price-box { display: inline-block; background: #1e1e2e; border: 1px solid #7c3aed44; border-radius: 12px; padding: 20px 32px; margin-bottom: 24px; }
+  .price-box .price { font-size: 40px; font-weight: 800; color: #7c3aed; }
+  .price-box .per { font-size: 15px; color: #6b7280; }
+  .price-box ul { text-align: left; margin-top: 14px; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .price-box ul li::before { content: "✓ "; color: #7c3aed; font-weight: 700; }
+  .price-box ul li { font-size: 14px; color: #d1d5db; }
+  .paypal-email-field { margin-bottom: 16px; }
+  .btn-paypal {
+    background: #ffc439; color: #000; border: none;
+    padding: 14px 36px; border-radius: 10px; font-size: 16px; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-paypal:hover { background: #f0b429; }
+  .paypal-logo { font-size: 20px; }
+
+  /* PRICING SECTION */
+  .pricing { max-width: 900px; margin: 0 auto 80px; padding: 0 20px; text-align: center; }
+  .pricing h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+  .pricing .sub2 { color: #9ca3af; margin-bottom: 48px; }
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media(max-width:600px){ .plans { grid-template-columns: 1fr; } }
+  .plan-card { background: #16161f; border: 1px solid #2a2a3a; border-radius: 16px; padding: 32px 28px; text-align: left; }
+  .plan-card.featured { border-color: #7c3aed; position: relative; }
+  .plan-card.featured::before { content: "MOST POPULAR"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #7c3aed; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 100px; }
+  .plan-name { font-size: 14px; font-weight: 700; color: #9ca3af; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+  .plan-price { font-size: 42px; font-weight: 800; margin-bottom: 6px; }
+  .plan-price span { font-size: 16px; font-weight: 400; color: #6b7280; }
+  .plan-desc { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .plan-features li { font-size: 14px; color: #d1d5db; display: flex; gap: 8px; }
+  .plan-features li .check { color: #7c3aed; font-weight: 700; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 40px 20px; border-top: 1px solid #1e1e2e; color: #4b5563; font-size: 13px; }
+
+  .spinner { display: none; width: 20px; height: 20px; border: 2px solid #ffffff44; border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto; }
+  .spinner.show { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Cold<span>Craft</span></div>
+  <a href="#tool" class="nav-cta">Try Free →</a>
+</nav>
+
+<section class="hero">
+  <div class="badge">⚡ AI-powered cold email personalization</div>
+  <h1>Stop sending cold emails<br><em>nobody reads.</em></h1>
+  <p class="sub">ColdCraft scrapes your prospect's website and writes a hyper-personalized email in seconds. No templates. No cringe. Just replies.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="num">3.2×</div><div class="lbl">Higher reply rate</div></div>
+    <div class="stat"><div class="num">45s</div><div class="lbl">Per personalized email</div></div>
+    <div class="stat"><div class="num">$0</div><div class="lbl">To start (5 free)</div></div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<div class="tool-wrap" id="tool">
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tab active">✍️ Generate Email</div>
+    </div>
+    <div class="tool-body">
+
+      <div id="usage-wrap" class="usage-bar-wrap" style="display:none">
+        <div class="usage-info"><span id="usage-text">0 / 5 used</span><span id="plan-badge">Free plan</span></div>
+        <div class="usage-bar"><div class="usage-fill" id="usage-fill" style="width:0%"></div></div>
+      </div>
+
+      <div id="main-form">
+        <div class="form-row">
+          <div class="field">
+            <label>Your Email (tracks your quota)</label>
+            <input type="email" id="inp-email" placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <label>Your Name</label>
+            <input type="text" id="inp-name" placeholder="Alex Johnson">
+          </div>
+        </div>
+        <div class="field">
+          <label>Prospect's Website URL</label>
+          <input type="text" id="inp-url" placeholder="https://acme-corp.com">
+        </div>
+        <div class="field">
+          <label>Your Service / What You Offer</label>
+          <input type="text" id="inp-service" placeholder="e.g. I build Webflow sites for SaaS companies">
+        </div>
+        <div class="field">
+          <label>Tone</label>
+          <select id="inp-tone">
+            <option value="professional">Professional</option>
+            <option value="casual and friendly">Casual & Friendly</option>
+            <option value="direct and bold">Direct & Bold</option>
+            <option value="warm and consultative">Warm & Consultative</option>
+          </select>
+        </div>
+        <button class="btn-generate" id="btn-gen" onclick="generateEmail()">
+          <span id="btn-text">Generate Cold Email →</span>
+          <span class="spinner" id="spinner"></span>
+        </button>
+
+        <div class="output-box" id="output-box">
+          <div class="output-label">Your Personalized Cold Email</div>
+          <button class="copy-btn" onclick="copyEmail()">Copy</button>
+          <div class="output-text" id="output-text"></div>
+        </div>
+      </div>
+
+      <!-- PAYWALL -->
+      <div class="paywall" id="paywall">
+        <h3>You've used all 5 free emails 🎉</h3>
+        <p>Upgrade to Pro and generate 300 emails/month — less than $0.07 per personalized email.</p>
+        <div class="price-box">
+          <div class="price">$19<span>/month</span></div>
+          <ul>
+            <li>300 personalized emails per month</li>
+            <li>Scrapes prospect websites automatically</li>
+            <li>4 tone styles</li>
+            <li>Cancel anytime via PayPal</li>
+          </ul>
+        </div>
+        <div class="field paypal-email-field" style="max-width:320px;margin:0 auto 16px;">
+          <label>Your email for the Pro account</label>
+          <input type="email" id="paypal-email" placeholder="you@example.com">
+        </div>
+        <button class="btn-paypal" onclick="startPayPal()">
+          <span class="paypal-logo">🅿</span> Pay $19/mo with PayPal
+        </button>
+        <p style="margin-top:14px;font-size:12px;color:#4b5563;">Secure payment via PayPal. Your plan activates instantly.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing">
+  <h2>Simple, honest pricing</h2>
+  <p class="sub2">No hidden fees. No annual lock-in. Cancel from PayPal dashboard anytime.</p>
+  <div class="plans">
+    <div class="plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div>
+      <div class="plan-desc">Try it, no credit card needed</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> 5 emails total</li>
+        <li><span class="check">✓</span> Full AI personalization</li>
+        <li><span class="check">✓</span> Website scraping</li>
+      </ul>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$19<span>/mo</span></div>
+      <div class="plan-desc">For freelancers doing real outreach</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> 300 emails / month</li>
+        <li><span class="check">✓</span> Full AI personalization</li>
+        <li><span class="check">✓</span> Website scraping</li>
+        <li><span class="check">✓</span> All 4 tone styles</li>
+        <li><span class="check">✓</span> Cancel anytime via PayPal</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 ColdCraft · Built for freelancers who mean business
+</footer>
+
+<script>
+let currentEmail = '';
+
+const HEADERS = {'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json'};
+
+async function loadStatus(email) {
+  try {
+    const r = await fetch(`/status?email=${encodeURIComponent(email)}`, {headers: HEADERS});
+    const d = await r.json();
+    const pct = Math.min(100, Math.round(d.usage / d.quota * 100));
+    document.getElementById('usage-wrap').style.display = 'block';
+    document.getElementById('usage-text').textContent = `${d.usage} / ${d.quota} used`;
+    document.getElementById('plan-badge').textContent = d.plan === 'pro' ? '⭐ Pro Plan' : 'Free plan';
+    document.getElementById('usage-fill').style.width = pct + '%';
+  } catch(e) {}
+}
+
+document.getElementById('inp-email').addEventListener('blur', e => {
+  const email = e.target.value.trim();
+  if (email && email.includes('@')) loadStatus(email);
+});
+
+async function generateEmail() {
+  const email = document.getElementById('inp-email').value.trim();
+  const name  = document.getElementById('inp-name').value.trim();
+  const url   = document.getElementById('inp-url').value.trim();
+  const svc   = document.getElementById('inp-service').value.trim();
+  const tone  = document.getElementById('inp-tone').value;
+
+  if (!email || !name || !url || !svc) { alert('Please fill all fields.'); return; }
+
+  const btn = document.getElementById('btn-gen');
+  btn.disabled = true;
+  document.getElementById('btn-text').style.display = 'none';
+  document.getElementById('spinner').classList.add('show');
+  document.getElementById('output-box').classList.remove('show');
+
+  try {
+    const r = await fetch('/generate', {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({ email, your_name: name, target_url: url, your_service: svc, tone })
+    });
+    const d = await r.json();
+
+    if (d.error === 'quota_exceeded') {
+      document.getElementById('paypal-email').value = email;
+      document.getElementById('main-form').style.display = 'none';
+      document.getElementById('paywall').classList.add('show');
+      return;
+    }
+
+    document.getElementById('output-text').textContent = d.email;
+    document.getElementById('output-box').classList.add('show');
+    currentEmail = email;
+    loadStatus(email);
+  } catch(e) {
+    alert('Something went wrong. Please try again.');
+  } finally {
+    btn.disabled = false;
+    document.getElementById('btn-text').style.display = '';
+    document.getElementById('spinner').classList.remove('show');
+  }
+}
+
+async function startPayPal() {
+  const email = document.getElementById('paypal-email').value.trim();
+  if (!email || !email.includes('@')) { alert('Enter your email first.'); return; }
+
+  try {
+    const r = await fetch('/checkout', {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({ email })
+    });
+    const d = await r.json();
+    if (d.approve_url) window.location.href = d.approve_url;
+  } catch(e) {
+    alert('Payment error. Please try again.');
+  }
+}
+
+function copyEmail() {
+  const text = document.getElementById('output-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+// Show paywall if URL has ?cancelled=1
+if (window.location.search.includes('cancelled=1')) {
+  history.replaceState({}, '', '/');
+}
+</script>
+</body>
+</html>

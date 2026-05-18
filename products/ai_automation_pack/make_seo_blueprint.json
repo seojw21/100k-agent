@@ -1,0 +1,115 @@
+{
+  "name": "AI SEO Content Machine - Solopreneur Blueprint",
+  "version": "2.0",
+  "description": "Automatically monitors trending keywords and publishes SEO-optimized articles to WordPress.",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": "Daily Trigger (Schedule)",
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": { "parameters": { "hook": { "label": "Daily 6AM Trigger" } } },
+        "expect": [],
+        "interface": []
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://www.reddit.com/r/Entrepreneur/hot.json?limit=10",
+        "method": "GET",
+        "headers": [{ "name": "User-Agent", "value": "SolopreneurBot/1.0" }],
+        "parseResponse": true
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "restore": {},
+        "parameters": [{ "name": "handleErrors", "type": "boolean", "label": "Handle errors" }]
+      }
+    },
+    {
+      "id": 3,
+      "module": "openai-gpt-3:CreateCompletion",
+      "version": 1,
+      "parameters": { "connection": "YOUR_OPENAI_CONNECTION" },
+      "mapper": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are an SEO expert and content writer for solopreneur blogs. Write comprehensive, helpful, and engaging articles that rank on Google."
+          },
+          {
+            "role": "user",
+            "content": "Based on this trending Reddit discussion: {{2.data.children[].data.title}}\n\nWrite a 600-word SEO-optimized blog post with:\n- An engaging H1 title\n- 3 H2 sections\n- A call-to-action at the end\n- Target keyword naturally 3-5 times\n\nFormat as HTML."
+          }
+        ],
+        "max_tokens": 2000,
+        "temperature": 0.7
+      },
+      "metadata": { "designer": { "x": 600, "y": 0 } }
+    },
+    {
+      "id": 4,
+      "module": "wordpress:CreatePost",
+      "version": 1,
+      "parameters": { "connection": "YOUR_WP_CONNECTION" },
+      "mapper": {
+        "title": "{{3.choices[].message.content | split('<h1>') | get(1) | split('</h1>') | get(0)}}",
+        "content": "{{3.choices[].message.content}}",
+        "status": "publish",
+        "categories": ["Automation", "Solopreneur"],
+        "tags": ["AI", "automation", "productivity"]
+      },
+      "metadata": { "designer": { "x": 900, "y": 0 } }
+    },
+    {
+      "id": 5,
+      "module": "email:ActionSendEmail",
+      "version": 1,
+      "parameters": { "connection": "YOUR_EMAIL_CONNECTION" },
+      "mapper": {
+        "to": "{{YOUR_EMAIL}}",
+        "subject": "✅ New Post Published: {{4.link}}",
+        "content": "Your AI content machine just published a new post!\n\nTitle: {{4.title}}\nURL: {{4.link}}\n\nCheck it out and share on social media for more traffic."
+      },
+      "metadata": { "designer": { "x": 1200, "y": 0 } }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dlt": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "us1.make.com"
+  },
+  "SETUP_INSTRUCTIONS": {
+    "step1": "Go to Make.com → Create new Scenario → Import Blueprint → Upload this JSON file",
+    "step2": "Connect your WordPress site: Add a WordPress connection using your site URL + Application Password",
+    "step3": "Connect OpenAI: Add your OpenAI API key (costs ~$0.01 per article with gpt-4o-mini)",
+    "step4": "Set the schedule: Click the clock icon on module 1 → Set to run daily at 6AM",
+    "step5": "Click RUN ONCE to test, then turn on the scenario",
+    "estimated_cost": "$0.01-0.05 per article using GPT-4o-mini",
+    "estimated_output": "1 SEO article per day = 30 articles/month on autopilot",
+    "make_affiliate": "https://make.com/?ref=solopreneur_directory"
+  }
+}

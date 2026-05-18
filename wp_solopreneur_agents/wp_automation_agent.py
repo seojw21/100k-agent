@@ -7,15 +7,11 @@ import google.generativeai as genai
 # ==========================================
 # AI Agents for Solopreneurs - WP Automator
 # ==========================================
-# This script represents the "Agentic Workflow" described in the strategy.
-# It acts as the pipeline between Idea Generation -> Structuring -> English Localization -> WP Publishing.
 
-# --- CONFIGURATION ---
 WP_URL = "https://your-wordpress-site.com/wp-json/wp/v2"
 WP_USERNAME = os.environ.get("WP_USERNAME", "admin")
 WP_APP_PASSWORD = os.environ.get("WP_APP_PASSWORD", "xxxx xxxx xxxx xxxx")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "YOUR_GEMINI_API_KEY")
-CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "YOUR_CLAUDE_API_KEY")
 
 genai.configure(api_key=GEMINI_API_KEY)
 
@@ -24,102 +20,92 @@ class WPAgenticPipeline:
         self.gemini_model = genai.GenerativeModel('gemini-1.5-pro')
         
     def step1_planning_gemini(self):
-        """
-        Step 1: Planning (Gemini Pro)
-        "현재 영미권에서 유행하는 1인 기업 자동화 트렌드 5가지 분석해줘"
-        """
         print("[Step 1] Planning: Gathering Solopreneur Automation Trends via Gemini...")
         prompt = """
         You are an expert SaaS and Automation analyst for solopreneurs.
         Analyze and provide 3 trending AI agent automation workflows used by English-speaking 1-person businesses.
-        Format the output strictly as a JSON array of objects. Each object should have:
-        - "tool_name": Primary tool used (e.g., Make.com)
-        - "category": Marketing, Customer Support, etc.
+        Format the output STRICTLY as a JSON array of objects. Do not include markdown code blocks.
+        Each object should have:
+        - "tool_name": Primary tool used (e.g., Make.com, Zapier, Claude)
+        - "category": Marketing, Customer Support, Analytics, etc.
         - "core_problem": What solopreneur pain point it solves.
         """
         
-        # MOCKUP of Gemini Call for safety, replace with actual call if keys are present
-        # response = self.gemini_model.generate_content(prompt)
-        # raw_data = response.text
-        
-        # Using Mock Data for demonstration
-        mock_data = [
-            {
-                "tool_name": "Make.com + Claude",
-                "category": "SEO & Content",
-                "core_problem": "Spending too much time writing blog posts instead of building products."
-            },
-            {
-                "tool_name": "Zapier + Zendesk + OpenAI",
-                "category": "Customer Support",
-                "core_problem": "Drowning in repetitive customer support tickets."
-            }
-        ]
-        time.sleep(1) # Simulating API delay
-        print(f"-> Found {len(mock_data)} trends.")
-        return mock_data
+        try:
+            response = self.gemini_model.generate_content(prompt)
+            raw_text = response.text.strip()
+            if raw_text.startswith("```json"):
+                raw_text = raw_text[7:]
+            if raw_text.endswith("```"):
+                raw_text = raw_text[:-3]
+            data = json.loads(raw_text.strip())
+            print(f"-> Found {len(data)} trends.")
+            return data
+        except Exception as e:
+            print(f"Error fetching from Gemini: {e}. Using fallback mock data.")
+            return [
+                {
+                    "tool_name": "Make.com + Claude",
+                    "category": "SEO & Content",
+                    "core_problem": "Spending too much time writing blog posts instead of building products."
+                }
+            ]
 
     def step2_structuring_and_localization(self, data):
-        """
-        Step 2 & 3: Structuring & Localization (Claude 4)
-        Converts the raw data into highly engaging English 'micro-copy' for the directory.
-        """
         print("[Step 2 & 3] Localization: Generating engaging English micro-copy...")
         structured_posts = []
         
         for item in data:
             print(f"   -> Processing: {item['tool_name']}")
-            # In a real scenario, call Claude API here (Anthropic SDK or requests)
-            # headers = {"x-api-key": CLAUDE_API_KEY, "anthropic-version": "2023-06-01"}
             
-            # Mocking Claude's localized output
             localized_title = f"Automate {item['category']} with {item['tool_name']}"
-            localized_excerpt = f"Stop {item['core_problem'].lower()} Set up this AI workflow in 10 minutes."
             
-            # Simulated Data Structure for WordPress "Bento Grid" Custom Post Type
+            content_prompt = f"""
+            Write a short, engaging 2-paragraph blueprint for a solopreneur to automate {item['category']} using {item['tool_name']}.
+            The core problem it solves is: {item['core_problem']}.
+            Format it as HTML paragraphs `<p>...</p>`.
+            """
+            
+            try:
+                response = self.gemini_model.generate_content(content_prompt)
+                html_content = response.text.strip()
+            except Exception as e:
+                html_content = f"<p>Here is the blueprint to automate your {item['category']}...</p>"
+            
+            # Use affiliate link pattern for monetization
+            affiliate_base = item['tool_name'].split()[0].lower().replace('.com', '')
+            affiliate_link = f"https://{affiliate_base}.com/?ref=solopreneur_directory"
+            
             post_data = {
                 "title": localized_title,
-                "content": f"<!-- wp:paragraph --><p>Here is the blueprint to automate your {item['category']}...</p><!-- /wp:paragraph -->",
+                "content": html_content,
                 "status": "publish",
-                "acf": { # Advanced Custom Fields for our Bento Grid
+                "acf": { 
                     "category_tag": item['category'],
                     "tool_name": item['tool_name'],
                     "action_button_text": "Download Blueprint",
-                    "affiliate_link": "https://make.com/?ref=solopreneur" # Step 4: Recurring Affiliate Link
+                    "affiliate_link": affiliate_link
                 }
             }
             structured_posts.append(post_data)
-            time.sleep(0.5)
+            time.sleep(2) # rate limit prevention
             
         return structured_posts
 
-    def step4_publish_to_wordpress(self, posts):
-        """
-        Step 4: Deployment (WordPress API)
-        Posts the structured data to a Custom Post Type (e.g., 'ai_agents')
-        """
-        print("[Step 4] Deployment: Pushing to WordPress REST API...")
+    def step4_publish_local_markdown(self, posts):
+        print("[Step 4] Deployment: Saving to local markdown for monetization review...")
         
-        # Endpoint for custom post type 'ai_agent'
-        # url = f"{WP_URL}/ai_agent" 
+        out_path = os.path.join(os.path.dirname(__file__), "monetized_directory.md")
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write("# 🚀 AI Agents for Solopreneurs Directory\n\n")
+            for post in posts:
+                f.write(f"## {post['title']}\n")
+                f.write(f"**Category:** {post['acf']['category_tag']} | **Tool:** {post['acf']['tool_name']}\n\n")
+                f.write(f"{post['content']}\n\n")
+                f.write(f"💰 [**{post['acf']['action_button_text']} (Affiliate Link)**]({post['acf']['affiliate_link']})\n\n")
+                f.write("---\n\n")
         
-        for post in posts:
-            print(f"   -> Publishing: {post['title']}")
-            # Actual API Call (Commented out to prevent errors if WP is not set up)
-            '''
-            response = requests.post(
-                url, 
-                json=post, 
-                auth=(WP_USERNAME, WP_APP_PASSWORD)
-            )
-            if response.status_code == 201:
-                print("      Success!")
-            else:
-                print(f"      Failed: {response.text}")
-            '''
-            time.sleep(0.5)
-        print("-> All posts deployed successfully to the Solopreneur Directory.")
-
+        print(f"-> Successfully saved directory content to {out_path}")
 
 if __name__ == "__main__":
     print("==================================================")
@@ -127,14 +113,8 @@ if __name__ == "__main__":
     print("==================================================")
     
     pipeline = WPAgenticPipeline()
-    
-    # 1. 기획 (Gemini)
     trends = pipeline.step1_planning_gemini()
-    
-    # 2. 구조화 및 현지화 (Claude)
     wp_posts = pipeline.step2_structuring_and_localization(trends)
+    pipeline.step4_publish_local_markdown(wp_posts)
     
-    # 3. 배포 (WordPress)
-    pipeline.step4_publish_to_wordpress(wp_posts)
-    
-    print("\n[✓] Workflow Complete. Check WordPress Dashboard.")
+    print("\n[✓] Workflow Complete. Check monetized_directory.md.")
