@@ -1,4 +1,10 @@
 {
-  "youtube": "google/gemma-4-e4b",
-  "instagram": "text-embedding-nomic-embed-text-v1.5"
+  "ceo": "llama3.2:3b",
+  "secretary": "llama3.2:3b",
+  "youtube": "llama3.2:3b",
+  "researcher": "llama3.2:3b",
+  "business": "llama3.2:3b",
+  "writer": "llama3.2:3b",
+  "editor": "llama3.2:3b",
+  "instagram": "llama3.2:3b"
 }
