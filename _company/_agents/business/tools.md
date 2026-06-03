@@ -22,11 +22,11 @@ AUTONOMY_LEVEL: 2
 
 ## 사용 가능한 도구
 
-### `toss_revenue`
-토스페이먼츠(Toss Payments) 매출 자동 분석 — 일/주/월별 + 결제수단별 + 상품별 분석 (KRW 기준)
+### `transfer_revenue`
+계좌이체/무통장 입금 매출 수동 대장 분석 — 일/주/월별 + 수단별 + 상품별 분석 (KRW 기준)
 
 - `enabled`: true
-- `requires_credentials`: `toss_revenue.json` 참조
+- `requires_credentials`: `transfer_revenue.json` 참조
 
 ### `paypal_revenue`
 내 PayPal 매출 자동 분석 — 일/주/월별 + 통화별 + 환불율
