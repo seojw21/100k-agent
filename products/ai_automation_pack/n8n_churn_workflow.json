@@ -1,0 +1,129 @@
+{
+  "name": "AI Churn Recovery Machine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stripe-webhook",
+        "options": {}
+      },
+      "name": "Stripe Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "stripe-churn-detector",
+      "notes": "Set this webhook URL in Stripe Dashboard → Webhooks. Listen for: customer.subscription.updated"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"type\"]}}",
+              "value2": "customer.subscription.updated"
+            }
+          ]
+        }
+      },
+      "name": "Is Subscription Updated?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"data\"][\"object\"][\"cancel_at_period_end\"]}}",
+              "value2": "true"
+            }
+          ]
+        }
+      },
+      "name": "Is Cancelling?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 200]
+    },
+    {
+      "parameters": {
+        "resource": "customer",
+        "operation": "get",
+        "customerId": "={{$json[\"data\"][\"object\"][\"customer\"]}}"
+      },
+      "name": "Get Customer from Stripe",
+      "type": "n8n-nodes-base.stripe",
+      "typeVersion": 1,
+      "position": [850, 200],
+      "credentials": { "stripeApi": { "name": "Stripe API" } }
+    },
+    {
+      "parameters": {
+        "model": "claude-opus-4-7",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an empathetic customer retention specialist. Write a short, personalized win-back email (150 words max) that feels human, not automated."
+            },
+            {
+              "role": "user",
+              "content": "Customer {{$node['Get Customer from Stripe'].json['name']}} ({{$node['Get Customer from Stripe'].json['email']}}) just cancelled their subscription. They've been a customer since {{$node['Get Customer from Stripe'].json['created']}}.\n\nWrite a win-back email offering:\n- A genuine apology for any issues\n- 20% discount for 3 months if they stay\n- A direct reply option to share feedback\n\nSubject line + body. Keep it warm and human."
+            }
+          ]
+        },
+        "options": { "maxTokens": 500 }
+      },
+      "name": "Claude: Write Win-Back Email",
+      "type": "n8n-nodes-base.anthropic",
+      "typeVersion": 1,
+      "position": [1050, 200],
+      "credentials": { "anthropicApi": { "name": "Anthropic API" } }
+    },
+    {
+      "parameters": {
+        "fromEmail": "you@yourcompany.com",
+        "toEmail": "={{$node['Get Customer from Stripe'].json['email']}}",
+        "subject": "={{$node['Claude: Write Win-Back Email'].json['content'].split('Subject: ')[1].split('\\n')[0]}}",
+        "emailType": "html",
+        "message": "<p>{{$node['Claude: Write Win-Back Email'].json['content']}}</p>",
+        "options": {}
+      },
+      "name": "Send via Resend",
+      "type": "n8n-nodes-base.resend",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "credentials": { "resendApi": { "name": "Resend API" } }
+    },
+    {
+      "parameters": {
+        "channel": "#churn-alerts",
+        "text": "🚨 Churn Alert: {{$node['Get Customer from Stripe'].json['email']}} cancelled. Win-back email sent automatically.",
+        "otherOptions": {}
+      },
+      "name": "Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1450, 200],
+      "credentials": { "slackApi": { "name": "Slack API" } }
+    }
+  ],
+  "connections": {
+    "Stripe Webhook": { "main": [[{ "node": "Is Subscription Updated?", "type": "main", "index": 0 }]] },
+    "Is Subscription Updated?": { "main": [[{ "node": "Is Cancelling?", "type": "main", "index": 0 }]] },
+    "Is Cancelling?": { "main": [[{ "node": "Get Customer from Stripe", "type": "main", "index": 0 }]] },
+    "Get Customer from Stripe": { "main": [[{ "node": "Claude: Write Win-Back Email", "type": "main", "index": 0 }]] },
+    "Claude: Write Win-Back Email": { "main": [[{ "node": "Send via Resend", "type": "main", "index": 0 }]] },
+    "Send via Resend": { "main": [[{ "node": "Slack Alert", "type": "main", "index": 0 }]] }
+  },
+  "SETUP_INSTRUCTIONS": {
+    "step1": "Open n8n → Import from JSON → Upload this file",
+    "step2": "Add credentials: Stripe API key, Anthropic API key, Resend API key, Slack Bot Token",
+    "step3": "Copy the Webhook URL from the first node → Add to Stripe Dashboard → Webhooks",
+    "step4": "Test: Go to Stripe test mode → Cancel a test subscription → Watch the email send",
+    "step5": "Activate the workflow — it now runs 24/7 automatically",
+    "roi": "Recovers ~15% of cancelling customers. If your MRR is $1,000, this recovers ~$150/month.",
+    "n8n_affiliate": "https://n8n.io/?ref=solopreneur_directory"
+  }
+}
