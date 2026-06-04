@@ -1,11 +1,11 @@
 {
   "ceo": "gemma4:latest",
   "secretary": "gemma4:latest",
-  "youtube": "qwen3.6:latest",
   "researcher": "gemma4:latest",
   "business": "gemma4:latest",
   "writer": "gemma4:latest",
   "editor": "gemma4:latest",
   "designer": "gemma4:latest",
-  "instagram": "gemma4:latest"
+  "instagram": "google/gemma-4-31b",
+  "youtube": "qwen/qwen3.6-35b-a3b"
 }
