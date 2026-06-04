@@ -47,10 +47,6 @@ def main():
     cfg = load_config()
     acct = load_account()
     api_key = (_shared(cfg, acct, "YOUTUBE_API_KEY") or "").strip()
-    if not api_key:
-        print("⚠️  YOUTUBE_API_KEY가 비어있어요. youtube_account.json 또는 trend_sniper.json에 입력하세요.")
-        print("   발급: https://console.cloud.google.com/ → YouTube Data API v3 사용 설정 → 사용자 인증 정보 → API 키")
-        sys.exit(1)
     target_keywords = cfg.get("TARGET_KEYWORDS", [])
     if not target_keywords:
         print("⚠️  TARGET_KEYWORDS가 비어있어요. 분석할 키워드를 1개 이상 추가하세요.")
@@ -61,35 +57,62 @@ def main():
     chosen = random.sample(target_keywords, pick)
 
     try:
-        from googleapiclient.discovery import build
-    except ImportError:
-        print("❌ google-api-python-client가 설치되지 않았어요.")
-        print("   설치: pip install google-api-python-client requests")
-        sys.exit(1)
-    try:
         import requests
     except ImportError:
         print("❌ requests가 설치되지 않았어요. pip install requests")
         sys.exit(1)
 
-    print(f"\n🎯 [트렌드 스나이퍼] 키워드 {chosen} 스캔 시작...")
-    youtube = build('youtube', 'v3', developerKey=api_key)
-    last_month = (datetime.datetime.utcnow() - datetime.timedelta(days=30)).isoformat("T") + "Z"
+    is_mock = False
+    if not api_key:
+        print("⚠️  YOUTUBE_API_KEY가 비어있어 모킹(Mock) 모드로 동작합니다.")
+        print("   실제 데이터 수집을 원하시면 youtube_account.json 또는 trend_sniper.json에 API 키를 입력하세요.")
+        is_mock = True
+
     sniper_data = []
-    for q in chosen:
-        print(f"📡 [{q}] 검색 중...")
-        try:
-            req = youtube.search().list(
-                part="snippet", q=q, maxResults=5, order="viewCount",
-                publishedAfter=last_month, type="video"
-            )
-            res = req.execute()
-            for item in res.get('items', []):
-                title = item['snippet']['title']
-                channel = item['snippet']['channelTitle']
+    print(f"\n🎯 [트렌드 스나이퍼] 키워드 {chosen} 스캔 시작...")
+
+    if is_mock:
+        mock_templates = [
+            "초보자도 10분 만에 따라하는 실전 가이드",
+            "이걸 모르면 평생 후회합니다 (업계 비밀 대공개)",
+            "2026년 가장 핫한 트렌드 분석 및 전망",
+            "1인 창업자가 반드시 써야 할 필수 도구 TOP 5",
+            "조회수 폭발하는 비법과 실제 적용 사례 공유",
+            "기초부터 고급까지 단숨에 마스터하기",
+            "하루 30분 투자해서 생산성 200% 올리는 노하우"
+        ]
+        for q in chosen:
+            print(f"📡 [{q}] 모의 데이터(Mock) 생성 중...")
+            time.sleep(0.5)
+            selected_templates = random.sample(mock_templates, min(5, len(mock_templates)))
+            for idx, tpl in enumerate(selected_templates):
+                title = f"{q} - {tpl}"
+                channel = f"크리에이터_{random.randint(10, 99)}"
                 sniper_data.append(f"[{q}] 채널: {channel} | 제목: {title}")
-        except Exception as e:
-            print(f"❌ 검색 오류 ({q}): {e}")
+    else:
+        try:
+            from googleapiclient.discovery import build
+        except ImportError:
+            print("❌ google-api-python-client가 설치되지 않았어요.")
+            print("   설치: pip install google-api-python-client requests")
+            sys.exit(1)
+
+        youtube = build('youtube', 'v3', developerKey=api_key)
+        last_month = (datetime.datetime.utcnow() - datetime.timedelta(days=30)).isoformat("T") + "Z"
+        for q in chosen:
+            print(f"📡 [{q}] 검색 중...")
+            try:
+                req = youtube.search().list(
+                    part="snippet", q=q, maxResults=5, order="viewCount",
+                    publishedAfter=last_month, type="video"
+                )
+                res = req.execute()
+                for item in res.get('items', []):
+                    title = item['snippet']['title']
+                    channel = item['snippet']['channelTitle']
+                    sniper_data.append(f"[{q}] 채널: {channel} | 제목: {title}")
+            except Exception as e:
+                print(f"❌ 검색 오류 ({q}): {e}")
 
     if not sniper_data:
         print("❌ 수집된 데이터 없음. API 키 한도/네트워크 확인.")
