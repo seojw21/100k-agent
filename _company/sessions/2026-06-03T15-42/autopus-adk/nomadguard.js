@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pricing structures for A/B tests
     const pricingGroups = {
-        'A': { basic: 19, premium: 49, desc: 'Volume Focus (최저 장벽 진입 유도)' },
-        'B': { basic: 29, premium: 79, desc: 'Value Focus (추천 요금제 시나리오)' },
-        'C': { basic: 39, premium: 129, desc: 'Premium Focus (고단가/전문가 타겟)' }
+        'A': { basic: 19, premium: 49, desc: 'Volume Focus (lowest entry barrier)' },
+        'B': { basic: 29, premium: 79, desc: 'Value Focus (recommended scenario)' },
+        'C': { basic: 39, premium: 129, desc: 'Premium Focus (high-value expert target)' }
     };
 
     // --- DOM Elements ---
@@ -160,27 +160,27 @@ document.addEventListener('DOMContentLoaded', () => {
         let warnings = [];
 
         const countryMap = {
-            'ES': '스페인',
-            'TH': '태국',
-            'DE': '독일',
-            'SE': '스웨덴'
+            'ES': 'Spain',
+            'TH': 'Thailand',
+            'DE': 'Germany',
+            'SE': 'Sweden'
         };
-        const countryName = countryMap[data.targetCountry] || '거주국';
+        const countryName = countryMap[data.targetCountry] || 'your host country';
 
         // 1. Stay Duration Risk
         if (data.stayDuration === 'over183') {
             riskScore += 35;
             penaltyAmount += Math.round(data.monthlyIncome * 12 * 0.25); // 25% of annual income penalty
             warnings.push({
-                title: `${countryName} 세무거주자 확정 리스크 (183일 초과)`,
-                desc: `연간 183일 이상 체류 시 전 세계 소득에 대한 납세 의무가 현지에 발생합니다. 미신고 시 최대 150%의 가산세 및 이중과세가 부과될 수 있습니다.`
+                title: `${countryName}: Tax Residency Threshold Breach (183+ Days)`,
+                desc: `Staying over 183 days in a calendar year typically triggers worldwide income tax obligations in ${countryName}. Failure to file can result in penalties of up to 150% of unpaid taxes plus double-taxation exposure.`
             });
         } else if (data.stayDuration === 'under183') {
             riskScore += 15;
             penaltyAmount += 850;
             warnings.push({
-                title: `${countryName} 임시 거주 및 소득 귀속 위험`,
-                desc: `90일 이상 임차 계약 또는 정기 현지 송금 흔적이 발견되는 경우, 체류 일수와 관계없이 세법상 거주자로 판정될 소지가 생깁니다.`
+                title: `${countryName}: Temporary Residence & Income Attribution Risk`,
+                desc: `If you hold a local rental agreement or receive regular domestic bank transfers, tax authorities may classify you as a de facto resident regardless of actual days spent — exposing you to local income tax.`
             });
         }
 
@@ -189,15 +189,15 @@ document.addEventListener('DOMContentLoaded', () => {
             riskScore += 15;
             penaltyAmount += 1200;
             warnings.push({
-                title: '비법인 임시 상거래 및 세무 라이선스 누락',
-                desc: `${countryName} 내에서 적법한 1인 기업 등록 또는 프리랜서 세금 등록증 없이 원격 소득을 수령할 경우 무등록 무허가 영업 행위로 처벌받을 수 있습니다.`
+                title: 'Unregistered Freelance Activity & Missing Tax License',
+                desc: `Operating as a freelancer in ${countryName} without proper business registration or a freelancer tax ID constitutes unlicensed commercial activity, punishable by fines and potential visa revocation.`
             });
         } else {
             riskScore += 20;
             penaltyAmount += 3500;
             warnings.push({
-                title: `${countryName} 내 고정사업장(PE) 간주 및 기업 벌금`,
-                desc: `해외 고용주의 풀타임 직원으로서 현지 거주하면서 상시 근무할 경우, 본사가 해당 국가에 세무상 '고정사업장(Permanent Establishment)'을 둔 것으로 오인받아 본사에 막대한 법인세 패널티가 부과될 수 있습니다.`
+                title: `${countryName}: Permanent Establishment (PE) Risk for Your Employer`,
+                desc: `Working full-time as a remote employee while residing in ${countryName} could trigger a "Permanent Establishment" classification for your employer, exposing the company to significant corporate tax liabilities in this jurisdiction.`
             });
         }
 
@@ -205,8 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.taxStatus === 'home' || data.taxStatus === 'none') {
             riskScore += 15;
             warnings.push({
-                title: '이중 납세 또는 국가 간 정보 공유망(CRS) 불일치',
-                desc: `대한민국과 ${countryName} 간의 금융정보자동교환협정(CRS)에 의해 국외 계좌 잔액 및 지출 정보가 불일치 시 탈세 조사 대상이 될 수 있습니다.`
+                title: 'Double Taxation & CRS Information Mismatch',
+                desc: `Under the Common Reporting Standard (CRS) automatic exchange of financial information between your home country and ${countryName}, discrepancies in foreign account balances and transaction patterns may trigger a tax evasion investigation.`
             });
         }
 
@@ -225,11 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Custom Title
         if (riskScore >= 75) {
-            riskTitleHeading.textContent = '치명적 법률 및 이중과세 적신호';
+            riskTitleHeading.textContent = 'Critical Legal & Double-Taxation Red Flag';
             riskScoreCircle.style.stroke = 'var(--accent-danger)';
             riskScoreText.style.color = 'var(--accent-danger)';
         } else {
-            riskTitleHeading.textContent = '주의가 요구되는 컴플라이언스 공백';
+            riskTitleHeading.textContent = 'Compliance Gaps Requiring Attention';
             riskScoreCircle.style.stroke = 'var(--accent-gold)';
             riskScoreText.style.color = 'var(--accent-gold)';
         }
@@ -270,8 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const prices = pricingGroups[currentPriceGroup];
         
         // Update paywall DOM elements
-        priceBasicDisplay.innerHTML = `$${prices.basic}<span>/월</span>`;
-        pricePremiumDisplay.innerHTML = `$${prices.premium}<span>/월</span>`;
+        priceBasicDisplay.innerHTML = `$${prices.basic}<span>/mo</span>`;
+        pricePremiumDisplay.innerHTML = `$${prices.premium}<span>/mo</span>`;
 
         // Update HUD display
         hudPriceBasic.textContent = `$${prices.basic}`;
@@ -320,10 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showSuccessModal(plan) {
         userTier = plan;
-        modalSuccessTitle.textContent = plan === 'basic' ? 'Basic 멤버십 활성화 성공!' : 'Premium AI 멤버십 활성화 성공!';
+        modalSuccessTitle.textContent = plan === 'basic' ? 'Basic Membership Activated!' : 'Premium AI Membership Activated!';
         modalSuccessDesc.textContent = plan === 'basic'
-            ? `실시간 비자 캘린더 및 세무 위기 감지 대시보드가 정상 개방되었습니다. 월 구독 가격 $${pricingGroups[currentPriceGroup].basic}으로 시작됩니다.`
-            : `AI 예측 시나리오 엔진과 24시간 비상 법률 라인 등 프리미엄 혜택 전체가 활성화되었습니다. 월 구독 가격 $${pricingGroups[currentPriceGroup].premium}으로 시작됩니다.`;
+            ? `Your real-time visa calendar and tax risk detection dashboard are now live. Billed at $${pricingGroups[currentPriceGroup].basic}/month.`
+            : `Full AI predictive engine, 24/7 emergency legal hotline, and all premium features are now unlocked. Billed at $${pricingGroups[currentPriceGroup].premium}/month.`;
 
         purchaseSuccessModal.classList.add('active');
     }
@@ -340,28 +340,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update header badges and displays
         currentTierBadge.className = `btn-tier-display ${userTier}`;
-        currentTierBadge.querySelector('span').textContent = userTier.toUpperCase() + ' 플랜 이용 중';
+        currentTierBadge.querySelector('span').textContent = userTier.toUpperCase() + ' Plan Active';
 
         dbMembershipTitle.innerHTML = userTier === 'basic' 
             ? `<i class="fa-solid fa-shield-halved" style="color: var(--accent-indigo);"></i> Basic Member`
             : `<i class="fa-solid fa-crown" style="color: var(--accent-gold);"></i> Premium AI Member`;
 
         // Update Overview elements using survey values
-        const countryMap = { 'ES': '스페인', 'TH': '태국', 'DE': '독일', 'SE': '스웨덴' };
-        const visaMap = { 'freelancer': '프리랜서 라이선스', 'employee': '해외근무 비법인 직원' };
+        const countryMap = { 'ES': 'Spain', 'TH': 'Thailand', 'DE': 'Germany', 'SE': 'Sweden' };
+        const visaMap = { 'freelancer': 'Freelancer License', 'employee': 'Remote Employee (unregistered)' };
         
-        dbCurrentCountryTxt.textContent = countryMap[surveyData.targetCountry] || '체류국';
-        dbVisaTypeTxt.textContent = visaMap[surveyData.employmentType] || '일반 임시 거주';
+        dbCurrentCountryTxt.textContent = countryMap[surveyData.targetCountry] || 'Host Country';
+        dbVisaTypeTxt.textContent = visaMap[surveyData.employmentType] || 'Temporary Residence';
 
         // Set simulated countdown days based on survey stay duration
         if (surveyData.stayDuration === 'over183') {
-            dbMetricDays.textContent = '19 일 남음';
+            dbMetricDays.textContent = '19 days left';
             dbMetricDays.parentElement.parentElement.className = 'metric-card critical';
         } else if (surveyData.stayDuration === 'under183') {
-            dbMetricDays.textContent = '84 일 남음';
+            dbMetricDays.textContent = '84 days left';
             dbMetricDays.parentElement.parentElement.className = 'metric-card monitoring';
         } else {
-            dbMetricDays.textContent = '전혀 문제없음';
+            dbMetricDays.textContent = 'No concerns';
             dbMetricDays.parentElement.parentElement.className = 'metric-card safe';
         }
 
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
         surveySection.style.display = 'block';
 
         currentTierBadge.className = 'btn-tier-display trial';
-        currentTierBadge.querySelector('span').textContent = 'Trial 상태';
+        currentTierBadge.querySelector('span').textContent = 'Trial Mode';
 
         updateSurveyStep();
     });
@@ -442,41 +442,41 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target === 'SE') {
             resHTML += `
                 <div style="border-left: 4px solid var(--accent-gold); padding-left: 0.75rem; margin-bottom: 0.5rem;">
-                    <strong>스웨덴(SveaTax 규정) 모의 세무 위기 감지:</strong><br>
+                    <strong>Sweden (SveaTax Model) — Tax Crisis Detection:</strong><br>
                     <span style="font-size:0.9rem; color:var(--text-secondary);">
-                        연간 수입 환산 kr ${(income * 12 * 10.5).toLocaleString('sv-SE')} SEK 기준으로, 183일 초과 체류 시 <strong>SveaTax 세무 모델</strong>과 연합됩니다.<br>
-                        자기고용세(Egenavgifter ~28.97%) 및 지방세(Kommunalskatt ~32%) 의무 부과 대상으로 판정됩니다. 
-                        과세이월(Periodiseringsfond 30%) 제도 및 Schablonavdrag 25% 공제 설정을 통하지 않을 경우 실효세율은 약 52.3%로 폭등할 리스크가 있습니다.
+                        At an annualized income of kr ${(income * 12 * 10.5).toLocaleString('en-US')} SEK, staying over 183 days triggers integration with the <strong>SveaTax compliance model</strong>.<br>
+                        You would be subject to self-employment contributions (Egenavgifter ~28.97%) and municipal income tax (Kommunalskatt ~32%). 
+                        Without applying the Periodiseringsfond (30% deferral) and Schablonavdrag (25% deduction), your effective tax rate could spike to approximately 52.3%.
                     </span>
                 </div>
             `;
         } else if (target === 'TH') {
             resHTML += `
                 <div style="border-left: 4px solid var(--accent-success); padding-left: 0.75rem; margin-bottom: 0.5rem;">
-                    <strong>태국 디지털 이주 검토:</strong><br>
+                    <strong>Thailand — Digital Relocation Assessment:</strong><br>
                     <span style="font-size:0.9rem; color:var(--text-secondary);">
-                        월 소득 $${income.toLocaleString()} 기준으로 태국 LTR(Long-Term Resident) 비자 원격 근로자 부류 발급이 권장됩니다. 
-                        90일 체류 시 비자 패널티는 $0이나, 무비자 관광 입국 후 원격근무를 183일 이상 지속할 경우 국외원천소득 유입에 대한 국내세법 개정안(2024~2026 개정)에 따라 현지 세율 최고 35%로 소득 추적을 받을 위험이 있습니다.
+                        At $${income.toLocaleString()}/month, you qualify for Thailand's LTR (Long-Term Resident) visa under the remote worker category. 
+                        A 90-day stay incurs $0 in visa penalties. However, continuing remote work beyond 183 days on a tourist visa could expose you to Thailand's revised 2024–2026 foreign-source income taxation rules, with local rates up to 35%.
                     </span>
                 </div>
             `;
         } else if (target === 'ES') {
             resHTML += `
                 <div style="border-left: 4px solid var(--accent-purple); padding-left: 0.75rem; margin-bottom: 0.5rem;">
-                    <strong>스페인 이주 컴플라이언스 진단:</strong><br>
+                    <strong>Spain — Compliance Route Analysis:</strong><br>
                     <span style="font-size:0.9rem; color:var(--text-secondary);">
-                        월 소득 $${income.toLocaleString()} 수준에서 스페인 디지털 노마드 비자(DNV)를 신청할 경우, 최저 요건인 스페인 최저임금(SMI)의 200%인 월 €2,680 조건을 넉넉히 충족합니다.<br>
-                        이 비자를 발급받으면 특별세율(Beckham Law 변형) 혜택을 취득하여 최대 5년간 일반 47% 소득세 대신 24%의 단일 단일세율을 안전하게 영위할 수 있어 가장 추천하는 컴플라이언스 루트입니다.
+                        At $${income.toLocaleString()}/month, you comfortably exceed Spain's Digital Nomad Visa (DNV) minimum requirement of 200% of the SMI (approx. €2,680/month).<br>
+                        Obtaining the DNV grants you access to the Beckham Law special tax regime — a flat 24% income tax rate for up to 5 years, instead of the standard progressive rate (up to 47%). This is the most recommended compliance route for your profile.
                     </span>
                 </div>
             `;
         } else {
             resHTML += `
                 <div style="border-left: 4px solid var(--accent-indigo); padding-left: 0.75rem; margin-bottom: 0.5rem;">
-                    <strong>독일 프리랜서(Freiberufler) 위기 진단:</strong><br>
+                    <strong>Germany — Freiberufler (Freelancer) Risk Assessment:</strong><br>
                     <span style="font-size:0.9rem; color:var(--text-secondary);">
-                        독일 체류 시 183일 기준 충족 시 소득세(Einkommensteuer) 누진세율(최고 42%)이 그대로 적용됩니다. 
-                        또한 연방 세무소(Finanzamt)에 사업 등록 번호(Steuernummer)를 발급받지 않고 한국 개인 통장으로 달러 소득을 인출할 경우 벌금 최고 $4,500 및 탈세 혐의로 영구 입국 제한 조치될 수 있으므로 조기 비자 갱신이 필요합니다.
+                        Staying over 183 days in Germany subjects you to the full progressive income tax rate (Einkommensteuer, up to 42%). 
+                        Additionally, if you receive USD income into a personal bank account without registering a tax ID (Steuernummer) with the local Finanzamt, you face penalties of up to $4,500 and potential permanent entry restrictions due to tax evasion charges.
                     </span>
                 </div>
             `;
