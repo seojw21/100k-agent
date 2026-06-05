@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadGuard AI | 디지털 노마드 글로벌 리스크 관리 플랫폼</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="nomadguard.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="glow-bg-right"></div>
+
+    <header class="app-header">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-shield-halved"></i></span>
+            <span class="logo-text">Nomad<span class="logo-accent">Guard</span> <span class="logo-text">AI</span></span>
+            <span class="badge-demo">Interactive Simulation</span>
+        </div>
+        
+        <div class="header-nav">
+            <!-- App Switcher to switch between projects -->
+            <div class="app-switcher">
+                <a href="index.html" class="app-switcher-btn">SveaTax (세무 계산기)</a>
+                <a href="nomadguard.html" class="app-switcher-btn active">NomadGuard AI</a>
+            </div>
+            
+            <div class="btn-tier-display trial" id="current-tier-badge">
+                <i class="fa-solid fa-circle-dot"></i> <span>Trial 상태</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        
+        <!-- SECTION 1: Step-by-Step Risk Diagnosis Survey (Trial Initial State) -->
+        <section class="card layout-centered" id="survey-section">
+            <div class="survey-header">
+                <h1>글로벌 세무 & 비자 리스크 즉시 진단</h1>
+                <p>디지털 노마드로 활동하면서 놓치고 있을 수 있는 해외 비법인 활동, 이중과세, 비자 규정 벌금 리스크를 2분 만에 스캔합니다.</p>
+            </div>
+
+            <!-- Steps bar -->
+            <div class="survey-steps">
+                <div class="step-indicator active" id="step-ind-1">1</div>
+                <div class="step-indicator" id="step-ind-2">2</div>
+                <div class="step-indicator" id="step-ind-3">3</div>
+            </div>
+
+            <form id="risk-survey-form">
+                <!-- Step 1: Base Location & Nationality -->
+                <div class="survey-step-content active" id="survey-step-1">
+                    <div class="form-group">
+                        <label for="citizenship">귀하의 국적 (Citizenship)</label>
+                        <select id="citizenship">
+                            <option value="KR">대한민국 (South Korea)</option>
+                            <option value="US">미국 (United States)</option>
+                            <option value="UK">영국 (United Kingdom)</option>
+                            <option value="DE">독일 (Germany)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="target-country">현재 거주 중이거나 체류 예정인 국가</label>
+                        <select id="target-country">
+                            <option value="ES">스페인 (Spain) - 디지털 노마드 비자 보유 가능</option>
+                            <option value="TH">태국 (Thailand) - LTR 또는 무비자 관광 체류</option>
+                            <option value="DE">독일 (Germany) - 프리랜서 비자 또는 임시 거주</option>
+                            <option value="SE">스웨덴 (Sweden) - 임시 체류 및 비법인 프리랜싱</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Income & Employment Type -->
+                <div class="survey-step-content" id="survey-step-2">
+                    <div class="form-group">
+                        <label for="monthly-income">월평균 해외 원격 소득 (USD)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="monthly-income" value="4500" min="0" step="500">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>원격 근무 고용 형태</label>
+                        <div class="option-cards">
+                            <div class="option-card selected" data-value="freelancer">
+                                <i class="fa-solid fa-laptop-code"></i>
+                                <div>
+                                    <div style="font-weight: 600;">독립 프리랜서</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">개인 대 고객 계약</div>
+                                </div>
+                            </div>
+                            <div class="option-card" data-value="employee">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <div>
+                                    <div style="font-weight: 600;">원격 정규직</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">해외 기업 소속 직원</div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="employment-type" value="freelancer">
+                    </div>
+                </div>
+
+                <!-- Step 3: Tax Residency & Stay Duration -->
+                <div class="survey-step-content" id="survey-step-3">
+                    <div class="form-group">
+                        <label for="stay-duration">해당 국가 연간 체류 예정 기간</label>
+                        <select id="stay-duration">
+                            <option value="under90">90일 이하 (단기 관광 목적)</option>
+                            <option value="under183">90일 ~ 180일 (중기 체류)</option>
+                            <option value="over183">183일 이상 (장기 체류 - 세법상 거주자 위험)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tax-status">현재 세금 납부 방식</label>
+                        <select id="tax-status">
+                            <option value="home">모국에만 세금을 신고하고 있음</option>
+                            <option value="both">모국과 거주국 모두 세금 신고 진행 중</option>
+                            <option value="none">세금 신고 기준을 잘 모르겠음 (무신고 상태)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Navigation buttons -->
+                <div class="survey-nav">
+                    <button type="button" class="btn btn-secondary" id="btn-prev" disabled><i class="fa-solid fa-arrow-left"></i> 이전</button>
+                    <button type="button" class="btn btn-primary" id="btn-next">다음 <i class="fa-solid fa-arrow-right"></i></button>
+                    <button type="button" class="btn btn-danger" id="btn-submit" style="display: none;"><i class="fa-solid fa-radiation"></i> 리스크 분석 실행</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SECTION 2: Aha-Moment Risk Diagnosis Report (Trial State Result) -->
+        <section class="card layout-centered risk-output-card" id="risk-report-section" style="display: none;">
+            <div class="risk-heading">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <h2>주의: 심각한 세무 및 비법인 리스크 감지됨</h2>
+            </div>
+
+            <div class="risk-score-wrapper">
+                <div class="risk-meter-container">
+                    <svg class="svg-meter" width="140" height="140">
+                        <circle class="bg" cx="70" cy="70" r="60"></circle>
+                        <circle class="progress" id="risk-score-circle" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle>
+                    </svg>
+                    <span class="risk-meter-value" id="risk-score-text">0%</span>
+                </div>
+                <div class="risk-summary-text">
+                    <h3 id="risk-title-heading">거주자 규정 준수 위반 가능성</h3>
+                    <p id="risk-desc-text">귀하의 입력 데이터 분석 결과, 거주국가 법률상 세무 신고를 누락했거나 불법 노동으로 몰려 강제 출국 및 벌금이 부과될 수 있는 법적 공백 상태에 노출되어 있습니다.</p>
+                </div>
+            </div>
+
+            <div class="risk-penalty-box">
+                <span class="label"><i class="fa-solid fa-circle-dollar-to-slot"></i> 예상 벌금 및 추가 가산세</span>
+                <span class="amount" id="risk-penalty-val">$1,850+</span>
+            </div>
+
+            <div class="risk-details-list" id="risk-details-container">
+                <!-- Dynamic risk warnings inserted here -->
+            </div>
+
+            <div style="text-align: center; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                <button class="btn btn-primary btn-lg" id="btn-go-to-paywall" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                    <i class="fa-solid fa-lock-open"></i> 리스크 실시간 차단 & 모니터링 활성화
+                </button>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">실시간 안전 점검 및 세금 최적화 솔루션을 제공하는 플랜으로 업그레이드합니다.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Paywall Upgrades (Trial -> Basic / Premium) -->
+        <section class="paywall-container" id="paywall-section" style="display: none;">
+            <div class="paywall-header">
+                <h2>NomadGuard AI 구독 요금제</h2>
+                <p>무지의 비용(Cost of Ignorance)을 제거하고, 해외 어디서든 안전하게 소득을 지키세요.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Basic Plan -->
+                <div class="pricing-card popular" id="plan-basic-card">
+                    <span class="pricing-badge">추천 플랜</span>
+                    <h3 class="pricing-name">Basic Plan</h3>
+                    <div class="pricing-price" id="price-basic-display">$29<span>/월</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fa-solid fa-circle-check"></i> 실시간 비자 체류일 자동 카운팅</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 국가별 이중과세 소득 추적기</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 법 개정 실시간 긴급 push 알림</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 기본 세무 진단 리포트 제공</li>
+                    </ul>
+
+                    <button class="btn btn-primary" id="btn-buy-basic" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-shield-halved"></i> Basic 플랜으로 시작하기
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card premium" id="plan-premium-card">
+                    <span class="pricing-badge gold">AI 예측형 포함</span>
+                    <h3 class="pricing-name" style="color: var(--accent-gold);">Premium Plan</h3>
+                    <div class="pricing-price" id="price-premium-display">$79<span>/월</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Basic의 모든 기본 기능 포함</li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>AI 예측 시뮬레이터 (미래 국가 이동 매칭)</strong></li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>벌금 및 세무 분쟁 모의 진단</strong></li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> 현지 공인 세무 파트너 자동 연결 및 30% 감면</li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> 글로벌 비상 법률 지원 핫라인</li>
+                    </ul>
+
+                    <button class="btn btn-gold" id="btn-buy-premium" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-crown"></i> Premium AI 플랜으로 완벽 차단
+                    </button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" id="btn-back-to-survey"><i class="fa-solid fa-arrow-left"></i> 자가 진단 결과 다시 보기</button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Dashboard Panel (Visible when user has subscribed to Basic or Premium) -->
+        <section id="dashboard-app-section" style="display: none;">
+            <div class="dashboard-grid">
+                
+                <!-- Sidebar Navigation -->
+                <aside class="db-sidebar">
+                    <div class="card" style="padding: 1.25rem;">
+                        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">가입 멤버십</div>
+                        <div style="font-weight: 700; display: flex; align-items: center; gap: 0.5rem;" id="db-membership-title">
+                            <i class="fa-solid fa-shield-halved" style="color: var(--accent-indigo);"></i> Basic Member
+                        </div>
+                    </div>
+                    
+                    <nav style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                        <button class="sidebar-btn active" id="db-nav-overview">
+                            <i class="fa-solid fa-chart-line"></i> 진단 오버뷰 (Overview)
+                        </button>
+                        <button class="sidebar-btn" id="db-nav-monitoring">
+                            <i class="fa-solid fa-eye"></i> 실시간 규제 모니터링
+                        </button>
+                        <button class="sidebar-btn premium-only" id="db-nav-simulator">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI 미래 리스크 예측
+                        </button>
+                    </nav>
+
+                    <div style="margin-top: auto; padding: 0 0.5rem;">
+                        <button class="btn btn-secondary" id="btn-reset-demo" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+                            <i class="fa-solid fa-rotate-left"></i> 데모 초기화
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Dashboard Main Panels -->
+                <div class="db-main-content">
+                    
+                    <!-- PANEL A: Overview -->
+                    <div class="db-panel active" id="panel-overview">
+                        <div class="card">
+                            <div class="section-title">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <span>글로벌 리스크 상태 요약</span>
+                            </div>
+
+                            <!-- Metrics Row -->
+                            <div class="metrics-grid">
+                                <div class="metric-card critical">
+                                    <div class="metric-info">
+                                        <h4>잔여 합법 체류일</h4>
+                                        <div class="value" id="db-metric-days">84 일</div>
+                                    </div>
+                                    <div class="metric-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                                </div>
+                                
+                                <div class="metric-card safe">
+                                    <div class="metric-info">
+                                        <h4>이중과세 방지 지수</h4>
+                                        <div class="value">92%</div>
+                                    </div>
+                                    <div class="metric-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                </div>
+
+                                <div class="metric-card monitoring">
+                                    <div class="metric-info">
+                                        <h4>실시간 모니터링 수</h4>
+                                        <div class="value">14개 규정</div>
+                                    </div>
+                                    <div class="metric-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                                </div>
+                            </div>
+
+                            <!-- Current Country Card -->
+                            <div style="background: rgba(30, 41, 59, 0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                    <h4 style="font-size: 1.1rem; font-weight: 600;"><i class="fa-solid fa-location-dot"></i> 활성 추적 상태: <span id="db-current-country-txt">스페인</span></h4>
+                                    <span class="badge-demo" style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3);" id="db-visa-type-txt">디지털 노마드 비자</span>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                                    사용자의 GPS 및 신용카드 해외 지출 로그를 기반으로 체류일을 자동 계산하고 있습니다. 183일 초과 시 발생할 수 있는 스페인 거주자 의무 소득세 보고 대상 여부를 24시간 실시간 트랙킹합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL B: Realtime Monitoring -->
+                    <div class="db-panel" id="panel-monitoring">
+                        <div class="card">
+                            <div class="section-title">
+                                <i class="fa-solid fa-bell"></i>
+                                <span>실시간 법률 및 세무 긴급 공지</span>
+                            </div>
+                            
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">귀하의 체류지와 소득 유형을 기반으로 맞춤 필터링된 공지 및 대처 방법입니다.</p>
+
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.03); border-radius: 10px; padding: 1.25rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <strong style="color: var(--accent-danger);"><i class="fa-solid fa-circle-exclamation"></i> 스페인 세법 183일 거주자 판정 규정 주의</strong>
+                                        <span style="font-size: 0.8rem; color: var(--text-muted);">2026-06-01 업데이트</span>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+                                        최근 스페인 세무 당국은 원격 근무자가 현지 주거 임차 계약을 맺은 경우 체류 일수가 183일 미만이라도 국내 소득의 상당수가 현지에서 발생했다면 스페인 세무 거주자로 간주할 위험을 경고했습니다.
+                                    </p>
+                                </div>
+
+                                <div style="border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1.25rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <strong style="color: #60a5fa;"><i class="fa-solid fa-info-circle"></i> 태국 디지털 노마드 전용 비자 규제 개정 예고</strong>
+                                        <span style="font-size: 0.8rem; color: var(--text-muted);">2026-05-20 업데이트</span>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+                                        태국 투자청(BOI)에 따르면 LTR 비자의 원격 근무 소득 요건이 일부 완화될 예정입니다. 연간 소득 $80,000 이상 충족이 어려웠던 Prosumer 세대의 진입 장벽이 낮아질 수 있으니 다음 비자 로드맵 설정 시 참조해 주시기 바랍니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL C: AI Predictor (Premium Only / Lock Interface for Basic) -->
+                    <div class="db-panel" id="panel-simulator">
+                        <!-- Lock Wrapper -->
+                        <div class="card locked-overlay" id="simulator-locked-wrapper" style="display: none;">
+                            <div class="locked-shield">
+                                <i class="fa-solid fa-lock"></i>
+                                <h4>Premium AI 전용 기능: 예측 리스크 시뮬레이터</h4>
+                                <p>내가 다른 나라로 이주한다면 내 소득 대비 세법과 벌금 리스크는 어떻게 바뀔까? 이중과세 없는 안전한 글로벌 루트를 AI로 시뮬레이션해 보세요.</p>
+                                <button class="btn btn-gold" id="btn-upgrade-from-sim"><i class="fa-solid fa-crown"></i> Premium 멤버십으로 해제</button>
+                            </div>
+                            
+                            <!-- Fake background to show blur effect -->
+                            <div style="opacity: 0.15; pointer-events: none;">
+                                <div class="section-title">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span>AI 미래 리스크 예측 및 가상 매칭</span>
+                                </div>
+                                <div class="sim-input-row">
+                                    <div class="form-group">
+                                        <label>가상 이동할 예정 국가</label>
+                                        <select disabled><option>태국 (Thailand)</option></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>가상 월 소득 (USD)</label>
+                                        <input type="number" value="6000" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real Active UI for Premium Members -->
+                        <div class="card simulator-card" id="simulator-active-wrapper">
+                            <div class="section-title" style="color: var(--accent-gold);">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>AI 미래 리스크 예측 및 가상 매칭</span>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                                다른 국가로 이주하거나 소득을 높였을 때의 글로벌 세법 및 비자 리스크 변화를 AI 엔진으로 예측합니다.
+                            </p>
+
+                            <div class="sim-input-row">
+                                <div class="form-group">
+                                    <label for="sim-target-country">이동 예정 국가</label>
+                                    <select id="sim-target-country">
+                                        <option value="TH">태국 (Thailand)</option>
+                                        <option value="ES">스페인 (Spain)</option>
+                                        <option value="DE">독일 (Germany)</option>
+                                        <option value="SE">스웨덴 (Sweden)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sim-monthly-income">예상 월 소득 (USD)</label>
+                                    <input type="number" id="sim-monthly-income" value="6000" min="0" step="500">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sim-stay-duration">체류 예상 일수</label>
+                                <select id="sim-stay-duration">
+                                    <option value="under90">90일 이하 (단기)</option>
+                                    <option value="under183">90일 ~ 183일 (중기)</option>
+                                    <option value="over183" selected>183일 초과 (장기 체류 - 세무 거주자 리스크 유발)</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-gold" id="btn-run-sim" style="width: 100%; justify-content: center; font-weight: 700;">
+                                <i class="fa-solid fa-brain"></i> AI 가상 리스크 시나리오 예측하기
+                            </button>
+
+                            <div class="sim-results" id="sim-results-box" style="display: none;">
+                                <h4><i class="fa-solid fa-circle-check"></i> AI 시나리오 진단 결과</h4>
+                                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;" id="sim-results-text">
+                                    <!-- Results dynamically generated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SECTION 5: Floating A/B testing controller (Developer HUD UI) -->
+    <div class="ab-control-hud" id="ab-hud">
+        <div class="ab-hud-header">
+            <h4><i class="fa-solid fa-flask"></i> A/B WTP Test Controller</h4>
+            <button class="btn-hud-toggle" id="btn-hud-minimize" aria-label="HUD 최소화"><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        
+        <div class="hud-body" id="hud-body">
+            <div>
+                <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.4rem;">A/B 테스팅 그룹 선택</label>
+                <div class="ab-group-selector">
+                    <button class="ab-group-btn" data-group="A" id="btn-group-a">A그룹 (Volume)</button>
+                    <button class="ab-group-btn active" data-group="B" id="btn-group-b">B그룹 (Value)</button>
+                    <button class="ab-group-btn" data-group="C" id="btn-group-c">C그룹 (Premium)</button>
+                </div>
+            </div>
+
+            <div class="hud-info-row">
+                <strong>[현재 적용 가격]</strong><br>
+                - Basic 플랜: <span id="hud-price-basic">$29</span> / 월<br>
+                - Premium 플랜: <span id="hud-price-premium">$79</span> / 월
+            </div>
+
+            <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.3;">
+                * 그룹을 변경하면 가입 요금제 카드의 가격이 즉시 갱신되어 WTP 전환 실험을 직접 모니터링할 수 있습니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6: Success Modal for Checkout -->
+    <div class="success-modal" id="purchase-success-modal">
+        <div class="modal-content">
+            <div class="modal-icon"><i class="fa-solid fa-check"></i></div>
+            <h3 id="modal-success-title">멤버십 활성화 완료</h3>
+            <p id="modal-success-desc">구독 결제 처리가 성공적으로 이루어졌습니다. 지금 바로 실시간 대시보드 기능을 자유롭게 이용하세요.</p>
+            <button class="btn btn-primary" id="btn-modal-close" style="width: 100%; justify-content: center;">대시보드로 이동</button>
+        </div>
+    </div>
+
+    <script src="nomadguard.js"></script>
+</body>
+</html>
