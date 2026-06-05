@@ -51,7 +51,7 @@ def main():
     if not target_keywords:
         print("⚠️  TARGET_KEYWORDS가 비어있어요. 분석할 키워드를 1개 이상 추가하세요.")
         sys.exit(1)
-    ollama_url = (_shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:11434") or "http://127.0.0.1:11434").rstrip("/")
+    llm_url = (_shared(cfg, acct, "LLM_URL") or _shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:1234") or "http://127.0.0.1:1234").rstrip("/")
     model = _shared(cfg, acct, "MODEL", "") or ""
     pick = min(2, len(target_keywords))
     chosen = random.sample(target_keywords, pick)
@@ -133,29 +133,36 @@ def main():
 
     print("🧠 [LLM 분석 중...]")
     if not model:
-        # Try first available model
+        # Try first available model via OpenAI-compatible /v1/models
         try:
-            r = requests.get(f"{ollama_url}/api/tags", timeout=5)
+            r = requests.get(f"{llm_url}/v1/models", timeout=5)
             r.raise_for_status()
-            models = [m["name"] for m in r.json().get("models", [])]
+            models = [m["id"] for m in r.json().get("data", [])]
             if not models:
-                print("❌ 로컬 LLM에 설치된 모델이 없어요. Ollama/LM Studio에서 모델을 풀(pull)하세요.")
+                print("❌ No models loaded in LM Studio / local LLM. Please load a model first.")
                 sys.exit(1)
             model = models[0]
         except Exception as e:
-            print(f"❌ 로컬 LLM 연결 실패 ({ollama_url}): {e}")
+            print(f"❌ Local LLM connection failed ({llm_url}): {e}")
             sys.exit(1)
 
+    print(f"   Using model: {model}")
     try:
         r = requests.post(
-            f"{ollama_url}/api/generate",
-            json={"model": model, "prompt": prompt, "stream": False},
-            timeout=180,
+            f"{llm_url}/v1/chat/completions",
+            json={
+                "model": model,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.7,
+                "max_tokens": 2048,
+                "stream": False
+            },
+            timeout=300,
         )
         r.raise_for_status()
-        report = r.json().get("response", "").strip()
+        report = r.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
-        print(f"❌ LLM 호출 실패: {e}")
+        print(f"❌ LLM call failed: {e}")
         sys.exit(1)
 
     print("\n" + "="*60)
