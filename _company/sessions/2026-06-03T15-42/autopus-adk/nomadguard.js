@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const abSelectorButtons = [btnGroupA, btnGroupB, btnGroupC];
     abSelectorButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const group = e.target.getAttribute('data-value') || e.target.id.split('-').pop().toUpperCase();
+            const group = e.currentTarget.getAttribute('data-group');
             currentPriceGroup = group;
             localStorage.setItem('abGroup', group);
             updatePrices();
