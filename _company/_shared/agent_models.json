@@ -1,12 +1,12 @@
 {
   "ceo": "google/gemma-4-26b-a4b",
   "youtube": "google/gemma-4-31b",
-  "instagram": "google/gemma-4-12b",
-  "designer": "google/gemma-4-12b",
-  "developer": "google/gemma-4-31b",
-  "business": "google/gemma-4-12b",
+  "instagram": "google/gemma-4-26b-a4b",
+  "designer": "google/gemma-4-31b",
+  "developer": "qwen/qwen3.6-27b",
+  "business": "google/gemma-4-31b",
   "secretary": "google/gemma-4-26b-a4b",
-  "editor": "google/gemma-4-12b",
-  "writer": "google/gemma-4-12b",
+  "editor": "google/gemma-4-26b-a4b",
+  "writer": "google/gemma-4-26b-a4b",
   "researcher": "google/gemma-4-31b"
 }
