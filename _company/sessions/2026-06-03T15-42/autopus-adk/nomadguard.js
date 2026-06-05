@@ -249,9 +249,75 @@ document.addEventListener('DOMContentLoaded', () => {
             riskDetailsContainer.appendChild(div);
         });
 
+        // Populate Affiliate Partner Recommendations
+        populateAffiliateCards(data);
+
         // Switch panel visibility
         surveySection.style.display = 'none';
         riskReportSection.style.display = 'block';
+    }
+
+    function populateAffiliateCards(data) {
+        const container = document.getElementById('affiliate-cards-container');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        let partners = [];
+        
+        // Health insurance (General recommendation)
+        partners.push({
+            badge: 'Health & Travel',
+            title: 'SafetyWing Nomad Insurance',
+            desc: 'Global travel medical insurance for digital nomads. Covers you in 180+ countries with flexible monthly subscription.',
+            linkText: 'Get Quote',
+            icon: 'fa-heart-pulse'
+        });
+        
+        // Visa Partner
+        if (data.targetCountry === 'ES' || data.stayDuration === 'over183') {
+            partners.push({
+                badge: 'Visa & Immigration',
+                title: 'Citizen Remote Visa Desk',
+                desc: 'Accelerate your Spain DNV or LTR application with verified local immigration experts. 99.4% success rate.',
+                linkText: 'Check Eligibility',
+                icon: 'fa-passport'
+            });
+        } else {
+            partners.push({
+                badge: 'Legal & Relocation',
+                title: 'Boundless Global Relocation',
+                desc: 'Get fast-tracked visas and local business registration assistance in your destination country.',
+                linkText: 'Explore Countries',
+                icon: 'fa-globe'
+            });
+        }
+        
+        // Tax Partner
+        if (data.taxStatus === 'none' || data.taxStatus === 'home' || data.stayDuration === 'over183') {
+            partners.push({
+                badge: 'Tax Compliance',
+                title: 'Expat Tax Consulting (TFX)',
+                desc: 'Avoid double-taxation traps. Book a consultation with a US/EU certified expat tax advisor.',
+                linkText: 'Book Consultation',
+                icon: 'fa-calculator'
+            });
+        }
+        
+        partners.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'affiliate-card';
+            card.innerHTML = `
+                <div>
+                    <span class="affiliate-badge">${p.badge}</span>
+                    <div class="affiliate-title"><i class="fa-solid ${p.icon}" style="color: var(--accent-indigo); margin-right: 0.5rem;"></i>${p.title}</div>
+                    <p class="affiliate-desc">${p.desc}</p>
+                </div>
+                <a href="#" class="affiliate-action" onclick="alert('Demo: Redirecting to partner site with affiliate ID: NOMADGUARD2026'); return false;">
+                    ${p.linkText} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            `;
+            container.appendChild(card);
+        });
     }
 
     // --- Action Buttons ---
@@ -266,12 +332,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Pricing & A/B Testing Controller ---
+    const billingToggle = document.getElementById('billing-toggle');
+    const labelMonthly = document.getElementById('label-monthly');
+    const labelAnnual = document.getElementById('label-annual');
+    const btnContactSales = document.getElementById('btn-contact-sales');
+
+    if (billingToggle) {
+        billingToggle.addEventListener('change', () => {
+            if (billingToggle.checked) {
+                labelMonthly.classList.remove('active');
+                labelAnnual.classList.add('active');
+            } else {
+                labelMonthly.classList.add('active');
+                labelAnnual.classList.remove('active');
+            }
+            updatePrices();
+        });
+    }
+
+    if (btnContactSales) {
+        btnContactSales.addEventListener('click', () => {
+            alert('Enterprise B2B Plan Demo: Contacting our sales team at sales@nomadguard.ai. A representative will contact you within 24 hours to schedule a custom team dashboard walkthrough.');
+        });
+    }
+
     function updatePrices() {
         const prices = pricingGroups[currentPriceGroup];
+        const isAnnual = billingToggle ? billingToggle.checked : false;
         
+        const basicPrice = isAnnual ? Math.round(prices.basic * 0.8) : prices.basic;
+        const premiumPrice = isAnnual ? Math.round(prices.premium * 0.8) : prices.premium;
+
         // Update paywall DOM elements
-        priceBasicDisplay.innerHTML = `$${prices.basic}<span>/mo</span>`;
-        pricePremiumDisplay.innerHTML = `$${prices.premium}<span>/mo</span>`;
+        priceBasicDisplay.innerHTML = `$${basicPrice}<span>/mo</span>${isAnnual ? `<span class="billed-annually-sub" style="display:block; font-size:0.75rem; color:var(--text-secondary); margin-top:0.25rem;">Billed annually ($${basicPrice * 12}/yr)</span>` : ''}`;
+        pricePremiumDisplay.innerHTML = `$${premiumPrice}<span>/mo</span>${isAnnual ? `<span class="billed-annually-sub" style="display:block; font-size:0.75rem; color:var(--text-secondary); margin-top:0.25rem;">Billed annually ($${premiumPrice * 12}/yr)</span>` : ''}`;
 
         // Update HUD display
         hudPriceBasic.textContent = `$${prices.basic}`;
@@ -320,10 +414,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showSuccessModal(plan) {
         userTier = plan;
+        const prices = pricingGroups[currentPriceGroup];
+        const isAnnual = billingToggle ? billingToggle.checked : false;
+        
+        const basicPrice = isAnnual ? Math.round(prices.basic * 0.8) : prices.basic;
+        const premiumPrice = isAnnual ? Math.round(prices.premium * 0.8) : prices.premium;
+
         modalSuccessTitle.textContent = plan === 'basic' ? 'Basic Membership Activated!' : 'Premium AI Membership Activated!';
-        modalSuccessDesc.textContent = plan === 'basic'
-            ? `Your real-time visa calendar and tax risk detection dashboard are now live. Billed at $${pricingGroups[currentPriceGroup].basic}/month.`
-            : `Full AI predictive engine, 24/7 emergency legal hotline, and all premium features are now unlocked. Billed at $${pricingGroups[currentPriceGroup].premium}/month.`;
+        
+        if (plan === 'basic') {
+            modalSuccessDesc.textContent = isAnnual 
+                ? `Your real-time visa calendar and tax risk detection dashboard are now live. Billed annually at $${basicPrice}/month ($${basicPrice * 12}/year).`
+                : `Your real-time visa calendar and tax risk detection dashboard are now live. Billed monthly at $${basicPrice}/month.`;
+        } else {
+            modalSuccessDesc.textContent = isAnnual
+                ? `Full AI predictive engine, 24/7 emergency legal hotline, and all premium features are now unlocked. Billed annually at $${premiumPrice}/month ($${premiumPrice * 12}/year).`
+                : `Full AI predictive engine, 24/7 emergency legal hotline, and all premium features are now unlocked. Billed monthly at $${premiumPrice}/month.`;
+        }
 
         purchaseSuccessModal.classList.add('active');
     }
