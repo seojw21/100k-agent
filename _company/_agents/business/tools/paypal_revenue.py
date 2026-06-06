@@ -455,6 +455,59 @@ def main():
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=lookback)
     txs = _fetch_transactions(base, token, start, end, currency)
+    
+    # Inject mock transactions in Sandbox mode if the account has no transactions, for demonstration purposes.
+    if mode == "sandbox" and not txs:
+        _log("샌드박스 거래 내역이 비어 있어 데모용 모의 거래 데이터를 주입합니다.", "info")
+        now_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        yesterday_str = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        last_week_str = (datetime.now(timezone.utc) - timedelta(days=5)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        txs = [
+            {
+                "transaction_info": {
+                    "transaction_id": "TXN-MOCK-001",
+                    "transaction_initiation_date": now_str,
+                    "transaction_amount": {"value": "29.00", "currency_code": "USD"},
+                    "fee_amount": {"value": "-1.16"},
+                    "transaction_status": "S",
+                    "transaction_event_code": "T0000",
+                    "transaction_subject": "NomadGuard AI — Basic Plan"
+                }
+            },
+            {
+                "transaction_info": {
+                    "transaction_id": "TXN-MOCK-002",
+                    "transaction_initiation_date": yesterday_str,
+                    "transaction_amount": {"value": "79.00", "currency_code": "USD"},
+                    "fee_amount": {"value": "-2.67"},
+                    "transaction_status": "S",
+                    "transaction_event_code": "T0000",
+                    "transaction_subject": "NomadGuard AI — Premium Plan"
+                }
+            },
+            {
+                "transaction_info": {
+                    "transaction_id": "TXN-MOCK-003",
+                    "transaction_initiation_date": last_week_str,
+                    "transaction_amount": {"value": "19.00", "currency_code": "USD"},
+                    "fee_amount": {"value": "-0.86"},
+                    "transaction_status": "S",
+                    "transaction_event_code": "T0000",
+                    "transaction_subject": "SveaTax — Pro Pack"
+                }
+            },
+            {
+                "transaction_info": {
+                    "transaction_id": "TXN-MOCK-004",
+                    "transaction_initiation_date": last_week_str,
+                    "transaction_amount": {"value": "-19.00", "currency_code": "USD"},
+                    "fee_amount": {"value": "0.00"},
+                    "transaction_status": "S",
+                    "transaction_event_code": "T1107",
+                    "transaction_subject": "SveaTax — Pro Pack Refund"
+                }
+            }
+        ]
     _log(f"총 {len(txs)}건 거래 수집", "ok")
 
     if output_mode == "json":
