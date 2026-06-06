@@ -20,7 +20,7 @@ from datetime import datetime
 # Path Configurations
 BASE_DIR = Path(__file__).parent
 TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
-LM_STUDIO_URL = "http://localhost:1234/v1"
+LM_STUDIO_URL = "http://localhost:11434/v1"
 MD_BRAIN_DIR = BASE_DIR / "knowledge" / "md_brain"
 JSONL_LOG_PATH = BASE_DIR / "knowledge" / "antigravity_brain.jsonl"
 

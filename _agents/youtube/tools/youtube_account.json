@@ -6,6 +6,6 @@
   "COMPETITOR_CHANNELS": [],
   "TELEGRAM_BOT_TOKEN": "",
   "TELEGRAM_CHAT_ID": "",
-  "LLM_URL": "http://localhost:1234",
+  "LLM_URL": "http://localhost:11434",
   "MODEL": "qwen3.6:35b"
 }
