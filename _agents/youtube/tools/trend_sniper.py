@@ -132,19 +132,23 @@ def main():
 """
 
     print("🧠 [LLM 분석 중...]")
-    if not model:
-        # Try first available model via OpenAI-compatible /v1/models
-        try:
-            r = requests.get(f"{llm_url}/v1/models", timeout=5)
-            r.raise_for_status()
-            models = [m["id"] for m in r.json().get("data", [])]
-            if not models:
-                print("❌ No models loaded in LM Studio / local LLM. Please load a model first.")
-                sys.exit(1)
-            model = models[0]
-        except Exception as e:
-            print(f"❌ Local LLM connection failed ({llm_url}): {e}")
+    # Auto-detect or validate model availability in LM Studio
+    try:
+        r_models = requests.get(f"{llm_url}/v1/models", timeout=5)
+        r_models.raise_for_status()
+        available_models = [m["id"] for m in r_models.json().get("data", [])]
+        if not available_models:
+            print("❌ No models loaded in LM Studio / local LLM. Please load a model first.")
             sys.exit(1)
+        
+        # If specified model is loaded, use it; otherwise fallback to the currently active model
+        if model and model in available_models:
+            pass
+        else:
+            model = available_models[0]
+    except Exception as e:
+        print(f"❌ Local LLM connection failed ({llm_url}): {e}")
+        sys.exit(1)
 
     print(f"   Using model: {model}")
     try:
