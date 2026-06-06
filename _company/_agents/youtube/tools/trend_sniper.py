@@ -182,7 +182,7 @@ def main():
         else:
             r = requests.post(
                 f"{ollama_url}/api/generate",
-                json={"model": model, "prompt": prompt, "stream": False},
+                json={"model": model, "prompt": prompt, "stream": False, "options": {"num_ctx": 8192}},
                 timeout=180,
             )
             r.raise_for_status()
