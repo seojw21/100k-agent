@@ -1,192 +1,251 @@
-import os
-import datetime
-import requests
-import xml.etree.ElementTree as ET
-import traceback
-import sys
-import time
+#!/usr/bin/env python3
+"""
+agent.py
+===================
+Dynamic ReAct (Reasoning + Acting) Agent Loop for Connect-AI.
+- Watches tasks.json from the Desktop app.
+- Dynamically plans and executes tools (Reddit collection, trend harvesting, search).
+- Automatically writes generated knowledge nodes to knowledge/md_brain/ and logs to JSONL.
+- Marks tasks as completed in tasks.json.
+"""
 
-# GitHub Actions / Windows 환경 UTF-8 출력 보장
+import os
+import json
+import time
+import sys
+import requests
+from pathlib import Path
+from datetime import datetime
+
+# Path Configurations
+BASE_DIR = Path(__file__).parent
+TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
+LM_STUDIO_URL = "http://localhost:1234/v1"
+MD_BRAIN_DIR = BASE_DIR / "knowledge" / "md_brain"
+JSONL_LOG_PATH = BASE_DIR / "knowledge" / "antigravity_brain.jsonl"
+
+# Ensure directories exist
+MD_BRAIN_DIR.mkdir(parents=True, exist_ok=True)
+
+# Set stdout to UTF-8
 if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8')
 
-# --- 환경 설정 ---
-# 주의: 아래 API 키가 파일에 직접 적혀있으면 GitHub에 올라갔을 때 해킹될 위험이 있습니다!
-# 테스트 후에는 반드시 다시 os.getenv("GEMINI_API_KEY") 로 돌려놓으시는 것을 권장합니다.
-API_KEY = os.getenv("GEMINI_API_KEY")
+# Dynamic Tools
+def fetch_trends() -> str:
+    """Fetch tech and business trends from GeekNews and HackerNews RSS."""
+    from agent import fetch_daily_ideas  # Fallback to existing fetcher logic
+    try:
+        return fetch_daily_ideas()
+    except Exception as e:
+        return f"Error fetching trends: {e}"
 
-DEBUG_LOG = ""
+def fetch_reddit_pains() -> str:
+    """Trigger reddit_collector to gather real customer pain points."""
+    try:
+        from reddit_collector import collect_all
+        new_items, _ = collect_all(only_pain_signals=True)
+        return json.dumps(new_items[:5], ensure_ascii=False)
+    except Exception as e:
+        return f"Error gathering Reddit pain points: {e}"
 
-# --- 지식 베이스 연동 ---
-try:
-    from knowledge_search import KnowledgeSearch
-    _ks = KnowledgeSearch()
-    KNOWLEDGE_READY = _ks.is_ready
-    if KNOWLEDGE_READY:
-        DEBUG_LOG_PREFIX = f"✅ 지식 베이스 로드 완료 ({_ks.get_stats()['total']}개 레코드, 벡터검색: {'ON' if _ks.has_vector_search else 'OFF'})\n"
-    else:
-        DEBUG_LOG_PREFIX = "⚠️ 지식 베이스 없음 (build_knowledge.py 실행 필요)\n"
-        _ks = None
-except ImportError:
-    _ks = None
-    KNOWLEDGE_READY = False
-    DEBUG_LOG_PREFIX = "⚠️ knowledge_search 모듈 없음\n"
-except Exception as e:
-    _ks = None
-    KNOWLEDGE_READY = False
-    DEBUG_LOG_PREFIX = f"⚠️ 지식 베이스 로드 에러: {e}\n"
+def search_knowledge_base(query: str) -> str:
+    """Search existing 3,000+ Reddit pain points database."""
+    try:
+        from knowledge_search import KnowledgeSearch
+        ks = KnowledgeSearch()
+        if ks.is_ready:
+            results = ks.search(query, top_k=3)
+            return json.dumps(results, ensure_ascii=False)
+        return "Knowledge base not loaded."
+    except Exception as e:
+        return f"Error searching knowledge base: {e}"
 
-def generate_content_rest(prompt, model="gemini-2.5-flash", retries=3):
-    if not API_KEY:
-        raise ValueError("API Key is missing")
-        
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={API_KEY}"
-    headers = {'Content-Type': 'application/json'}
-    data = {"contents": [{"parts":[{"text": prompt}]}]}
-    
-    for attempt in range(retries):
-        response = requests.post(url, headers=headers, json=data, timeout=30)
-        if response.status_code == 200:
-            return response.json()['candidates'][0]['content']['parts'][0]['text']
-        elif response.status_code == 503:
-            # 트래픽 과부하 시 지수 백오프 대기 후 재시도
-            time.sleep(2 ** attempt)
-            continue
-        elif response.status_code == 429:
-            # 무료 티어 할당량(Quota) 초과 시 60초 대기 후 재시도
-            print(f"API Error 429: Rate limit exceeded. Waiting 60 seconds...")
-            time.sleep(60)
-            continue
-        else:
-            raise Exception(f"API Error {response.status_code}: {response.text}")
+def write_brain_node(title: str, markdown_content: str, source_task: str) -> str:
+    """Save structured Markdown report to Second Brain and log to JSONL."""
+    try:
+        safe_title = "".join([c if c.isalnum() else "_" for c in title])
+        filename = f"{safe_title}_{int(time.time())}.md"
+        file_path = MD_BRAIN_DIR / filename
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(markdown_content)
             
-    # 2.5버전이 계속 과부하일 경우 2.0 버전으로 폴백(Fallback) 시도
-    if model == "gemini-2.5-flash":
-        return generate_content_rest(prompt, model="gemini-2.0-flash", retries=1)
+        log_entry = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "node_file": filename,
+            "title": title,
+            "source": source_task
+        }
+        with open(JSONL_LOG_PATH, "a", encoding="utf-8") as f:
+            f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+            
+        return f"Success: Node saved to {filename} and logged in JSONL."
+    except Exception as e:
+        return f"Error saving node: {e}"
+
+# Model Connector
+def ask_gemma_action(messages):
+    """Call LM Studio Gemma 4 to output the next JSON action."""
+    try:
+        r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
+        model = r_models.json()["data"][0]["id"]
         
-    raise Exception(f"API Error: 503 Server Unavailable after retries for model {model}")
+        r_chat = requests.post(
+            f"{LM_STUDIO_URL}/chat/completions",
+            json={
+                "model": model,
+                "messages": messages,
+                "temperature": 0.2
+            },
+            timeout=120
+        )
+        return r_chat.json()["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        print(f"❌ Model connection failed: {e}")
+        return None
 
-MEMORY_DIR = "./memory"
+# ReAct Loop Orchestrator
+def process_task(task: dict):
+    print(f"\n⚡ Processing Task: {task['title']}")
+    
+    # Initialize agent context
+    system_prompt = """You are Zealot, the autonomous coordinator of Connect-AI. Your goal is to solve the given task.
+You have access to the following tools via JSON actions:
+1. {"tool": "fetch_trends", "args": {}} - Get current tech and startup trends.
+2. {"tool": "fetch_reddit_pains", "args": {}} - Harvest fresh customer pain points from Reddit.
+3. {"tool": "search_knowledge_base", "args": {"query": "<search_term>"}} - Search the 3000+ core pain points database.
+4. {"tool": "write_brain_node", "args": {"title": "<node_title>", "markdown_content": "<markdown>"}} - Save the final report as a Second Brain node.
+5. {"tool": "finish_task", "args": {"summary": "<task_summary>"}} - Finalize and close the task.
 
-def ensure_directory():
-    if not os.path.exists(MEMORY_DIR):
-        os.makedirs(MEMORY_DIR)
+Output only a single JSON object matching this schema in every turn:
+{"reasoning": "<your step-by-step thinking>", "tool": "<tool_name>", "args": {<arguments>}}
+"""
+    
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": f"Task: {task['title']}"}
+    ]
+    
+    steps = 0
+    max_steps = 10
+    
+    while steps < max_steps:
+        steps += 1
+        raw_response = ask_gemma_action(messages)
+        if not raw_response:
+            break
+            
+        print(f"🧠 Action Step {steps}: {raw_response}")
+        
+        # Robust JSON cleaning and extraction
+        cleaned_response = raw_response.strip()
+        if cleaned_response.startswith("```json"):
+            cleaned_response = cleaned_response[7:]
+        elif cleaned_response.startswith("```"):
+            cleaned_response = cleaned_response[3:]
+        if cleaned_response.endswith("```"):
+            cleaned_response = cleaned_response[:-3]
+        cleaned_response = cleaned_response.strip()
+        
+        # Remove trailing tool call tags if any
+        if "<tool_call" in cleaned_response:
+            cleaned_response = cleaned_response.split("<tool_call")[0].strip()
+        if "<turn" in cleaned_response:
+            cleaned_response = cleaned_response.split("<turn")[0].strip()
+            
+        first_brace = cleaned_response.find("{")
+        last_brace = cleaned_response.rfind("}")
+        if first_brace != -1 and last_brace != -1:
+            cleaned_response = cleaned_response[first_brace:last_brace+1]
+            
+        try:
+            action = json.loads(cleaned_response)
+        except Exception as json_err:
+            print(f"❌ Model returned invalid JSON ({json_err}). Raw: {raw_response}. Retrying...")
+            # Append a correction message to the assistant to prompt correct JSON format
+            messages.append({"role": "assistant", "content": raw_response})
+            messages.append({"role": "user", "content": "Error: Please output ONLY a valid JSON object matching the schema. Do not output anything else."})
+            continue
+            
+        tool = action.get("tool")
+        args = action.get("args", {})
+        
+        if tool == "finish_task":
+            print(f"✅ Task Completed: {args.get('summary')}")
+            return True
+            
+        # Execute tool
+        result = ""
+        if tool == "fetch_trends":
+            result = fetch_trends()
+        elif tool == "fetch_reddit_pains":
+            result = fetch_reddit_pains()
+        elif tool == "search_knowledge_base":
+            result = search_knowledge_base(args.get("query", ""))
+        elif tool == "write_brain_node":
+            result = write_brain_node(args.get("title", "Report"), args.get("markdown_content", ""), task['title'])
+        else:
+            result = f"Unknown tool: {tool}"
+            
+        # Update messages
+        messages.append({"role": "assistant", "content": raw_response})
+        messages.append({"role": "user", "content": f"Tool Output: {result}"})
+        time.sleep(1)
+        
+    return False
 
+# Main Scanning Loop
+def main():
+    print("🤖 Connect-AI Zealot Agent scanning for open tasks...")
+    while True:
+        if TASKS_JSON_PATH.exists():
+            try:
+                with open(TASKS_JSON_PATH, "r", encoding="utf-8") as f:
+                    tasks = json.load(f)
+            except Exception as e:
+                print(f"Error reading tasks: {e}")
+                tasks = []
+                
+            open_tasks = [t for t in tasks if t.get("status") == "open"]
+            if open_tasks:
+                target_task = open_tasks[0]
+                success = process_task(target_task)
+                
+                if success:
+                    # Update status in tasks.json
+                    for t in tasks:
+                        if t.get("id") == target_task.get("id"):
+                            t["status"] = "completed"
+                            t["agentEmoji"] = "⚡"
+                            
+                    try:
+                        with open(TASKS_JSON_PATH, "w", encoding="utf-8") as f:
+                            json.dump(tasks, f, ensure_ascii=False, indent=2)
+                        print(f"💾 Updated task {target_task['id']} status to completed.")
+                    except Exception as e:
+                        print(f"Error saving tasks: {e}")
+            else:
+                # Idle check
+                time.sleep(5)
+        else:
+            time.sleep(5)
+
+# Duplicate code from original agent.py helper
 def fetch_daily_ideas():
     ideas = []
     headers = {'User-Agent': 'Mozilla/5.0'}
-    
     try:
-        # 1. 긱뉴스(GeekNews) 
         gn_res = requests.get('https://news.hada.io/rss', headers=headers, timeout=10)
         gn_root = ET.fromstring(gn_res.content)
         gn_items = gn_root.findall('.//item')[:5]
-        ideas.append("🇰🇷 [GeekNews 트렌드]")
+        ideas.append("🇰🇷 [GeekNews trends]")
         for idx, item in enumerate(gn_items, 1):
-            title = item.find('title').text
-            ideas.append(f"{idx}. {title}")
-            
-        # 2. Hacker News
-        hn_res = requests.get('https://news.ycombinator.com/rss', headers=headers, timeout=10)
-        hn_root = ET.fromstring(hn_res.content)
-        hn_items = hn_root.findall('.//item')[:5]
-        ideas.append("\n🌍 [Hacker News 트렌드]")
-        for idx, item in enumerate(hn_items, 1):
-            title = item.find('title').text
-            ideas.append(f"{idx}. {title}")
-            
+            ideas.append(f"{idx}. {item.find('title').text}")
     except Exception as e:
-        ideas.append(f"데이터 수집 실패: {str(e)}")
-        
-    if not ideas or len(ideas) <= 2:
-        ideas.append("1. AI-driven interior design tools\n2. Smart glass tech\n3. Eco-friendly materials")
-        
+        ideas.append(f"GeekNews fail: {e}")
     return "\n".join(ideas)
 
-def build_knowledge_context(topic_keywords: str) -> str:
-    """지식 베이스에서 관련 통증 사례를 컨텍스트로 추출"""
-    if not KNOWLEDGE_READY or _ks is None:
-        return ""
-    try:
-        return _ks.build_context_for_agent(topic_keywords, top_k=5)
-    except Exception as e:
-        return f"<!-- 지식 베이스 컨텍스트 로드 실패: {e} -->"
-
-def main():
-    global DEBUG_LOG
-    DEBUG_LOG = DEBUG_LOG_PREFIX  # 지식 베이스 상태 먼저 기록
-    
-    ensure_directory()
-    today = datetime.date.today().strftime("%Y-%m-%d")
-    
-    report_content = f"# 🏠 100k Business Idea Agent Report - {today}\n\n"
-    
-    try:
-        # 1. 조사
-        DEBUG_LOG += "✅ 조사관 단계 시작 (최신 트렌드 수집중...)\n"
-        info = fetch_daily_ideas()
-        DEBUG_LOG += "✅ 조사관 단계 완료\n"
-        
-        # 2. 지식 베이스에서 관련 통증 사례 추출
-        DEBUG_LOG += "🧠 지식 베이스 검색 중...\n"
-        knowledge_context = build_knowledge_context(info[:300])  # 뉴스 앞부분으로 검색
-        if knowledge_context:
-            DEBUG_LOG += "✅ 지식 베이스 컨텍스트 추출 완료\n"
-        else:
-            DEBUG_LOG += "⚠️ 지식 베이스 컨텍스트 없음 (기본 분석 진행)\n"
-        
-        # 3. 분석/기획/마케팅 (AI 활용)
-        if API_KEY:
-            try:
-                # 분석 프롬프트에 지식 베이스 컨텍스트 삽입
-                analysis_prompt = f"""다음은 오늘 수집된 IT/비즈니스 트렌드 뉴스입니다.
-{info}
-
-{knowledge_context}
-
-위 뉴스와 레딧 검증 사례를 종합 분석하여, 즉시 '실행 가능한 내용'이며 가장 잠재력 있는 '사업/창업 아이디어(IT, B2B, B2C, 오프라인, 콘텐츠 등 분야 무관)'를 1개 도출하고, 그 이유를 분석해줘.
-특히 레딧에서 실제로 검증된 통증 포인트와 연결되는 '실행 가능한 구체적인 아이디어'를 우선적으로 고려해줘."""
-                
-                analysis = generate_content_rest(analysis_prompt)
-                DEBUG_LOG += "✅ 분석가 단계 완료\n"
-                
-                plan_prompt = f"다음 도출된 비즈니스 아이디어를 바탕으로, 구체적인 제품 기획안(MVP 주요 기능, 타겟 고객, 예상 수익 모델)을 작성해줘:\n{analysis}"
-                plan = generate_content_rest(plan_prompt)
-                DEBUG_LOG += "✅ 기획자 단계 완료\n"
-                
-                marketing_prompt = f"다음 기획안을 성공적으로 런칭하기 위한 초기 0-to-1 마케팅 전략(초기 고객 확보 방법, 랜딩페이지 카피, 바이럴 전략)을 짜줘:\n{plan}"
-                marketing = generate_content_rest(marketing_prompt)
-                DEBUG_LOG += "✅ 마케터 단계 완료\n"
-                
-            except Exception as ai_e:
-                analysis = "AI 처리 중 오류 발생"
-                plan = "N/A"
-                marketing = "N/A"
-                DEBUG_LOG += f"❌ AI 생성 중 에러: {str(ai_e)}\n"
-        else:
-            analysis = plan = marketing = "AI 미작동 (키 없음)"
-            DEBUG_LOG += "❌ API 키가 설정되지 않았습니다. (GitHub Secrets 확인 필요)\n"
-            
-        report_content += f"## 🛠 디버그 로그\n{DEBUG_LOG}\n\n"
-        report_content += f"## 📊 분석 결과\n{analysis}\n\n"
-        report_content += f"## 💡 기획 내용\n{plan}\n\n"
-        report_content += f"## 📣 마케팅 전략\n{marketing}\n"
-        
-        # 지식 베이스 컨텍스트도 레포트에 포함
-        if knowledge_context:
-            report_content += f"\n\n---\n{knowledge_context}"
-        
-    except Exception as e:
-        report_content += f"\n\n## ⚠️ 치명적 실행 오류\n{str(e)}\n{traceback.format_exc()}"
-    
-    # 파일 쓰기 (에러가 나도 무조건 쓰기)
-    filepath = f"{MEMORY_DIR}/{today}_debug_result.md"
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(report_content)
-    
-    print(f"디버그 리포트 생성 완료: {filepath}")
-    # 강제 종료 방지 (Actions가 성공으로 뜨게 함)
-    sys.exit(0)
+import xml.etree.ElementTree as ET
 
 if __name__ == "__main__":
     main()

@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Path Configuration
 BASE_DIR = "/Users/seojeong-won/GEMMA 4"
-LM_STUDIO_URL = "http://127.0.0.1:1234/v1"
+LM_STUDIO_URL = "http://localhost:1234/v1"
 MD_BRAIN_DIR = os.path.join(BASE_DIR, "knowledge", "md_brain")
 JSONL_LOG_PATH = os.path.join(BASE_DIR, "knowledge", "antigravity_brain.jsonl")
 RAW_EVENTS_DIR = os.path.join(BASE_DIR, "knowledge", "raw_events")
