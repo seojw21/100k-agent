@@ -7,5 +7,5 @@
   "TELEGRAM_BOT_TOKEN": "",
   "TELEGRAM_CHAT_ID": "",
   "LLM_URL": "http://localhost:1234",
-  "MODEL": "google/gemma-4-26b-a4b"
+  "MODEL": "gemma4:26b"
 }
