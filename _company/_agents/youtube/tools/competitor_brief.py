@@ -135,7 +135,7 @@ def main():
     print("🧠 [LLM 분석 중...]")
     try:
         r = requests.post(f"{ollama_url}/api/generate",
-                          json={"model": model, "prompt": prompt, "stream": False},
+                          json={"model": model, "prompt": prompt, "stream": False, "options": {"num_ctx": 8192}},
                           timeout=240)
         r.raise_for_status()
         brief = r.json().get("response", "").strip()
