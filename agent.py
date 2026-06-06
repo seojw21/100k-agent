@@ -83,6 +83,43 @@ def write_brain_node(title: str, markdown_content: str, source_task: str) -> str
     except Exception as e:
         return f"Error saving node: {e}"
 
+def run_terminal_command(command: str) -> str:
+    """Execute a shell command on the user's computer safely and return stdout/stderr."""
+    import subprocess
+    try:
+        result = subprocess.run(
+            command,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+            cwd=str(BASE_DIR)
+        )
+        output = f"Exit Code: {result.returncode}\n"
+        if result.stdout:
+            output += f"Stdout:\n{result.stdout}\n"
+        if result.stderr:
+            output += f"Stderr:\n{result.stderr}\n"
+        return output
+    except subprocess.TimeoutExpired:
+        return "Error: Command timed out after 30 seconds."
+    except Exception as e:
+        return f"Error executing command: {e}"
+
+def write_file(path: str, content: str) -> str:
+    """Create or overwrite any file on the local disk."""
+    try:
+        file_path = Path(path)
+        if not file_path.is_absolute():
+            file_path = BASE_DIR / file_path
+        
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(content)
+        return f"Success: File successfully written to {file_path}"
+    except Exception as e:
+        return f"Error writing file: {e}"
+
 # Model Connector
 def ask_gemma_action(messages):
     """Call LM Studio Gemma 4 to output the next JSON action."""
@@ -115,7 +152,9 @@ You have access to the following tools via JSON actions:
 2. {"tool": "fetch_reddit_pains", "args": {}} - Harvest fresh customer pain points from Reddit.
 3. {"tool": "search_knowledge_base", "args": {"query": "<search_term>"}} - Search the 3000+ core pain points database.
 4. {"tool": "write_brain_node", "args": {"title": "<node_title>", "markdown_content": "<markdown>"}} - Save the final report as a Second Brain node.
-5. {"tool": "finish_task", "args": {"summary": "<task_summary>"}} - Finalize and close the task.
+5. {"tool": "run_terminal_command", "args": {"command": "<command_to_run>"}} - Execute shell commands on the computer (e.g. running scripts, pip install, curl).
+6. {"tool": "write_file", "args": {"path": "<file_path>", "content": "<file_content>"}} - Write or modify files on the local disk.
+7. {"tool": "finish_task", "args": {"summary": "<task_summary>"}} - Finalize and close the task.
 
 Output only a single JSON object matching this schema in every turn:
 {"reasoning": "<your step-by-step thinking>", "tool": "<tool_name>", "args": {<arguments>}}
@@ -184,6 +223,10 @@ Output only a single JSON object matching this schema in every turn:
             result = search_knowledge_base(args.get("query", ""))
         elif tool == "write_brain_node":
             result = write_brain_node(args.get("title", "Report"), args.get("markdown_content", ""), task['title'])
+        elif tool == "run_terminal_command":
+            result = run_terminal_command(args.get("command", ""))
+        elif tool == "write_file":
+            result = write_file(args.get("path", ""), args.get("content", ""))
         else:
             result = f"Unknown tool: {tool}"
             
