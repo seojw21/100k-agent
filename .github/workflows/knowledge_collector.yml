@@ -11,6 +11,9 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  PYTHONUNBUFFERED: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
 
 jobs:
   collect-and-update:
@@ -32,12 +35,12 @@ jobs:
           pip install requests chromadb sentence-transformers
 
       - name: Step 1 - Reddit 자동 수집
-        run: python reddit_collector.py
+        run: python -u reddit_collector.py
 
       - name: Step 2 - Gemini 분석 + 지식 DB 업데이트
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python knowledge_updater.py
+        run: python -u knowledge_updater.py
 
       - name: Step 3 - Commit knowledge updates
         run: |
