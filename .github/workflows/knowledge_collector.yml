@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -43,4 +45,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add knowledge/
           git commit -m "🧠 Auto knowledge update: $(date +'%Y-%m-%d %H:%M')" || echo "No new knowledge to commit"
-          git push
+          git push origin main
