@@ -31,7 +31,7 @@ PROCESSED_IDS_PATH = KNOWLEDGE_DIR / "processed_ids.json"
 SELFRAG_LOG_PATH = KNOWLEDGE_DIR / "selfrag_log.jsonl"
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
 
 # ─────────────────────────────────────────────
 # Gemini 공통 호출
