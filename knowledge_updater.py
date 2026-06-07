@@ -54,7 +54,7 @@ def call_gemini(prompt: str, retries: int = 3) -> str | None:
             elif r.status_code == 503:
                 time.sleep(2 ** attempt)
             else:
-                print(f"    ❌ Gemini {r.status_code}")
+                print(f"    ❌ Gemini {r.status_code}: {r.text}")
                 return None
         except Exception as e:
             print(f"    ⚠️ 네트워크 에러: {e}")
