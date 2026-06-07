@@ -1,12 +1,12 @@
 {
   "ceo": "qwen3.6:35b",
   "youtube": "qwen3.6:35b",
-  "instagram": "qwen3.6:35b",
   "designer": "qwen3.6:35b",
   "developer": "qwen2.5-coder:7b",
   "business": "qwen3.6:35b",
-  "secretary": "qwen3.6:35b",
+  "secretary": "hf.co/seoart/sks0321-v4:latest",
   "editor": "qwen3.6:35b",
   "writer": "qwen3.6:35b",
-  "researcher": "qwen3.6:35b"
+  "researcher": "qwen3.6:35b",
+  "instagram": "hf.co/seoart/sks0321-v4:latest"
 }
