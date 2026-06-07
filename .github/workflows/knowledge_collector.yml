@@ -48,4 +48,6 @@ jobs:
           git config --local user.name "GitHub Action"
           git add knowledge/
           git commit -m "🧠 Auto knowledge update: $(date +'%Y-%m-%d %H:%M')" || echo "No new knowledge to commit"
+          git pull --rebase origin main
           git push origin main
+
