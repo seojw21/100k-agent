@@ -263,6 +263,15 @@ def run_update(max_process: int = 50):
     print(f"🧠 Self-RAG 지식 업데이터 - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 60)
 
+    if API_KEY:
+        try:
+            list_url = f"https://generativelanguage.googleapis.com/v1beta/models?key={API_KEY}"
+            r = requests.get(list_url, timeout=15)
+            print("🔍 Available models list:")
+            print(r.text)
+        except Exception as e:
+            print(f"⚠️ Failed to list models: {e}")
+
     if not RAW_COLLECTED_PATH.exists():
         print("⚠️ raw_collected.jsonl 없음 - reddit_collector.py 먼저 실행하세요")
         return 0
