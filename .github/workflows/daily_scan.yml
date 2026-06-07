@@ -11,6 +11,9 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # Node.js 24 경고 해결
+  PYTHONUNBUFFERED: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
 
 jobs:
   build:
@@ -34,7 +37,7 @@ jobs:
       - name: Run 100k Agent
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python agent.py
+        run: python -u agent.py
 
       - name: Commit and Push changes
         run: |
