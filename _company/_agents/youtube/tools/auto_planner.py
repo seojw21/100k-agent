@@ -40,6 +40,7 @@ def main():
     if test_proc.returncode != 0:
         print(f"❌ trend_sniper.py 검증 실패 (exit {test_proc.returncode})")
         print("   먼저 trend_sniper.py 단독으로 ▶ 실행해서 설정·키워드·LLM 연결 확인 후 재시도.")
+        print("   💡 흔한 원인: API 키 미설정, Python·필수 패키지 미설치")
         if test_proc.stderr.strip():
             print("   에러 일부:")
             for line in test_proc.stderr.splitlines()[-5:]:

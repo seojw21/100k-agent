@@ -6,6 +6,7 @@
 - Python 3 + `pip install google-api-python-client requests`
 - `youtube_account.json`에 `YOUTUBE_API_KEY` 채우기 (한 번만)
 - 로컬 LLM (Ollama 또는 LM Studio)이 켜져 있어야 함
+- 💡 **실패 시 흔한 원인**: API 키 미설정, Python·필수 패키지 미설치
 
 ## 설정값 (trend_sniper.json)
 - `TARGET_KEYWORDS` — 분석할 키워드 배열
