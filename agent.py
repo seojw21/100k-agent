@@ -20,7 +20,7 @@ from datetime import datetime
 # Path Configurations
 BASE_DIR = Path(__file__).parent
 TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
-LM_STUDIO_URL = "http://localhost:11434/v1"
+OLLAMA_URL = "http://localhost:11434/v1"
 MD_BRAIN_DIR = BASE_DIR / "knowledge" / "md_brain"
 JSONL_LOG_PATH = BASE_DIR / "knowledge" / "antigravity_brain.jsonl"
 
@@ -34,7 +34,6 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
 # Dynamic Tools
 def fetch_trends() -> str:
     """Fetch tech and business trends from GeekNews and HackerNews RSS."""
-    from agent import fetch_daily_ideas  # Fallback to existing fetcher logic
     try:
         return fetch_daily_ideas()
     except Exception as e:
@@ -85,6 +84,13 @@ def write_brain_node(title: str, markdown_content: str, source_task: str) -> str
 
 def run_terminal_command(command: str) -> str:
     """Execute a shell command on the user's computer safely and return stdout/stderr."""
+    # Simple security check to prevent harmful shell commands
+    forbidden_keywords = ["rm ", "sudo", "mv ", ">", "chmod", "chown", "mkfs", "dd ", ":(){:|:&};:"]
+    command_lower = command.lower()
+    for kw in forbidden_keywords:
+        if kw in command_lower:
+            return f"Error: Command execution blocked. Command contains forbidden keyword/pattern '{kw}' for security reasons."
+
     import subprocess
     try:
         result = subprocess.run(
@@ -122,17 +128,18 @@ def write_file(path: str, content: str) -> str:
 
 # Model Connector
 def ask_gemma_action(messages):
-    """Call LM Studio Gemma 4 to output the next JSON action."""
+    """Call Ollama model to output the next JSON action."""
     try:
-        r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
+        r_models = requests.get(f"{OLLAMA_URL}/models", timeout=5)
         model = r_models.json()["data"][0]["id"]
         
         r_chat = requests.post(
-            f"{LM_STUDIO_URL}/chat/completions",
+            f"{OLLAMA_URL}/chat/completions",
             json={
                 "model": model,
                 "messages": messages,
-                "temperature": 0.2
+                "temperature": 0.2,
+                "response_format": {"type": "json_object"}
             },
             timeout=120
         )
