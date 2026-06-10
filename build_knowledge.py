@@ -14,6 +14,7 @@ import os
 import json
 import csv
 import re
+import requests
 from datetime import datetime
 from pathlib import Path
 
@@ -22,7 +23,10 @@ from pathlib import Path
 # ─────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent
 SOURCE_FILE_1 = BASE_DIR / "레딧 핵심통증.txt"
+# SOURCE_FILE_2는 윈도우 개발 환경의 절대 경로입니다. 맥 환경에서는 해당 경로가 존재하지 않는 경우 자동으로 무시됩니다.
 SOURCE_FILE_2 = Path("D:/AUTOPUS/daangn-lead-discovery/reddit add row.txt")
+
+GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1Uigez5tb4Cn86lAJeDPmZLy5k-TamrRKtfZCrfRZSrM/export?format=csv"
 
 KNOWLEDGE_DIR = BASE_DIR / "knowledge"
 MD_BRAIN_DIR = KNOWLEDGE_DIR / "md_brain"
@@ -242,10 +246,104 @@ def build_md_brain(records: list[dict]):
             
     print(f"✅ MD 브레인 생성 완료: {len(top_999)}개 마크다운 파일")
 
+def build_chroma_db(records: list[dict]):
+    """ChromaDB 벡터 데이터베이스 구축"""
+    CHROMA_DIR = KNOWLEDGE_DIR / "chroma_db"
+    print(f"\n📂 ChromaDB 벡터 데이터베이스 생성 중... (경로: {CHROMA_DIR})")
+    
+    try:
+        import chromadb
+        from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+    except ImportError:
+        print("⚠️ chromadb 또는 sentence-transformers 패키지가 설치되어 있지 않아 ChromaDB 구축을 스킵합니다.")
+        print("설치를 위해 'pip install chromadb sentence-transformers'를 실행하세요.")
+        return
+    
+    CHROMA_DIR.mkdir(exist_ok=True, parents=True)
+    
+    # ChromaDB Persistent Client 생성
+    client = chromadb.PersistentClient(path=str(CHROMA_DIR))
+    
+    # knowledge_search.py 와 동일한 임베딩 모델 사용
+    embedding_fn = SentenceTransformerEmbeddingFunction(
+        model_name="paraphrase-multilingual-MiniLM-L12-v2"
+    )
+    
+    # 기존 컬렉션 초기화
+    try:
+        client.delete_collection("pain_points")
+    except Exception:
+        pass
+        
+    collection = client.create_collection(
+        name="pain_points",
+        embedding_function=embedding_fn
+    )
+    
+    ids = []
+    documents = []
+    metadatas = []
+    
+    for r in records:
+        # RAG 검색 최적화용 텍스트 합성
+        doc_text = f"아이디어명: {r.get('idea_name', '')}\n카테고리: {r.get('category', '')}\n핵심통증: {r.get('pain_point', '')}\n해결방안: {r.get('solution', '')}\n수익화근거: {r.get('monetization', '')}"
+        
+        # 메타데이터 매핑
+        meta = {
+            "id": r.get("id", ""),
+            "idea_name": r.get("idea_name", ""),
+            "category": r.get("category", ""),
+            "score": int(r.get("score", 0)),
+            "url": r.get("url", ""),
+            "collected_at": r.get("collected_at", "")
+        }
+        
+        ids.append(r.get("id", ""))
+        documents.append(doc_text)
+        metadatas.append(meta)
+        
+    # 200개씩 배치 인서트 실행 (ChromaDB의 배치 크기 권장 제한 준수)
+    batch_size = 200
+    for i in range(0, len(ids), batch_size):
+        end_idx = min(i + batch_size, len(ids))
+        collection.add(
+            ids=ids[i:end_idx],
+            documents=documents[i:end_idx],
+            metadatas=metadatas[i:end_idx]
+        )
+        print(f"  -> {end_idx}/{len(ids)} 개 레코드 임베딩 완료...")
+        
+    print(f"✅ ChromaDB 구축 완료! 총 {collection.count()}개 벡터 인덱싱됨.")
+
+def download_google_sheet_csv():
+    """구글 스프레드시트에서 최신 데이터를 다운로드하여 로컬 캐시(레딧 핵심통증.txt) 업데이트"""
+    print(f"\n🌐 구글 스프레드시트 최신 데이터 다운로드 시도 중...")
+    print(f"🔗 URL: {GOOGLE_SHEET_CSV_URL}")
+    try:
+        response = requests.get(GOOGLE_SHEET_CSV_URL, timeout=15)
+        response.raise_for_status()
+        
+        # UTF-8 BOM 및 한글 깨짐 방지를 위해 명시적으로 디코딩
+        content = response.content.decode('utf-8-sig')
+        
+        # 다운로드받은 CSV 데이터 검증 (헤더 확인)
+        if "작성일" in content and "아이디어명" in content and "핵심통증" in content:
+            with open(SOURCE_FILE_1, "w", encoding="utf-8") as f:
+                f.write(content)
+            print(f"✅ 구글 스프레드시트 다운로드 및 로컬 캐시({SOURCE_FILE_1.name}) 갱신 완료!")
+        else:
+            print("⚠️ 다운로드받은 데이터의 헤더 구조가 올바르지 않습니다. 기존 로컬 데이터를 사용합니다.")
+    except Exception as e:
+        print(f"⚠️ 구글 스프레드시트 다운로드 실패: {e}")
+        print(f"ℹ️ 오프라인 모드: 기존 로컬 캐시({SOURCE_FILE_1.name}) 데이터를 활용하여 빌드를 진행합니다.")
+
 def main():
     print("=" * 60)
     print("🚀 레딧 핵심통증 지식 베이스 및 세컨드 브레인 구축 시작")
     print("=" * 60)
+    
+    # 0. 구글 스프레드시트에서 최신 데이터 동기화 시도
+    download_google_sheet_csv()
     
     KNOWLEDGE_DIR.mkdir(exist_ok=True)
     MD_BRAIN_DIR.mkdir(exist_ok=True)
@@ -301,6 +399,9 @@ def main():
     # 5. Connect AI Lab 시각화용 MD 브레인 생성
     build_md_brain(records)
     
+    # 6. ChromaDB 벡터 DB 구축
+    build_chroma_db(records)
+    
     print("\n" + "=" * 60)
     print("🎉 모든 지식 베이스 및 MD 세컨드 브레인 구축 완료!")
     print("=" * 60)
@@ -309,6 +410,7 @@ def main():
     print(f"  📄 {INDEX_PATH}")
     print(f"  📄 {TOP_IDEAS_PATH}")
     print(f"  📁 {MD_BRAIN_DIR}/ (999개 파일)")
+    print(f"  📁 {KNOWLEDGE_DIR / 'chroma_db'}/ (ChromaDB 벡터 인덱스)")
 
 if __name__ == "__main__":
     main()

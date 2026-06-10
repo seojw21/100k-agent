@@ -44,3 +44,11 @@ Thumbs.db
 .symphony/artifacts/
 .mcp.json
 config.toml
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+**/venv/
+**/.venv/
