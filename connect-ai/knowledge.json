@@ -3287,5 +3287,21 @@
     "category": "marketing",
     "source": "agent",
     "verified": true
+  },
+  {
+    "id": "n17811963999935566",
+    "text": "[운영 2026-06-11 사이클#4] 영숙: PayPal 재인증 오류 및 YouTube API 차단 해결, `./config/oauth_credentia (오늘업무_2026-06-11/오늘브리핑.md) / Researcher: 복원된 API로 최근 30일 떡상 패턴을 추출하고 레딧 'UK 기업정보 대량 PDF 다운로드'(10점) 아이 (오늘업무_2026-06-11/리서치.md) / 영숙: 기존 `script_shorts_v1.py` 파이프라인으로 Shorts 영상과 자막을 생성하고, [insta",
+    "tags": [
+      "2026",
+      "영숙",
+      "api",
+      "오늘업무",
+      "shorts",
+      "운영"
+    ],
+    "ts": 1781196399994,
+    "category": "marketing",
+    "source": "agent",
+    "verified": true
   }
 ]
