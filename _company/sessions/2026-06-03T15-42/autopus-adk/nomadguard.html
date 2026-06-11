@@ -344,7 +344,7 @@
                                     <span class="badge-demo" style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3);" id="db-visa-type-txt">Digital Nomad Visa</span>
                                 </div>
                                 <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
-                                    NomadGuard is auto-calculating your stay duration based on GPS data and foreign credit card transaction logs. We are monitoring 24/7 whether you cross the 183-day tax residency threshold, which could trigger mandatory income tax reporting in this country.
+                                    NomadGuard monitors your stay duration based on your connected trips and flight confirmations. We protect your privacy while ensuring you stay compliant with local tax regulations.
                                 </p>
                             </div>
                         </div>
@@ -494,6 +494,32 @@
             <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.3;">
                 * Switching groups instantly updates pricing cards on the paywall, enabling real-time WTP conversion monitoring.
             </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7: Fake Checkout Modal (Email Collection) -->
+    <div class="success-modal" id="checkout-modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-icon" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-indigo);">
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <h3 id="checkout-modal-title">Activate Your Compliance Shield</h3>
+            <p id="checkout-modal-desc" style="margin-bottom: 1.5rem;">You're one step away from global protection. Enter your email to create your account and complete activation.</p>
+            
+            <form id="checkout-form" style="text-align: left; width: 100%;">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="checkout-email" style="font-size: 0.9rem; color: var(--text-secondary);">Email Address</label>
+                    <input type="email" id="checkout-email" placeholder="name@domain.com" required style="width: 100%;">
+                    <span id="checkout-error-msg" style="display: none; color: var(--accent-danger); font-size: 0.8rem; margin-top: 0.5rem;"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid email address.</span>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-secondary" id="btn-checkout-cancel" style="flex: 1; justify-content: center;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-checkout-submit" style="flex: 1; justify-content: center;">
+                        <i class="fa-solid fa-circle-check"></i> Activate Shield
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 

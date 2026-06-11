@@ -6,8 +6,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // State Variables
     let currentStep = 1;
     let userTier = 'trial'; // trial, basic, premium
-    let currentPriceGroup = localStorage.getItem('abGroup') || 'B'; // Default to B (Value focus)
     let surveyData = {};
+    let checkoutPlan = '';
+
+    // A/B Group and User ID Setup
+    let currentPriceGroup = localStorage.getItem('abGroup');
+    if (!currentPriceGroup) {
+        const groups = ['A', 'B', 'C'];
+        currentPriceGroup = groups[Math.floor(Math.random() * groups.length)];
+        localStorage.setItem('abGroup', currentPriceGroup);
+    }
+
+    let userId = localStorage.getItem('userId');
+    if (!userId) {
+        userId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'user_' + Math.random().toString(36).substring(2, 11);
+        localStorage.setItem('userId', userId);
+    }
+
+    // --- Unified Tracking Layer ---
+    function track(event, props = {}) {
+        const base = {
+            userId: userId,
+            abGroup: currentPriceGroup,
+            tier: userTier,
+            timestamp: Date.now()
+        };
+        const payload = { ...base, ...props };
+        console.log(`[Track Event] ${event}`, payload);
+        
+        // standard trackers wrappers
+        window.gtag?.('event', event, payload);
+        window.hj?.('event', event, payload);
+    }
+
+    window.trackAffiliate = (partnerName) => {
+        track('affiliate_clicked', { partner: partnerName });
+        alert(`Demo: Redirecting to ${partnerName} with affiliate ID: NOMADGUARD2026`);
+    };
 
     // Pricing structures for A/B tests
     const pricingGroups = {
@@ -80,6 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalSuccessDesc = document.getElementById('modal-success-desc');
     const btnModalClose = document.getElementById('btn-modal-close');
 
+    // Checkout Modal
+    const checkoutModal = document.getElementById('checkout-modal');
+    const checkoutForm = document.getElementById('checkout-form');
+    const checkoutEmailInput = document.getElementById('checkout-email');
+    const checkoutErrorMsg = document.getElementById('checkout-error-msg');
+    const btnCheckoutCancel = document.getElementById('btn-checkout-cancel');
+
     // --- Core Navigation logic for Survey ---
     function updateSurveyStep() {
         // Show/hide content panels
@@ -118,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnNext.addEventListener('click', () => {
         if (currentStep < 3) {
+            track('survey_step_completed', { step: currentStep });
             currentStep++;
             updateSurveyStep();
         }
@@ -151,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             taxStatus: document.getElementById('tax-status').value
         };
 
+        track('survey_step_completed', { step: 3 });
         calculateRiskAndRender(surveyData);
     });
 
@@ -213,6 +257,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Apply final caps
         riskScore = Math.min(riskScore, 98);
         penaltyAmount = Math.max(penaltyAmount, 450);
+
+        // Store risk outputs
+        surveyData.riskScore = riskScore;
+        surveyData.penaltyAmount = penaltyAmount;
+
+        // Track risk report view
+        track('risk_report_viewed', {
+            riskScore: riskScore,
+            penaltyAmount: penaltyAmount,
+            targetCountry: data.targetCountry,
+            stayDuration: data.stayDuration
+        });
 
         // Render UI
         riskScoreText.textContent = `${riskScore}%`;
@@ -312,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="affiliate-title"><i class="fa-solid ${p.icon}" style="color: var(--accent-indigo); margin-right: 0.5rem;"></i>${p.title}</div>
                     <p class="affiliate-desc">${p.desc}</p>
                 </div>
-                <a href="#" class="affiliate-action" onclick="alert('Demo: Redirecting to partner site with affiliate ID: NOMADGUARD2026'); return false;">
+                <a href="#" class="affiliate-action" onclick="window.trackAffiliate('${p.title}'); return false;">
                     ${p.linkText} <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
             `;
@@ -324,6 +380,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGoToPaywall.addEventListener('click', () => {
         riskReportSection.style.display = 'none';
         paywallSection.style.display = 'block';
+        track('paywall_viewed', {
+            riskScore: surveyData.riskScore || 0,
+            penaltyAmount: surveyData.penaltyAmount || 0
+        });
     });
 
     btnBackToSurvey.addEventListener('click', () => {
@@ -352,6 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnContactSales) {
         btnContactSales.addEventListener('click', () => {
+            track('enterprise_contact_clicked');
             alert('Enterprise B2B Plan Demo: Contacting our sales team at sales@nomadguard.ai. A representative will contact you within 24 hours to schedule a custom team dashboard walkthrough.');
         });
     }
@@ -405,11 +466,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Purchase checkout simulation ---
     btnBuyBasic.addEventListener('click', () => {
-        showSuccessModal('basic');
+        checkoutPlan = 'basic';
+        openCheckoutModal('basic');
     });
 
     btnBuyPremium.addEventListener('click', () => {
-        showSuccessModal('premium');
+        checkoutPlan = 'premium';
+        openCheckoutModal('premium');
+    });
+
+    function openCheckoutModal(plan) {
+        checkoutEmailInput.value = '';
+        checkoutErrorMsg.style.display = 'none';
+        checkoutModal.classList.add('active');
+        
+        const prices = pricingGroups[currentPriceGroup];
+        const isAnnual = billingToggle ? billingToggle.checked : false;
+        const planPrice = plan === 'basic' 
+            ? (isAnnual ? Math.round(prices.basic * 0.8) : prices.basic)
+            : (isAnnual ? Math.round(prices.premium * 0.8) : prices.premium);
+
+        track('checkout_initiated', {
+            plan: plan,
+            price: planPrice,
+            billingCycle: isAnnual ? 'annual' : 'monthly',
+            riskScore: surveyData.riskScore || 0
+        });
+    }
+
+    btnCheckoutCancel.addEventListener('click', () => {
+        checkoutModal.classList.remove('active');
+        track('checkout_cancelled', {
+            plan: checkoutPlan
+        });
+    });
+
+    checkoutForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = checkoutEmailInput.value.trim();
+        
+        // Simple email validation
+        if (!email || !email.includes('@') || email.length < 5) {
+            checkoutErrorMsg.style.display = 'block';
+            return;
+        }
+        
+        checkoutErrorMsg.style.display = 'none';
+        checkoutModal.classList.remove('active');
+        
+        const prices = pricingGroups[currentPriceGroup];
+        const isAnnual = billingToggle ? billingToggle.checked : false;
+        const planPrice = checkoutPlan === 'basic' 
+            ? (isAnnual ? Math.round(prices.basic * 0.8) : prices.basic)
+            : (isAnnual ? Math.round(prices.premium * 0.8) : prices.premium);
+
+        track('checkout_email_submitted', {
+            email: email,
+            plan: checkoutPlan,
+            price: planPrice,
+            billingCycle: isAnnual ? 'annual' : 'monthly',
+            riskScore: surveyData.riskScore || 0
+        });
+
+        showSuccessModal(checkoutPlan);
     });
 
     function showSuccessModal(plan) {
@@ -521,6 +640,8 @@ document.addEventListener('DOMContentLoaded', () => {
         userTier = 'trial';
         currentStep = 1;
         surveyForm.reset();
+        surveyData = {};
+        checkoutPlan = '';
         
         // Show initial state
         dashboardSection.style.display = 'none';
@@ -596,4 +717,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initialize ---
     updateSurveyStep();
     updatePrices();
+
+    // Show/hide HUD based on URL query string
+    const urlParams = new URLSearchParams(window.location.search);
+    if (abHud) {
+        if (urlParams.get('debug') === '1') {
+            abHud.classList.add('debug-show');
+        } else {
+            abHud.classList.remove('debug-show');
+        }
+    }
 });
