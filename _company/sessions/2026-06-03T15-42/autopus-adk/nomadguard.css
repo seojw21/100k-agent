@@ -287,7 +287,7 @@ body {
     position: relative;
 }
 
-select, input[type="text"], input[type="number"] {
+select, input[type="text"], input[type="number"], input[type="email"] {
     width: 100%;
     background: rgba(30, 41, 59, 0.5);
     border: 1px solid var(--border-color);
@@ -859,6 +859,7 @@ select:focus, input:focus {
 
 /* Dynamic A/B pricing control panel (Floating HUD) */
 .ab-control-hud {
+    display: none; /* Hidden by default */
     position: fixed;
     bottom: 24px;
     right: 24px;
@@ -882,6 +883,14 @@ select:focus, input:focus {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+}
+
+.ab-control-hud.debug-show {
+    display: block;
+}
+
+.ab-control-hud.debug-show.minimized {
+    display: flex;
 }
 
 .ab-hud-header {
