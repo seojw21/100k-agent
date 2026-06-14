@@ -5065,5 +5065,37 @@
     "category": "marketing",
     "source": "me",
     "verified": true
+  },
+  {
+    "id": "n17814331065227621",
+    "text": "# 통합 스케줄\n# 📋 통합 스케줄\n_업데이트: 2026. 6. 14. 오후 7:21:16_\n\n## 📅 사람 일정 (Google Calendar)\n- **2026-06-12 11:00** · 영어회화 시작\n- **2026-06-13 11:00** · 영어회화 시작\n- **2026-06-14 11:00** · 영어회화 시작\n- **2026-06-15 11:00** · 영어회화 시작\n- **2026-06-16 11:00** · 영어회화 시작\n- **2026-06-17 11:00** · 영어회화 시작\n- **2026-06-18 11:00** · 영어회화 시작\n- **2026-06-19 11:00** · 영어회화 시작\n- **2026-06-20 11:00** · 영어회화 시작\n- **2026-06-21 11:00** · 영어회화 시작\n- **2026-06-22 11:00** · 영어회화 시작\n- **2026-06-23 11:00** · 영어회화 시작\n\n## 🤖 에이전트 최근 활동\n### 📺 레오\n- [2026-06-11] 최근 7일 업로드 영상(CTR, 시청 유지율, 구독 전환수)을 기준으로 가장 높은 잠재력을 가진 키워드 2개와 다음 주 업로드 시간대/타이틀 방향성 도출 → 산출물 sessions/2026-06-11T15-45/youtube.md\n- [2026-06-12] 최근 트렌드와 시청자 데이터를 반영한 유튜브/인스타 쇼츠 콘텐츠 기획. → 산출물 sessions/2026-06-12T08-01/youtube.md\n- [2026-06-12] 고대비 디자인 원칙과 '문제-해결-결과' 구조를 적용한 썸네일 컨셉 및 영상 기획안 수립. → 산출물 sessions/2026-06-12T15-45/youtube.md\n### 📷 Instagram\n- [2026-06-11] 현재 인스타그램 AI/생산성 카테고리에서 바이럴 중인 '문제-해결-결과' 형식의 릴스 트렌드 2가지를 분석하고, 타겟 시청자의 공감대를 형성하는 고전환 후크 3종과 최적 게시 시간, 해시태그 전략을 작성하세요. → 산출물 sessions/2026-06-11T10-37/instagram.md\n### 🎨 Designer\n- [2026-06-14] 코다리가 구현한 리다이렉트 페이지의 시각적 요소가 디자인 가이드라인(고대비, 48px)과 일치하는지 최종 교차 검증하십시오. → 산출물 sessions/2026-06-14T08-28/designer.md\n- [2026-06-14] 코다리가 구현한 리다이렉트 페이지의 시각적 요소가 디자인 가이드라인(고대비 #000000, #FFD700 및 48px)과 일치하는지 최종 교차 검증하십시오. → 산출물 sessions/2026-06-14T08-58/designer.md\n- [2026-06-14] 코다리가 구현한 리다이렉트 페이지의 시각적 요소가 디자인 가이드라인(#000000, #FFD700, 48px)을 완벽히 준수하는지 최종 교차 검증하십시오. → 산출물 sessions/2026-06-14T09-13/designer.md\n### 💻 코다리\n- [2026-06-14] 리다이렉트 페이지 내 'Stop the Loss' 시각화 컴포넌트에 #FFD700(고대비), 48px 타이포그래피, 그리고 $100 임계치 기반 자동화 로직 및 예외 처리를 포함한 최종 코드를 구현하고 검증하십시오. → 산출물 sessions/2026-06-14T08-58/developer.md\n- [2026-06-14] 리다이렉트 페이지 내 'Stop the Loss' 컴포넌트에 $100 임계치 기반 자동화 로직, 예외 처리 및 모든 UI 요소(고대비 #FFD700, 48px 타이포그래피)를 통합하여 최종 코드를 완성하십시오. → 산출물 sessions/2026-06-14T09-13/developer.md\n- [2026-06-14] 비즈니스 팀이 설계한 $80 구간 자동화 로직을 시스템에 구현하고, 고대비(#FFD700) 및 48px 타이포그래피 가이드라인을 준수하며 결제 유도 코드를 작성하십시오. → 자격증명 부족으로 차단됨\n### 💼 현빈\n- [2026-06-14] 'Stop the Loss' 시각화와 $100 임계치 로직이 실제 결제 전환으로 이어지도록 하는 구체적인 비즈니스 전략 및 수익 모델 최적화 방안을 도출하십시오. → 산출물 sessions/2026-06-14T09-28/business.md\n- [2026-06-14] 현재의 Dynamic Pricing 정책과 'Stop the Loss' 컨셉을 바탕으로, $80 구간 특별 혜택(Special Offer) 알림 로직 및 고객 전환 유도 시나리오를 구체화하십시오. → 산출물 sessions/2026-06-14T09-58/business.md\n- [2026-06-14] 작성된 카피가 비즈니스 전략(결제 유도 및 환불 방어)과 $80 가격 정책에 부합하는지 검토하고 최종 승인하십시오. → 산출물 sessions/2026-06-14T10-13/business.md\n### 📱 영숙\n- [2026-06-10] 최근 24시간 의사결정 로그와 메모리를 정리하여 데일리 브리핑 생성, 비즈니스 팀의 전략 브리프를 실행 가능한 할 일 목록(Task List)으로 변환하고 일정/마감일 설정 → 산출물 sessions/2026-06-10T04-22/secretary.md\n- [2026-06-11] business에서 선정한 과제를 기준으로 시간 블록별 실행 일정, 필요한 툴/리소스 목록, 진행 상황 자동 보고(텔레그램/메모리 갱신) 루틴을 구성하여 일일 운영 매뉴얼로 정리하세요. → 산출물 sessions/2026-06-11T02-52/secretary.md\n- [2026-06-11] 최근 의사결정 로그와 메모리를 통합하여 오늘(2026-06-11)의 우선순위 작업 일정을 구성하세요. 선정된 핵심 과제를 24시간 운영 루트에 배치하고, 실행 시작/종료 시간과 보고 주기를 포함한 데일리 브리핑 템플릿을 생성하여 텔레그램 보고 형식으로 정리하세요. → 산출물 sessions/2026-06-11T03-07/secretary.md\n### ✍️ Writer\n- [2026-06-14] 리다이렉트 페이지의 'Stop the Loss' 컨셉과 'Recover Your Lost Income' 카피가 디자인 요소와 결합되어 3040 해외 타겟에게 직설적이고 강력하게 전달되는지 최종 검증하십시오. → 산출물 sessions/2026-06-14T08-13/writer.md\n- [2026-06-14] 'Recover Your Lost Income'를 핵심 메시지로 하여 3040 해외 타겟의 심리적 긴박감을 자극하는 직설적인 카피라이팅과 후크 문구를 작성하십시오. → 산출물 sessions/2026-06-14T09-28/writer.md\n- [2026-06-14] 'Stop the Loss' 컨셉과 $80 특별 혜택(Special Offer)을 결합하여 리다이렉트 페이지의 전환율을 극대화할 수 있는 'Secure Your Profit' 중심의 카피라이팅을 제작하십시오. → 산출물 sessions/2026-06-14T10-13/writer.md\n### 🔍 Researcher\n- [2026-06-14] 기존 리서치된 스쿠버다이빙 데이터와 수익화 전략을 바탕으로, e-book의 핵심 가치(수중 촬영 기술 등)를 효과적으로 전달할 수 있는 구체적인 챕터별 목차를 구성하십시오. → 산출물 sessions/2026-06-14T02-58/researcher.md\n- [2026-06-14] 수중 촬영 기술(색상 교정, 조명 설계 등)에 대한 전문적인 기술 데이터를 수집하고 분석하여 Writer가 활용할 수 있는 리포트 형태로 정리하십시오. → 산출물 sessions/2026-06-14T03-28/researcher.md\n- [2026-06-14] 스쿠버다이빙 관련 시장 트렌드 분석, 경쟁사 리서치 및 e-북 구성을 위한 핵심 키워드와 목차 초안 도출 → 산출물 sessions/2026-06-14T04-28/researcher.md",
+    "tags": [
+      "2026",
+      "산출물",
+      "sessions",
+      "시작",
+      "영어회화",
+      "리다이렉트"
+    ],
+    "ts": 1781433106522,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814331065222161",
+    "text": "# [Copy Assets] Recover Your Lost Income - 2026-06-14\n# [Copy Assets] Recover Your Lost Income - 2026-06-14\n\n## Target Audience\n- Age: 30s, 40s (International)\n- Pain Point: Loss of profit, inconsistent revenue, feeling of \"leaking\" money.\n\n## Core Message\n- **Recover Your Lost Income**\n\n## Copy Variations\n\n### Option 1: Direct Warning (Urgency Focus)\n- **Hook:** Stop the Bleeding. Your revenue is leaking every second.\n- **Body:** Every day of inaction is a permanent deduction from your bottom line. It’s time to plug the holes and reclaim what belongs to you.\n- **CTA:** [Recover Your Lost Income Now]\n\n### Option 2: Opportunity Cost (Growth Focus)\n- **Hook:** Your 'Lost Income' is a debt you're paying every day.\n- **Body:** While you hesitate, your competitors are capturing your market share. Don't let your hard-earned growth slip through the cracks.\n- **CTA:** [Claim Your Profit Now]\n\n### Option 3: Safety Net (Solution Focus)\n- **Hook:** Stop the Loss. Build a fortress around your income.\n- **Body:** Don't just react to losses—prevent them from happening in the first place. Activate our 'Safety Net' protocol and lock in your profit margins.\n- **CTA:** [Activate Your Safety Net]\n\n## Design Guidelines\n- Primary Color: #FFD700 (Gold)\n- Typography: 48px for headlines to ensure high visibility.\n- Contrast: High contrast (#000000 background recommended).",
+    "tags": [
+      "your",
+      "income",
+      "lost",
+      "recover",
+      "copy",
+      "profit"
+    ],
+    "ts": 1781433106522,
+    "category": "business",
+    "source": "me",
+    "verified": true
   }
 ]
