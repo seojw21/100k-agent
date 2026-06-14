@@ -118,3 +118,4 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-14] 'Stop the Loss' 컨셉과 $80 특별 혜택(Special Offer)을 결합하여 리다이렉트 페이지의 전환율을 극대화할 수 있는 'Secure Your Profit' 중심의 카피라이팅을 제작하십시오. → 산출물 sessions/2026-06-14T10-13/writer.md
 - [2026-06-14] 'Recover Your Lost Income', 'Stop the Loss' 등 핵심 키워드를 활용하여 마케팅 소구력을 극대화한 카피라이팅을 작성하십시오. → 산출물 sessions/2026-06-14T11-09/writer.md
 - [2026-06-14] 기획된 내용을 바탕으로 시청자의 참여를 유도하는 강력한 후크(Hook)가 포함된 스크립트와 인스타그램용 카피라이팅을 제작하십시오. → 산출물 sessions/2026-06-14T12-29/writer.md
+- [2026-06-14] 'Protect Your Assets'의 핵심 가치(손실 방지, 자동화된 가격 정책)를 강조하는 강력한 후크 및 상세 스크립트 작성 → 산출물 sessions/2026-06-14T13-59/writer.md
