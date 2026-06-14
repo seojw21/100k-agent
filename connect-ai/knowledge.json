@@ -4841,5 +4841,229 @@
     "category": "design",
     "source": "me",
     "verified": true
+  },
+  {
+    "id": "n17814281195331435",
+    "text": "# 2026-06-14 회사 대화록\n# 📜 2026-06-14 회사 대화록\n\n_모든 명령·분배·산출물·대화가 시간순으로 누적됩니다. 두뇌가 자동 인덱싱·동기화합니다._\n\n## [09:01:47] 🧭 **CEO** · _작업 분배_\n\nT+72 리다이렉트 페이지의 핵심 기능인 'Lost Income' 시각화와 $100 임계치 기반 자동화 로직을 기술적으로 구현합니다. Designer의 가이드라인(고대비, 48px 수치, 카운트업 애니메이션)을 반영한 코드를 작성하고 실시간 데이터 예외 처리를 포함합니다.\n\n**할당:**\n- 💻 **코다리**: Designer의 고대비(#000000, #FFD700), 48px 수치 강조, 카운트업 애니메이션 사양을 반영하여 T+72 리다이렉트 페이지 내 'Lost Income' 시각화 컴포넌트를 구현하고, $100 임계치 기반 자동화 로직 및 실시간 데이터 예외 처리가 포함된 코드를 작성하십시오.\n\n## [09:02:56] 💬 **자율 잡담** · _레오 ↔ Researcher_\n\n- 📺 **레오** → 🔍 Researcher: 이번 리다이렉트 페이지 전환율 좀 올라갔을까요?\n- 🔍 **Researcher** → 📺 레오: 데이터 분석 중인데, 시각화 효과가 확실히 보이네요.\n\n## [09:02:59] 💻 **코다리** · _Designer의 고대비(#000000, #FFD700), 48px 수치 강조, 카운트업 애니메이션 사양을 _\n\n💻 코다리: 작업 시작합니다.\n\nCEO의 지시사항을 확인했습니다. T+72 리다이렉트 페이지 내 'Lost Income' 시각화 컴포넌트에 **고대비 디자인(#000000, #FFD700)**, **48px 수치 강조**, **카운트업 애니메이션** 및 **$100 임계치 기반 로직**을 정확히 구현하겠습니다.\n\n먼저 관련 파일의 위치와 현재 구조를 파악하겠습니다.\n\n<list_files path=\".\"/>\n<glob pattern=\"**/*T72*\"/>\n<grep pattern=\"Lost Income\" files=\"**/*\"/>\n\n---\n## 📁 파일 액션 결과\n\n📂 목록: ~/GEMMA 4/_company/\n```\n📁 00_Raw/\n📁 _agents/\n📁 _shared/\n📁 approvals/\n📁 content/\n📁 design/\n📁 docs/\n📁 sessions/\n```\n🔎 glob `**/*T72*` (~/GEMMA 4/_company): 4개\n```\ndocs/design/t72_comparison_guideline.md\ndocs/design/t72_final_ui_guidelines.md\ndocs/design/t72_high_contrast_specs.md\ndocs/design/t72_ui_specification.md\n```\n🔍 grep `Lost Income` (**/*): 50파일 / 203매치\n```\n\n📄 00_Raw/conversations/2026-06-13.md\n  2942: 2.  **카피라이팅 수정:** \"Save Time\" 대신 **\"Recover Your Lost Income\"** 또는 **\"Turn Hours into Dollars\"**로 문구를 변경하여 환불 의사를 꺾는 강력한 메시지를 전달하십시오.\n  3052: 1. **디자이너** — 고대비(#000000, #FFD700) 디자인 및 'Recover Your Lost Income' 카피 적용\n  3074: - 🎨 **Designer**: T+72 리다이렉트 페이지에 고대비 디자인(#000000, #FFD700)과 'Recover Your Lost Income' 카피를 적용하여 시각적 가이드라인을 완성하십시오.\n  3081: CEO의 지시사항에 따라 T+72 리다이렉트 페이지의 시각적 가이드라인을 업데이트합니다. 핵심은 **고대비 컬러 시스템(#000000, #FFD700)**의 엄격한 적용과 **'Recover Your Lost Income'** 카피의 시각적 강조입니다.\n  3105: - **메인 헤드라인:** \"Recover Your Lost Income\" (가장 큰 폰트 사이즈, #FFD700 컬러 적용)\n  3120: - **강조 포인트:** 'Recover Your Lost Income'과 연결되는 수익성 지표를 강조할 때 텍스트 컬러를 #FFD700으로 설정하여 시선 집중.\n  3129: 2. **핵심 카피 반영**: 메인 헤드라인으로 `\"Recover Your Lost Income\"`을 배치하고 시각적 강조를 지시했습니다.\n  3279: > 📋 **지시**: T+72 리다이렉트 페이지에 고대비 디자인(#000000, #FFD700)과 'Recover Your Lost Income' 카피를 적용하여 시각적 가이드라인을 완성하십시오.\n  3281: > 💡 **핵심 산출**: CEO의 지시사항에 따라 T+72 리다이렉트 페이지의 시각적 가이드라인을 업데이트합니다. 핵심은 **고대비 컬러 시스템(#000000, #FFD700)**의 엄격한 적용과 **'Recover Your Lost Income'** 카피의 시각적 강조입니다. / 📊 평가: 완료 — CEO의 지시사항(고대비 색상 및 특정 카피)을 가\n  3295: - **Designer**: `t72_comparison_guideline.md`에 #000000, #FFD700 컬러 및 \"Recover Your Lost Income\" 카피 반영.\n📄 00_Raw/conversations/2026-06-14.md\n     7: T+72 리다이렉트 페이지의 핵심 기능인 'Lost Income' 시각화와 $100 임계치 기반 자동화 로직을 기술적으로 구현합니다. Designer의 가이드라인(고대비, 48px 수치, 카운트업 애니메이션)을 반영한 코드를 작성하고 실시간 데이터 예외 처리를 포함합니다.\n    10: - 💻 **코다리**: Designer의 고대비(#000000, #FFD700), 48px 수치 강조, 카운트업 애니메이션 사양을 반영하여 T+72 리다이렉트 페이지 내 'Lost Income' 시각화 컴포넌트를 구현하고, $100 임계치 기반 자동화 로직 및 실시간 데이터 예외 처리가 포함된 코드를 작성하십시오.\n📄 _agents/business/memory.md\n   123: - [2026-06-13] 자동화된 'Lost Income' 수치와 시각화 요소가 Pricing Ladder 전략 및 ARPU $55 달성 목표에 부합하는지 비즈니스 관점에서 최종 검증. → 산출물 sessions/2026-06-13T16-43/business.md\n   124: - [2026-06-13] 작성된 카피가 $55 ARPU 달성 및 환불 방어 전략(Lost Income > $100 시각적 강조)에 부합하는지 검토하고 최종 전환 경로를 승인하십시오. → 산출물 sessions/2026-06-13T17-13/business.md\n   129: - [2026-06-13] T+72 리다이렉트 페이지의 'Lost Income' 시각화 로직과 $100 임계치 전략이 실제 ARPU 상승으로 이어질 수 있도록, 비즈니스 관점에서 가격 정책 및 전환 경로를 최종 검증하십시오. → 산출물 sessions/2026-06-13T21-28/business.md\n   130: - [2026-06-13] 구현되는 'Lost Income' 시각화 및 $100 임계치 기반 업셀링 로직이 목표 수익(ARPU $55) 달성 및 환불 방어 전략에 부합하는지 최종 분석하고 승인하십시오. → 산출물 sessions/2026-06-13T22-13/business.md\n   131: - [2026-06-13] 최근 의사결정된 $100 임계치 기반 업셀링 파이프라인과 'Lost Income' 시각화 전략을 분석하여, T+72 리다이렉트 페이지에서 ARPU $55 목표 달성을 위한 비즈니스 로직이 설계대로 반영되었는지 최종 검증하십시오. → 산출물 sessions/2026-06-13T22-58/business.md\n   132: - [2026-06-13] 현재 구축된 $100 임계치 기반 업셀링 파이프라인과 'Lost In",
+    "tags": [
+      "lost",
+      "income",
+      "2026",
+      "리다이렉트",
+      "고대비",
+      "ffd700"
+    ],
+    "ts": 1781428119534,
+    "category": "business",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195346257",
+    "text": "# Designer (Lead Designer) 개인 메모리\n# 🎨 Designer (Lead Designer) 개인 메모리\n\n_Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰는 패턴이 누적됩니다._\n\n## 학습 기록\n\n- [2026-06-07] 위 영상 기획안에 매칭되는 썸네일 비주얼 브리프 생성. 고대비 컬러 스키마, 가독성 극대화된 타이포그래피, 클릭 유도형 구도 제안. 리퍼코퍼레이션 브랜드 시각성 유지. → 산출물 sessions/2026-06-07T04-27/designer.md\n- [2026-06-10] writer 산출물의 핵심 메시지를 시각화할 썸네일 브리프 생성. 시선 유도 라인, 고대비 컬러 팔레트, 가독성 높은 타이포그래피 배치 명시. 기존 썸네일과 완전히 다른 구도 및 컴포지션 적용. → 산출물 sessions/2026-06-10T23-37/designer.md\n- [2026-06-12] 최근 결정사항(고대비, 특정 색상)을 반영한 클릭 유도형 썸네일 디자인 제작. → 산출물 sessions/2026-06-12T08-01/designer.md\n- [2026-06-12] 레오가 제안한 3종의 쇼츠(언어 장벽, 시간 효율, 성과 증명) 각각에 대해 첫 3초 후크 시각화 및 고대비 자막 디자인 브리프를 작성하세요. → 산출물 sessions/2026-06-12T08-15/designer.md\n- [2026-06-12] writer가 제작한 3단계 카피를 바탕으로, 고대비 디자인 원칙(검정 배경, 노란색/빨간색 강조)이 적용된 시각적 요소 및 UI 가이드라인을 작성하십시오. → 산출물 sessions/2026-06-12T16-30/designer.md\n- [2026-06-12] 개발되는 온보딩 페이지에 고대비 디자인 원칙(검정 배경, 노란색/빨간색 강조)과 '문제-해결-결과' 구조가 반영된 시각적 UI 가이드라인을 확정하십시오. → 산출물 sessions/2026-06-12T18-45/designer.md\n- [2026-06-12] writer가 작성한 카피와 고대비 디자인 원칙(검정 배경, 노랑/빨강 강조)을 결합하여 온보딩 단계별 시각적 UI 가이드라인을 확정하십시오. → 산출물 sessions/2026-06-12T22-07/designer.md\n- [2026-06-12] writer가 작성한 카피와 고대비 디자인 원칙(#000000, #FFD700, #FF0000)을 결합하여 온보딩 단계별 시각적 UI 가이드라인 확정 → 산출물 sessions/2026-06-12T23-07/designer.md\n- [2026-06-13] T+72 리다이렉트 페이지 내 비교표에 고대비 디자인(#000000, #FFD700)을 적용하고 'Time Saved = Money Earned' 수치가 시각적으로 강조되도록 가이드라인을 제작하십시오. → 산출물 sessions/2026-06-13T04-07/designer.md\n- [2026-06-13] T+72 리다이렉트 페이지에 고대비 디자인(#000000, #FFD700)과 'Recover Your Lost Income' 카피를 적용하여 시각적 가이드라인을 완성하십시오. → 산출물 sessions/2026-06-13T05-22/designer.md\n- [2026-06-13] 개발된 수치가 시각적으로 강조되도록 고대비 디자인(#000000, #FFD700) 원칙을 적용한 T+72 리다이렉트 페이지의 UI 가이드라인을 완성하십시오. → 산출물 sessions/2026-06-13T08-22/designer.md\n- [2026-06-13] T+72 리다이렉트 페이지 내 'Lost Income' 수치가 #000000, #FFD700 고대비 디자인으로 시각화되도록 구체적인 UI 가이드라인을 제작하십시오. → 산출물 sessions/2026-06-13T13-28/designer.md\n- [2026-06-13] 계산된 'Lost Income' 수치가 #000000와 #FFD700 고대비 디자인 원칙에 따라 시각적으로 극명하게 강조되는지 UI 가이드라인과 대조하여 최종 검증하십시오. → 산출물 sessions/2026-06-13T16-28/designer.md\n- [2026-06-13] 코다리(developer)가 구현할 'Lost Income' 수치와 $100 경고 문구에 대해 #000000, #FFD700 고대비 디자인 원칙이 적용된 시각적 가이드라인을 확정하여 전달하십시오. → 산출물 sessions/2026-06-13T17-58/designer.md\n- [2026-06-13] 코다리가 구현할 핵심 수치와 경고 문구에 대해 #000000, #FFD700 고대비 디자인 원칙이 적용된 시각적 가이드라인을 확정하여 전달하십시오. → 산출물 sessions/2026-06-13T18-28/designer.md\n- [2026-06-13] 코다리가 구현할 핵심 수치와 경고 문구에 대해 #000000, #FFD700 고대비 디자인 원칙이 적용된 시각적 가이드라인을 최종 검증하고 코다리에게 전달하십시오. → 산출물 sessions/2026-06-13T19-58/designer.md\n- [2026-06-13] T+72 리다이렉트 페이지 내 $100 임계치 시각화 및 고대비(#000000, #FFD700) 디자인 원칙이 적용된 최종 UI 가이드라인을 확정하십시오. → 산출물 sessions/2026-06-13T20-58/designer.md\n- [2026-06-13] 결제 완료 페이지에 노출될 'Saved Income' 수치 및 강조 문구에 대해 고대비(#000000, #FFD700) 원칙이 적용된 시각적 가이드라인과 UI 레이아웃 설계. → 산출물 sessions/2026-06-13T21-43/designer.md\n- [2026-06-13] T+72 리다이렉트 페이지 내 'Lost Income' 수치 시각화 및 카운트업 애니메이션에 대해 고대비(#000000, #FFD700) 디자인 원칙을 적용한 최종 시각적 가이드라인을 확정하십시오. → 산출물 sessions/2026-06-13T23-43/designer.md\n- [2026-06-14] 고대비(#000000, #FFD700) 색상과 48px 수치 강조를 적용한 'Lost Income' 시각화 및 카운트업 애니메이션이 포함된 T+72 리다이렉트 페이지 UI 가이드라인을 확정하십시오. → 산출물 sessions/2026-06-14T01-28/designer.md\n- [2026-06-14] Writer가 제작한 카피와 연동하여, 고대비(#000000, #FFD700) 및 48px 강조 원칙이 적용된 'Lost Income' 시각화 컴포넌트 디자인을 확정하십시오. → 산출물 sessions/2026-06-14T03-58/designer.md\n- [2026-06-14] 고대비(#000000, #FFD700) 및 48px 수치 강조 원칙이 적용된 'Lost Income' 시각화 컴포넌트 디자인 가이드라인을 확정하십시오. → 산출물 sessions/2026-06-14T04-43/designer.md\n- [2026-06-14] 코다리가 구현한 'Lost Income' 시각화 컴포넌트가 고대비(#000000, #FFD700) 및 48px 수치 강조 원칙을 정확히 준수하는지 검증하고 최종 디자인 가이드라인과의 일치 여부를 확인하십시오. → 산출물 sessions/2026-06-14T04-58/designer.md\n- [2026-06-14] 선택된 'Stop the Loss' 카피와 고대비(#000000, #FFD700), 48px 강조 원칙을 결합하여 T+72 리다이렉트 페이지의 시각적 컴포넌트를 최종 확정하십시오. → 산출물 sessions/2026-06-14T06-43/designer.md\n- [2026-06-14] T+72 리다이렉트 페이지 내 'Lost Income' 시각화 컴포넌트가 고대비(#000000, #FFD700) 및 48px 수치 강조 원칙을 정확히 준수하며 시인성을 확보했는지 최종 검증하십시오. → 산출물 sessions/2026-06-14T08-13/designer.md\n- [2026-06-14] 코다리가 구현한 리다이렉트 페이",
+    "tags": [
+      "2026",
+      "designer",
+      "고대비",
+      "산출물",
+      "sessions",
+      "000000"
+    ],
+    "ts": 1781428119534,
+    "category": "design",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195346461",
+    "text": "# 통합 스케줄\n# 📋 통합 스케줄\n_업데이트: 2026. 6. 14. 오후 6:04:08_\n\n## 📅 사람 일정 (Google Calendar)\n- **2026-06-12 11:00** · 영어회화 시작\n- **2026-06-13 11:00** · 영어회화 시작\n- **2026-06-14 11:00** · 영어회화 시작\n- **2026-06-15 11:00** · 영어회화 시작\n- **2026-06-16 11:00** · 영어회화 시작\n- **2026-06-17 11:00** · 영어회화 시작\n- **2026-06-18 11:00** · 영어회화 시작\n- **2026-06-19 11:00** · 영어회화 시작\n- **2026-06-20 11:00** · 영어회화 시작\n- **2026-06-21 11:00** · 영어회화 시작\n- **2026-06-22 11:00** · 영어회화 시작\n- **2026-06-23 11:00** · 영어회화 시작\n\n## 🤖 에이전트 최근 활동\n### 📺 레오\n- [2026-06-11] 최근 7일 업로드 영상(CTR, 시청 유지율, 구독 전환수)을 기준으로 가장 높은 잠재력을 가진 키워드 2개와 다음 주 업로드 시간대/타이틀 방향성 도출 → 산출물 sessions/2026-06-11T15-45/youtube.md\n- [2026-06-12] 최근 트렌드와 시청자 데이터를 반영한 유튜브/인스타 쇼츠 콘텐츠 기획. → 산출물 sessions/2026-06-12T08-01/youtube.md\n- [2026-06-12] 고대비 디자인 원칙과 '문제-해결-결과' 구조를 적용한 썸네일 컨셉 및 영상 기획안 수립. → 산출물 sessions/2026-06-12T15-45/youtube.md\n### 📷 Instagram\n- [2026-06-11] 현재 인스타그램 AI/생산성 카테고리에서 바이럴 중인 '문제-해결-결과' 형식의 릴스 트렌드 2가지를 분석하고, 타겟 시청자의 공감대를 형성하는 고전환 후크 3종과 최적 게시 시간, 해시태그 전략을 작성하세요. → 산출물 sessions/2026-06-11T10-37/instagram.md\n### 🎨 Designer\n- [2026-06-14] T+72 리다이렉트 페이지 내 'Lost Income' 시각화 컴포넌트가 고대비(#000000, #FFD700) 및 48px 수치 강조 원칙을 정확히 준수하며 시인성을 확보했는지 최종 검증하십시오. → 산출물 sessions/2026-06-14T08-13/designer.md\n- [2026-06-14] 코다리가 구현한 리다이렉트 페이지의 시각적 요소가 디자인 가이드라인(고대비, 48px)과 일치하는지 최종 교차 검증하십시오. → 산출물 sessions/2026-06-14T08-28/designer.md\n- [2026-06-14] 코다리가 구현한 리다이렉트 페이지의 시각적 요소가 디자인 가이드라인(고대비 #000000, #FFD700 및 48px)과 일치하는지 최종 교차 검증하십시오. → 산출물 sessions/2026-06-14T08-58/designer.md\n### 💻 코다리\n- [2026-06-14] T+72 리다이렉트 페이지에 'Lost Income' 시각화 컴포넌트(고대비 #000000, #FFD700, 48px), $100 임계치 기반 자동화 로직 및 예외 처리를 포함한 코드를 최종 구현하고 검증하십시오. → 산출물 sessions/2026-06-14T06-58/developer.md\n- [2026-06-14] T+72 리다이렉트 페이지에 $100 임계치 기반 자동화 로직, 예외 처리, 그리고 #000000/FFD700 고대비 및 48px 타이포그래피가 적용된 최종 코드를 구현하고 검증하십시오. → 산출물 sessions/2026-06-14T08-28/developer.md\n- [2026-06-14] 리다이렉트 페이지 내 'Stop the Loss' 시각화 컴포넌트에 #FFD700(고대비), 48px 타이포그래피, 그리고 $100 임계치 기반 자동화 로직 및 예외 처리를 포함한 최종 코드를 구현하고 검증하십시오. → 산출물 sessions/2026-06-14T08-58/developer.md\n### 💼 현빈\n- [2026-06-14] 새로 도입된 'Lost Income' 시각화 기능이 고객의 심리적 손실 회피를 자극하여 결제 전환으로 이어지도록 하는 구체적인 비즈니스 전략 및 수익 모델 최적화 방안을 도출하십시오. → 산출물 sessions/2026-06-14T01-58/business.md\n- [2026-06-14] 리서치된 데이터를 바탕으로 구체적인 수익화 로드맵과 가격 정책 수립 → 산출물 sessions/2026-06-14T02-43/business.md\n- [2026-06-14] T+72 리다이렉트 페이지의 $100 임계치 로직과 'Stop the Loss' 컨셉을 분석하여, 3040 타겟의 결제 전환율 극대화를 위한 핵심 KPI 및 비즈니스 전략 수립. → 산출물 sessions/2026-06-14T07-43/business.md\n### 📱 영숙\n- [2026-06-10] 최근 24시간 의사결정 로그와 메모리를 정리하여 데일리 브리핑 생성, 비즈니스 팀의 전략 브리프를 실행 가능한 할 일 목록(Task List)으로 변환하고 일정/마감일 설정 → 산출물 sessions/2026-06-10T04-22/secretary.md\n- [2026-06-11] business에서 선정한 과제를 기준으로 시간 블록별 실행 일정, 필요한 툴/리소스 목록, 진행 상황 자동 보고(텔레그램/메모리 갱신) 루틴을 구성하여 일일 운영 매뉴얼로 정리하세요. → 산출물 sessions/2026-06-11T02-52/secretary.md\n- [2026-06-11] 최근 의사결정 로그와 메모리를 통합하여 오늘(2026-06-11)의 우선순위 작업 일정을 구성하세요. 선정된 핵심 과제를 24시간 운영 루트에 배치하고, 실행 시작/종료 시간과 보고 주기를 포함한 데일리 브리핑 템플릿을 생성하여 텔레그램 보고 형식으로 정리하세요. → 산출물 sessions/2026-06-11T03-07/secretary.md\n### ✍️ Writer\n- [2026-06-14] 확정된 디자인과 연동하여 CTA 및 핵심 문구를 30-40 해외 타겟에게 소구력 있는 직설적인 카피로 최적화하십시오. → 산출물 sessions/2026-06-14T06-43/writer.md\n- [2026-06-14] 비즈니스 전략에 기반하여 3040 해외 타겟이 즉각적으로 반응할 수 있는 직설적이고 강력한 'Stop the Loss' 카피라이팅 제작 (특히 'Recover Your Lost Income' 헤드라인 활용). → 산출물 sessions/2026-06-14T07-43/writer.md\n- [2026-06-14] 리다이렉트 페이지의 'Stop the Loss' 컨셉과 'Recover Your Lost Income' 카피가 디자인 요소와 결합되어 3040 해외 타겟에게 직설적이고 강력하게 전달되는지 최종 검증하십시오. → 산출물 sessions/2026-06-14T08-13/writer.md\n### 🔍 Researcher\n- [2026-06-14] 기존 리서치된 스쿠버다이빙 데이터와 수익화 전략을 바탕으로, e-book의 핵심 가치(수중 촬영 기술 등)를 효과적으로 전달할 수 있는 구체적인 챕터별 목차를 구성하십시오. → 산출물 sessions/2026-06-14T02-58/researcher.md\n- [2026-06-14] 수중 촬영 기술(색상 교정, 조명 설계 등)에 대한 전문적인 기술 데이터를 수집하고 분석하여 Writer가 활용할 수 있는 리포트 형태로 정리하십시오. → 산출물 sessions/2026-06-14T03-28/researcher.md\n- [2026-06-14] 스쿠버다이빙 관련 시장 트렌드 분석, 경쟁사 리서치 및 e-북 구성을 위한 핵심 키워드와 목차 초안 도출 → 산출물 sessions/2026-06-14T04-28/researcher.md",
+    "tags": [
+      "2026",
+      "산출물",
+      "sessions",
+      "시작",
+      "영어회화",
+      "리다이렉트"
+    ],
+    "ts": 1781428119535,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195357549",
+    "text": "# [Copy Assets] T+72 Redirect Page: Lost Income Component\n# [Copy Assets] T+72 Redirect Page: Lost Income Component\n\n## 1. Core Concept\n- **Target:** 30-40 Overseas (Direct & No-nonsense)\n- **Primary Goal:** Convert \"Awareness of Loss\" into \"Immediate Action\".\n\n## 2. Selected Copy (Option A - Recommended)\n- **Headline:** STOP THE LOSS\n- **Sub-headline:** Every second you wait is profit slipping away. Claim it back now.\n- **CTA Button:** STOP THE LOSS NOW\n- **Micro-copy:** Action required to secure your remaining balance.\n\n## 3. Alternative Options\n| Type | Headline | Sub-headline | CTA Button |\n| :--- | :--- | :--- | :--- |\n| **Result-Oriented** | RECLAIM YOUR PROFIT | Stop letting your hard-earned income disappear. | RECLAIM MY INCOME |\n| **Direct/Logical** | STOP THE LEAK | Your system is losing you money. Fix it now. | FIX MY SYSTEM NOW |\n\n## 4. Design Integration Notes\n- **Headline:** Must use #FFD700 to contrast with #000000 background.\n- **CTA Button:** High-contrast styling to ensure it's the most clickable element on the page.",
+    "tags": [
+      "headline",
+      "copy",
+      "income",
+      "stop",
+      "now",
+      "your"
+    ],
+    "ts": 1781428119535,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195359515",
+    "text": "# [Design Guide] T+72 Redirect Page: Lost Income Component\n# [Design Guide] T+72 Redirect Page: Lost Income Component\n\n## 1. 핵심 디자인 원칙 (Core Principles)\n- **High Contrast:** 시각적 긴박감과 가독성을 위해 고대비 컬러 시스템 적용.\n- **Directness:** 3040 해외 타겟을 고려하여 군더더기 없는 직설적인 레이아웃.\n- **Urgency:** 'Stop the Loss' 컨셉을 시각적으로 극대화.\n\n## 2. 컬러 팔레트 (Color Palette)\n| 요소 | 색상 코드 | 용도 |\n| :--- | :--- | :--- |\n| **Primary Background** | `#000000` | 페이지 배경 및 주요 컨테이너 |\n| **Highlight / Action** | `#FFD700` | 'Lost Income' 수치, 'Stop the Loss' 버튼/텍스트 |\n| **Warning / Alert** | `#FF0000` | $100 임계치 도달 시 경고 표시 (선택적 강조) |\n\n## 3. 타이포그래피 및 스타일 (Typography & Style)\n- **Main Metric (Lost Income Amount):**\n  - **Size:** `48px` (모바일/데스크톱 공통 강조)\n  - **Weight:** Bold\n  - **Color:** `#FFD700`\n  - **Effect:** 수치가 업데이트될 때 시각적 임팩트를 위해 약간의 애니메이션(Scale 또는 Pulse) 적용.\n- **Headline (\"Stop the Loss\"):**\n  - **Size:** `32px`\n  - **Weight:** Bold\n  - **Color:** `#FFD700` (또는 배경이 검정일 때 가장 대비가 강한 색상)\n- **Sub-headline (\"Recover Your Lost Income\"):**\n  - **Size:** `18px`\n  - **Weight:** Medium\n  - **Color:** `#FFFFFF` (흰색으로 가독성 확보)\n\n## 4. 컴포넌트 레이아웃 및 시각적 요소\n### [Lost Income Visualization Block]\n1. **Header:** \"Stop the Loss\" (상단 중앙 또는 좌측 정렬, 강조형)\n2. **Sub-text:** \"Recover Your Lost Income\" (헤드라인 바로 아래 배치)\n3. **Main Value:** `$[Calculated Amount]` (48px, #FFD700 적용)\n4. **Threshold Alert:** \n   - 수치가 $100에 근접하거나 초과할 경우, 해당 영역에 **Pulse 효과**를 부여하여 시각적 경고 전달.\n5. **CTA Button:** \"Secure Your Income Now\" (또는 관련 전환 버튼)\n   - 배경: `#FFD700` / 텍스트: `#000000`\n\n## 5. 애니메이션 사양 (Animation Specs)\n- **Count-up Animation:** 페이지 로드 시 'Lost Income' 수치가 0에서 최종 금액까지 빠르게 카운트업되며 표시됨.\n- **Pulse Effect:** $100 임계치 도달 시 수치 부분에 1초 간격의 부드러운 Pulse 애니메이션 적용.\n\n## 6. 개발 구현 참고 (Dev Notes)\n- 모든 수치는 실시간 데이터와 연동되어야 하며, 계산 오류 시 기본값(Default Value)을 표시하는 예외 처리 포함.\n- 고대비 컬러(#000000, #FFD700)는 웹 접근성 가이드라인을 준수하며 명확하게 구분되어야 함.",
+    "tags": [
+      "income",
+      "lost",
+      "ffd700",
+      "시각적",
+      "적용",
+      "stop"
+    ],
+    "ts": 1781428119535,
+    "category": "design",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195352354",
+    "text": "# T+72 리다이렉트 페이지 시각화 가이드라인 (Final)\n# T+72 리다이렉트 페이지 시각화 가이드라인 (Final)\n\n## 1. 핵심 디자인 원칙\n- **고대비(High Contrast):** 모든 주요 수치와 경고 문구는 시인성을 극대화하기 위해 고대비 컬러 시스템을 적용한다.\n- **손실 회피(Loss Aversion):** 사용자가 놓치고 있는 기회비용(Lost Income)을 시각적으로 강렬하게 인지시켜 결제 유지 및 업셀링을 유도한다.\n\n## 2. 컬러 팔레트 (Color Palette)\n- **Primary Background/Text:** `#000000` (Pure Black)\n- **Highlight/Action Color:** `#FFD700` (Bright Yellow) - *핵심 수치 및 강조 문구에만 사용*\n- **Warning/Alert:** `#FF0000` (Red) - *필요 시에만 제한적으로 사용*\n\n## 3. 'Lost Income' 수치 시각화 사양\n- **대상 요소:** 계산된 손실 금액 (예: $150.00)\n- **폰트 스타일:** \n  - Weight: Bold (700+)\n  - Size: 최소 48px (모바일 대응 시 가변적이나 강조가 필수적임)\n  - Color: `#FFD700`\n- **레이아웃:** \n  - 'Lost Income' 문구는 `#000000` 배경 위에 배치.\n  - 수치(Amount)는 `_` 또는 `$` 기호와 함께 강조 처리.\n\n## 4. 카운트업 애니메이션 (Count-up Animation)\n- **시작 시점:** 페이지 로드 직후 또는 해당 섹션 스크롤 진입 시 즉시 실행.\n- **애니메이션 효과:** 0부터 최종 계산된 수치까지 빠르게 카운트업.\n- **지속 시간(Duration):** 1.5초 ~ 2초 (사용자가 숫자가 올라가는 것을 인지할 수 있는 최소한의 시간 확보).\n- **Easing:** `easeOut` 또는 `linear` 적용 (부드럽게 상승하다가 목표치에서 멈춤).\n\n## 5. UI 컴포넌트 구성 (개발 참고용)\n<!-- 예시 구조 -->\n<div class=\"lost-income-container\" style=\"background: #000000; padding: 20px;\">\n  <p class=\"label\" style=\"color: #ffffff; font-size: 18px;\">You are losing</p>\n  <h1 class=\"value\" id=\"lost-income-amount\" style=\"color: #FFD700; font-size: 48px; font-weight: bold;\">\n    $<span class=\"count-up\">0</span>\n  </h1>\n  <p class=\"sub-text\" style=\"color: #ffffff;\">every month due to manual processing.</p>\n</div>\n```\n\n## 6. 체크리스트 (QA 가이드)\n- [ ] 수치가 `#FFD700` 색상으로 명확하게 보이는가?\n- [ ] 카운트업 애니메이션이 끊김 없이 부드럽게 작동하는가?\n- [ ] $100 임계치 초과 시 경고 문구가 강조되는가?\n- [ ] 모바일 환경에서도 48px 이상의 수치가 잘리지 않고 표시되는가?",
+    "tags": [
+      "color",
+      "lost",
+      "income",
+      "class",
+      "ffd700",
+      "style"
+    ],
+    "ts": 1781428119535,
+    "category": "design",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195357044",
+    "text": "# Scuba Diving E-book Marketing Copy (Target: 30-40 Overseas)\n# 🌊 Scuba Diving E-book Marketing Copy (Target: 30-40 Overseas)\n\n## 1. Promotional Hooks (3 Options)\n\n### Option A: Fear of Loss (Direct & Urgent) - \"Stop the Loss\" Focus\n*   **Hook:** \"Is your expensive underwater gear failing you? Stop the loss before it's too late.\"\n*   **Sub-headline:** Don't let poor lighting physics ruin your investment. Master the science of light to protect your equipment and capture every detail.\n*   **Target Psychology:** Appeals to the fear of wasting money on high-end gear that doesn't perform due to a lack of technical knowledge.\n\n### Option B: Mastery & Authority (Professional) - \"Master the Blue\" Focus\n*   **Hook:** \"Stop guessing. Start mastering. The science behind cinematic underwater visuals.\"\n*   **Sub-headline:** Move beyond 'lucky shots.' Learn the physics of light attenuation and gear optimization to achieve professional-grade results every time you dive.\n*   **Target Psychology:** Appeals to the 3040 demographic's desire for expertise, mastery, and high-quality results over \"trial and error.\"\n\n### Option C: Result-Oriented (Transformation) - \"Pro-Level Results\" Focus\n*   **Hook:** \"From amateur footage to pro-level cinema in a single dive.\"\n*   **Sub-headline:** Skip the learning curve. Our guide combines advanced underwater physics with practical techniques to transform your content instantly.\n*   **Target Psychology:** Appeals to those who want immediate, high-quality results and are willing to pay for a shortcut to professional quality.\n\n---\n\n## 2. E-book Introduction Copy (Sales Page / Landing Page)\n\n### [Headline]\n**Stop Settling for Mediocre Underwater Footage.**\n*Master the Science of Light. Protect Your Gear. Own the Blue.*\n\n### [Body Copy]\nYou’ve invested in the best gear. You’ve spent hours underwater. So why does your footage still look dull, murky, or washed out?\n\nThe problem isn't your camera—it's the physics of light. \n\nIn the ocean, light behaves differently. Without understanding **light attenuation** and **color correction dynamics**, even a $10,000 setup will produce amateur results. \n\n**\"Stop the Loss.\"**\nEvery time you dive without the right technical foundation, you risk:\n1.  **Equipment Degradation:** Improper settings leading to unnecessary wear.\n2.  **Wasted Potential:** Spending thousands on gear that stays \"hidden\" behind poor techniques.\n3.  **Lost Moments:** Failing to capture the true beauty of the underwater world because you were struggling with your settings instead of enjoying the dive.\n\n**The [E-book Name] is your shortcut to mastery.**\nWe don't just teach you how to take a photo; we teach you how to dominate the underwater environment. \n\n**What’s inside:**\n*   **The Physics of Light:** Understand why colors disappear and how to fight back.\n*   **Gear Optimization:** Get the most out of your existing setup immediately.\n*   **The 'Master the Blue' Protocol:** A step-by-step guide to consistent, cinematic results.\n\n**Stop guessing. Start mastering.**\n[Get the E-book Now - Button]\n\n---\n\n## 3. Call to Action (CTA) Phrases\n*   \"Claim your mastery of the blue.\"\n*   \"Stop the loss. Get the guide.\"\n*   \"Transform your underwater content today.\"",
+    "tags": [
+      "your",
+      "you",
+      "underwater",
+      "stop",
+      "gear",
+      "light"
+    ],
+    "ts": 1781428119536,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195367249",
+    "text": "# 스쿠버다이빙 시장 분석 리포트 (2026-06-14)\n# 스쿠버다이빙 시장 분석 리포트 (2026-06-14)\n\n## 1. 시장 트렌드\n- 언더워터 사진/영상 촬영 기술 수요 급증\n- Eco-tourism 및 전문 장비 활용 니치 마켓 형성\n\n## 2. 경쟁사 분석\n- 인플루언서 기반의 파편화된 정보 → 통합 가이드북으로 수렴 가능성 높음\n- 교육 플랫폼 내 일반적 강의 → 특화된 테마(사진, 안전)로 차별화 필요\n\n## 3. 수익 모델\n- **e-book**: \"Underwater Photography Masterclass\" (초기 진입용)\n- **VOD Course**: 심화 기술 및 전문 장비 활용법 (고단가 상품)\n- **Affiliate**: 추천 장비 리스트 기반 수수료 수익\n\n## 4. 핵심 키워드\n- Underwater Photography, Scuba Gear Maintenance, Eco-diving, Advanced Techniques",
+    "tags": [
+      "시장",
+      "분석",
+      "장비",
+      "2026",
+      "스쿠버다이빙",
+      "리포트"
+    ],
+    "ts": 1781428119536,
+    "category": "business",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195362670",
+    "text": "# 스쿠버다이빙 시장 트렌드 및 e-북 기획안 (2026.06.14)\n# 🌊 스쿠버다이빙 시장 트렌드 및 e-북 기획안 (2026.06.14)\n\n## 1. 시장 트렌드 분석 (Global & 3040 Target)\n*   **프리미엄 체험형 관광(Experiential Tourism):** 단순한 다이빙을 넘어 '수중 사진/영상 촬영'과 같은 전문 기술 결합형 콘텐츠 수요 급증.\n*   **기술적 전문성 강조:** \"단순히 물속에 들어가는 것\"이 아닌, 물리적 원리(파장별 감쇄 등)를 이해하고 최상의 결과물을 얻는 '전문가적 접근' 선호.\n*   **안전 및 리스크 관리(Risk Management):** 3040 세대는 안전과 장비의 신뢰성을 중시하며, 이를 시각적으로 증명하는 콘텐츠에 높은 지불 의사(WTP)를 보임.\n\n## 2. 경쟁사 분석 (Competitor Analysis)\n*   **A형 (교육 중심):** PADI/NAUI 등 전통적 자격증 과정. (특징: 신뢰도 높음, 그러나 e-북으로의 확장성 낮음)\n*   **B형 (장비/기술 중심):** 수중 카메라 및 조명 전문 브랜드. (특징: 고단가 장비 판매 연계, 기술적 깊이 강조)\n*   **C형 (콘텐츠 크리에이터):** 인스타그램/유튜브 기반의 '수중 영상 미학' 강조 채널. (특징: 높은 도달률, 시각적 자극 중심)\n\n**💡 리퍼코퍼레이션 전략:** B형의 **기술적 전문성**과 C형의 **시각적 결과물(Before/After)**을 결합하여 \"결과 중심\"의 e-북 포지셔닝.\n\n## 3. 핵심 키워드 (Key Keywords)\n*   **Primary:** Underwater Photography, Scuba Mastery, Visual Storytelling, Marine Exploration.\n*   **Secondary:** Light Physics, Gear Optimization, Safety Protocols, Hidden Gems, Cinematic Diving.\n*   **Conversion-focused:** \"Stop the Loss\" (장비 손실 방지), \"Master the Blue\", \"Pro-level Results\".\n\n## 4. e-북 목차 초안 (Proposed Table of Contents)\n\n### [Title: The Art of Underwater Mastery: From Physics to Perfection]\n*   **Chapter 1. The Invisible World:** 수중 환경의 이해와 물리적 원리 (빛의 산란과 색상 복원)\n*   **Chapter 2. Gear & Tech:** 최상의 결과물을 위한 장비 세팅 및 유지보수 (Loss 방지 전략)\n*   **Chapter 3. Mastering the Frame:** 수중 사진/영상을 위한 구도와 타이밍 기술\n*   **Chapter 4. The Pro's Secret:** 초보자와 전문가를 가르는 한 끝 차이의 디테일\n*   **Chapter 5. Beyond the Surface:** 커뮤니티 참여 및 수익화로 연결되는 다이빙 라이프스타일\n\n## 5. 마케팅 포인트 (Marketing Strategy)\n*   **비주얼 전략:** 고대비(#000000, #FFD700)를 활용한 디자인과 \"Before vs After\" 시각화 강조.\n*   **카피라이팅:** \"단순히 다이빙을 배우는 것이 아니라, 수중의 순간을 영원히 기록하는 기술을 소유하십시오.\" (직설적이고 결과 중심적인 톤 유지)",
+    "tags": [
+      "수중",
+      "chapter",
+      "강조",
+      "중심",
+      "장비",
+      "시장"
+    ],
+    "ts": 1781428119536,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n1781428119536847",
+    "text": "# [기술 리포트] 수중 영상 제작을 위한 핵심 기술 분석: 색상 교정 및 조명 설계\n# [기술 리포트] 수중 영상 제작을 위한 핵심 기술 분석: 색상 교정 및 조명 설계\n\n**작성일:** 2026-06-14\n**대상:** Writer (e-book 콘텐츠 구성 및 전문성 강조용)\n**핵심 목적:** \"전문가 수준의 수중 촬영\"이라는 가치를 입증하기 위한 기술적 근거 확보\n\n---\n\n## 1. 수중 색상 교정 (Underwater Color Correction) 분석\n\n수중 환경은 빛의 파장에 따라 흡수율이 다르기 때문에, 일반적인 지상 촬영과는 다른 고도의 보정 기술이 요구됩니다.\n\n### A. 물리적 배경: 파장별 감쇄 (Attenuation of Light)\n- **레드 채널 소실:** 수심이 깊어질수록 붉은색 계열의 파장이 가장 먼저 흡수됨. (약 5m 지점부터 붉은색이 급격히 사라짐)\n- **청록색 편향(Cyan Shift):** 붉은색이 제거되면서 영상이 전체적으로 푸른색/녹색으로 치우치는 현상.\n- **데이터 포인트:** \"단순한 필터 사용을 넘어, 수심에 따른 파장별 감쇄율을 계산한 'Color Correction Matrix' 적용이 필수적임.\"\n\n### B. 전문 기술 워크플로우\n1.  **Log 프로파일 활용:** Dynamic Range를 확보하기 위해 Log 촬영 후, 수중 전용 LUT(Look-Up Table)를 기본 베이스로 깔고 시작.\n2.  **HLS/Lab 색공간 보정:** 단순히 채도(Saturation)를 높이는 것이 아니라, 특정 영역(특히 붉은색과 노란색)의 루미넌스와 채도를 개별적으로 복원하는 과정이 필요함.\n3.  **수중 전용 LUT 설계:** 수심별로 최적화된 프리셋을 구축하여 일관된 브랜드 색감을 유지하는 기술 강조.\n\n---\n\n## 2. 수중 조명 설계 (Underwater Lighting Design) 분석\n\n수중에서는 빛의 산란(Scattering)과 부유물에 의한 역광 방해가 심하므로, 정교한 조명 배치가 필수적입니다.\n\n### A. 핵심 장비 구분 및 활용\n1.  **Strobe (스트로브):** 순간적인 고출력 플래시. 정지 영상에서 색상 왜곡을 최소화하며 피사체의 질감을 극대화함.\n2.  **Video Light (비디오 라이트):** 지속적인 광원. 수중 영상 촬영 시 실시간으로 노출을 제어하고, 물의 입자(Backscatter)를 최소화하는 위치 선정이 핵심.\n\n### B. 조명 배치 전략 (Lighting Geometry)\n- **백스캐터(Backscatter) 방지:** 카메라 렌즈와 부유물 사이에 빛이 직접 닿지 않도록 하는 '측면/후방 배광' 원칙.\n- **3점 조명 시스템의 수중 변형:**\n    - **Key Light:** 피사체의 주된 형태를 잡는 광원 (주로 측면에서 배치).\n    - **Fill Light:** 그림자를 채우고 입체감을 부여하는 보조 광원.\n    - **Back/Rim Light:** 피사체와 배경을 분리하여 수중의 탁한 환경에서도 선명도를 확보.\n\n---\n\n## 3. 전문성 강화 포인트 (Writer를 위한 핵심 키워드)\n\n이 섹션은 e-book에서 \"전문가적 권위\"를 강조할 때 인용하십시오.\n\n| 기술 요소 | 일반인 수준의 접근 | **전문가 수준의 접근 (핵심 가치)** |\n| :--- | :--- | :--- |\n| **색상 교정** | \"필터를 끼우고 채도를 높입니다.\" | \"수심에 따른 파장별 감쇄율을 계산하여 붉은색 영역을 재구성합니다.\" |\n| **조명 활용** | \"밝게 비추면 됩니다.\" | \"백스캐터(Backscatter)를 최소화하는 조명 각도와 광원의 위치 설계를 적용합니다.\" |\n| **환경 대응** | \"맑은 날에 찍습니다.\" | \"탁도가 높은 환경에서도 대비(Contrast)를 확보하는 조명 설계 기술을 활용합니다.\" |\n\n---\n\n## 4. 결론 및 제언\n수중 촬영의 핵심은 **'결핍된 정보를 어떻게 복구하느냐'**에 있습니다. 수중에서는 빛과 색이 물리적으로 소실되기 때문에, 이를 기술적(조명 배치) 또는 소프트웨어적(색상 교정 알고리즘)으로 재구성하는 과정이 곧 전문가의 실력입니다.\n\n---\n*본 리포트는 Writer가 제작하는 '수중 촬영 마스터 클래스' 및 관련 홍보 콘텐츠의 핵심 기술 근거로 활용됩니다.*",
+    "tags": [
+      "수중",
+      "조명",
+      "기술",
+      "핵심",
+      "색상",
+      "교정"
+    ],
+    "ts": 1781428119536,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195361510",
+    "text": "# [Project] 다이빙 여행 플래너 (Diving Trip Planner) 사업 설계도\n# [Project] 다이빙 여행 플래너 (Diving Trip Planner) 사업 설계도\n\n## 1. 브랜드 컨셉 및 핵심 가치 (USP)\n*   **브랜드 슬로건:** \"당신은 물속에만 집중하세요, 나머지는 저희가 설계합니다.\"\n*   **핵심 가치:** 정보의 과부하를 제거한 '큐레이션'. 초보자가 겪는 예약의 번거로움, 숙소 선정의 불안함, 검증되지 않은 다이빙 샵과의 소통 문제를 해결해 주는 **'프리미엄 여행 설계 서비스'**를 지향합니다.\n*   **차별화 포인트 (Purple Cow):** 단순한 여행 대행이 아닌, '다이버 전용 맞춤형 루트'를 제공하는 전문 플래너로서의 포지셔닝.\n\n## 2. 타겟 페르소나 (Target Persona)\n*   **메인 타겟:** \"첫 다이빙 여행을 앞둔 초보자\" (입문 후 1년 이내, 장비와 숙소 선택에 어려움을 느끼는 층)\n*   **서브 타겟:** \"복잡한 과정 없이 검증된 곳만 가고 싶은 직장인 다이버\" (시간이 부족하고 확실한 품질을 원하는 층)\n\n## 3. 수익 모델 (Revenue Model)\n1.  **B2B 파트너십 수수료:** 해외/국내 주요 다이빙 샵, 리조트와 제휴를 맺고 예약 발생 시 일정 비율의 커미션 수취.\n2.  **제휴 마케팅(Affiliate):** 추천 장비(마스크, 컴퓨터 등), 여행자 보험, 전용 의류 등의 파트너십 링크를 통한 수익 창출.\n3.  **프리미엄 컨설팅:** \"나만의 맞춤형 다이빙 루트 설계\" (상담 및 일정표 제작)에 대한 유료 서비스 제공.\n\n## 4. 마케팅 및 콘텐츠 전략\n*   **콘텐츠 테마:** '실패 없는 다이빙 여행' 시리즈 (예: 필리핀/인도네시아 지역별 추천 샵 리스트, 초보자가 피해야 할 포인트 등).\n*   **채널 활용:**\n    *   **인스타그램/틱톡:** 시각적으로 매력적인 수중 영상과 함께 '다이빙 여행 고민 해결' 정보성 카드뉴스 배포.\n    *   **블로그/웹사이트:** 상세한 다이빙 여행 가이드 및 루트 설계 서비스 신청을 위한 랜딩페이지 운영.\n\n## 5. 초기 실행 로드맵 (Phase 1)\n1.  **거점 선정 및 파트너십 확보:** 필리핀, 인도네시아 등 핵심 지역의 우수 다이빙 샵 10곳과 협력 관계 구축.\n2.  **랜딩페이지 구축:** \"무료 상담 신청\" 또는 \"다이빙 여행 체크리스트 다운로드\"를 통한 잠재 고객 DB 수집.\n3.  **콘텐츠 자동화:** 모아진 정보를 바탕으로 한 정보성 콘텐츠 발행 및 광고 집행.",
+    "tags": [
+      "다이빙",
+      "여행",
+      "콘텐츠",
+      "핵심",
+      "설계",
+      "서비스"
+    ],
+    "ts": 1781428119536,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195369570",
+    "text": "# [100k-agent] 마케팅 메시지 고도화 (v2.0)\n# [100k-agent] 마케팅 메시지 고도화 (v2.0)\n\n## 1. 핵심 슬로건 (The Hook)\n*   **기존:** \"AI를 활용한 업무 자동화 솔루션\"\n*   **변경:** \"직원 없이 운영되는 10만 달러 규모의 '솔로프라운더 제국'을 구축하십시오.\"\n\n## 2. 타겟 페르소나 (The Otaku)\n- 단순히 효율을 높이고 싶은 사람이 아닌, **'시스템으로 확장 가능한 비즈니스 모델'**에 집착하는 솔로프라운더.\n- \"나는 혼자 일하지만, 시스템은 수십 명의 직원이 움직이는 것처럼 작동해야 한다\"고 믿는 사람들.\n\n## 3. 핵심 가치 제안 (The Purple Cow)\n*   **Scale without Hiring:** 사람을 채용하지 않고도 비즈니스를 확장할 수 있는 '에이전트 경제' 시스템 구축.\n*   **Automated Authority:** 단순히 반복 업무를 줄이는 것이 아니라, 당신의 전문성을 24시간 자동화된 콘텐츠와 대응으로 증명하는 구조.\n*   **The 100k Engine:** 단순 도구 모음이 아닌, 매출 목표(100k)에 도달하기 위한 필수 인프라로서의 포지셔닝.\n\n## 4. 상세 메시지 구성 (Copywriting)\n- **Problem:** \"혼자서 모든 것을 처리하느라 정작 중요한 '성장'과 '기획'에 집중하지 못하고 계십니까?\"\n- **Solution:** \"100k-agent는 당신의 비즈니스를 복제 가능한 시스템으로 변환합니다.\"\n- **Call to Action:** \"지금 바로 당신만의 자동화된 제국을 설계할 첫 번째 에이전트를 활성화하십시오.\"",
+    "tags": [
+      "100k",
+      "agent",
+      "메시지",
+      "마케팅",
+      "고도화",
+      "핵심"
+    ],
+    "ts": 1781428119536,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195366250",
+    "text": "# [AI Automation Pack] 랜딩페이지 & 리드 마그벳 기획안\n# [AI Automation Pack] 랜딩페이지 & 리드 마그벳 기획안\n\n## 1. 핵심 컨셉 (The Purple Cow)\n*   **기존:** \"다양한 AI 자동화 도구 모음\"\n*   **변경:** \"복잡한 기술 공부 없이, 오늘 바로 비즈니스에 이식하는 '자동화 레시피' 패키지\"\n*   **차별점:** 단순 툴 제공이 아닌, **[문제 정의 -> 워크플로우 설계 -> 도구 연결]**로 이어지는 완성형 경로를 판매함.\n\n## 2. 리드 마그넷 (Lead Magnet) - 유입용 미끼\n*   **명칭:** \"당신의 업무 시간을 매일 2시간씩 아껴줄 '5대 핵심 자동화 워크플로우' 치트시트\"\n*   **형태:** 즉시 실행 가능한 체크리스트 및 단계별 가이드 (PDF)\n*   **목적:** 잠재 고객의 이메일/연락처 확보 및 신뢰 구축.\n\n## 3. 랜딩페이지 구조 (Wireframe)\n1.  **Hero Section:** \"더 이상 수동 작업에 시간을 버리지 마세요. 당신의 비즈니스를 대신 돌려줄 AI 엔진을 장착하십시오.\" (강력한 시각적 대비)\n2.  **Pain Point:** 혼자 모든 것을 처리하느라 정작 중요한 '성장'을 놓치고 있는 현재 상황을 날카롭게 지적.\n3.  **The Solution (AI Automation Pack):** \n    *   단순 도구가 아닌 '레시피' 중심의 구성 강조.\n    *   복잡한 설정 과정을 건너뛰고 바로 결과로 이어지는 경로 제시.\n4.  **Feature Highlights:** 핵심 기능 3가지를 시각화하여 설명 (예: 고객 응대 자동화, 콘텐츠 생성 파이프라인 등).\n5.  **Social Proof/Case Study:** 실제 적용 시 기대되는 수치(시간 절감, 비용 감소)를 구체적으로 제시.\n6.  **Call to Action (CTA):** \"지금 바로 자동화 레시피를 확보하고 비즈니스를 확장하십시오.\"\n\n## 4. 마케팅 메시지 강화 포인트\n*   \"어렵다\"는 인식을 없애기 위해 **'Plug & Play'** 개념을 강조.\n*   공급자 중심의 기능 설명이 아닌, **사용자 중심의 결과(결과물)**를 강조.",
+    "tags": [
+      "자동화",
+      "automation",
+      "pack",
+      "랜딩페이지",
+      "리드",
+      "핵심"
+    ],
+    "ts": 1781428119536,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
+  },
+  {
+    "id": "n17814281195371743",
+    "text": "# [WP Solopreneur Agents] 콘텐츠 시리즈 및 워크플로우 가이드\n# [WP Solopreneur Agents] 콘텐츠 시리즈 및 워크플로우 가이드\n\n## 1. 타겟팅 전략 (Targeting Strategy)\n*   **핵심 타겟:** \"혼자서 모든 것을 해내느라 번아웃 직전인 지식 창업가 및 1인 기업가\"\n*   **보랏빛 소 포인트:** 단순히 '자동화 도구'를 파는 것이 아니라, **'운영의 자동화(Operational Freedom)'**를 판매함.\n*   **메시지 방향:** \"당신은 비즈니스의 주인입니까, 아니면 단순 반복 업무의 노예입니까?\"라는 질문을 던져 강력한 대비를 형성.\n\n## 2. 콘텐츠 시리즈: \"7일 완성 자동화 로드맵\" (Social Media/Blog)\n솔로프라운더들이 매일 하나씩 따라하며 성취감을 느낄 수 있는 시리즈입니다.\n\n*   **Day 1:** [인식] 혼자서 모든 것을 하려다 망가지는 비즈니스의 공통점.\n*   **Day 2:** [도구] 당신의 업무를 대신할 '디지털 직원(Agent)'의 개념 소개.\n*   **Day 3:** [실전] 고객 문의 자동 응대 시스템 구축하기 (Typeform + Make/Zapier).\n*   **Day 4:** [콘텐츠] 하나의 아이디어로 한 달 치 콘텐츠 생성하는 파이프라인.\n*   **Day 5:** [리드] 잠재 고객을 자동으로 분류하고 육성(Nurturing)하는 법.\n*   **Day 6:** [확장] 자동화된 시스템 위에서 당신의 전문성에만 집중하는 법.\n*   **Day 7:** [결론] WP Solopreneur Agents와 함께 구축하는 '자유로운' 비즈니스 모델.\n\n## 3. 워크플로우 가이드 (Sample Guide: Lead Nurturing)\n실제 고객이 바로 적용할 수 있는 핵심 워크플로우 샘플입니다.\n\n**[워크플로우 명칭: 무인 리드 육성 엔진]**\n1.  **유입:** 인스타그램/X에서 특정 키워드 언급 시 자동 DM 발송 (ManyChat 활용).\n2.  **수집:** 상담 예약 또는 자료 요청 시 자동 캘린더 연결 및 정보 수집.\n3.  **육성:** 수집된 정보를 바탕으로 5일간 맞춤형 교육 메일 자동 발송 (Mailchimp/ConvertKit).\n4.  **전환:** 특정 단계 도달 시 사장님에게 알림을 보내고 직접 상담 진행.\n\n## 4. 실행 액션 아이템\n*   각 워크플로우를 시각화한 **인포그래픽 제작**.\n*   가장 반응이 좋은 'Day 3'와 'Day 4'를 기반으로 한 **심층 웨비나/VOD 제작**.\n*   **리드 마그넷 연동:** \"당신만을 위한 맞춤형 자동화 로드맵\"을 신청하면 가이드북 제공.",
+    "tags": [
+      "day",
+      "콘텐츠",
+      "워크플로우",
+      "자동화",
+      "자동",
+      "solopreneur"
+    ],
+    "ts": 1781428119537,
+    "category": "marketing",
+    "source": "me",
+    "verified": true
   }
 ]
