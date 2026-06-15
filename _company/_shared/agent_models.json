@@ -8,5 +8,5 @@
   "editor": "qwen3.6:35b",
   "writer": "qwen3.6:35b",
   "researcher": "qwen3.6:35b",
-  "instagram": "hf.co/seoart/sks0321-v4:latest"
+  "instagram": "google/gemma-4-12b"
 }
