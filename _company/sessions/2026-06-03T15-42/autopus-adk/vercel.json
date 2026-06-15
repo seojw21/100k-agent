@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "index.css", "use": "@vercel/static" },
+    { "src": "app.js", "use": "@vercel/static" },
+    { "src": "nomadguard/index.html", "use": "@vercel/static" },
+    { "src": "nomadguard/nomadguard.css", "use": "@vercel/static" },
+    { "src": "nomadguard/nomadguard.js", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/nomadguard.css", "dest": "/nomadguard/nomadguard.css" },
+    { "src": "/nomadguard.js", "dest": "/nomadguard/nomadguard.js" },
+    { "src": "/nomadguard", "dest": "/nomadguard/index.html" },
+    { "src": "/nomadguard/", "dest": "/nomadguard/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloVend — Premium AI & Automation Asset Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #06080f;
+            --text-color: #f8fafc;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --accent-purple: #a855f7;
+            --accent-indigo: #6366f1;
+            --accent-cyan: #06b6d4;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --btn-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --btn-hover: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            --glass-bg: rgba(30, 41, 59, 0.3);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12), transparent 35%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.12), transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.05), transparent 45%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Nav Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 0;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-symbol {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--btn-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+            -webkit-text-fill-color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-subtle);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-color);
+        }
+
+        .paypal-status-badge {
+            background: rgba(0, 112, 186, 0.15);
+            border: 1px solid rgba(0, 112, 186, 0.3);
+            color: #0070ba;
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .paypal-status-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #00bcd4;
+            box-shadow: 0 0 8px #00bcd4;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.6; }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-subtle);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .hero-image-container {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(99, 102, 241, 0.15);
+            aspect-ratio: 1;
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Bento grid section header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.8rem;
+            background: rgba(30, 41, 59, 0.3);
+            padding: 0.4rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-subtle);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(180px, auto);
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .bento-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2.2rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(99, 102, 241, 0.15);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Sizes */
+        .col-8 { grid-column: span 8; }
+        .col-4 { grid-column: span 4; }
+        .row-2 { grid-row: span 2; }
+        .row-1 { grid-row: span 1; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.n8n {
+            background: rgba(255, 110, 74, 0.15);
+            border: 1px solid rgba(255, 110, 74, 0.3);
+            color: #ff6e4a;
+        }
+
+        .badge.prompt {
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #22d3ee;
+        }
+
+        .ice-rating {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ice-rating span {
+            color: #f59e0b;
+        }
+
+        .card-content h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.5px;
+        }
+
+        .card-content p {
+            color: var(--text-subtle);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Flow Visualizer inside Card */
+        .flow-visualizer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.8rem 1.2rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.03);
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            width: fit-content;
+        }
+
+        .flow-step {
+            color: var(--text-color);
+        }
+
+        .flow-arrow {
+            color: var(--text-muted);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .price span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .btn-buy {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            background: var(--btn-primary);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-buy:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* ROI Calculator Card */
+        .calculator-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+        }
+
+        .calc-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .slider-input {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.1);
+            outline: none;
+            accent-color: var(--accent-indigo);
+            cursor: pointer;
+        }
+
+        .slider-val {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: white;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .roi-results {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .roi-stat {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            line-height: 1.1;
+        }
+
+        .roi-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-subtle);
+            margin-top: 4px;
+        }
+
+        /* Modal Settings */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 8, 15, 0.8);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: #0d121f;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 28px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 50px rgba(99, 102, 241, 0.2);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-header p {
+            color: var(--text-subtle);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-text {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-text:focus {
+            outline: none;
+            border-color: var(--accent-indigo);
+        }
+
+        .paypal-checkout-btn {
+            background: #ffc439;
+            color: #111;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .paypal-checkout-btn:hover {
+            background: #f2ba36;
+        }
+
+        /* Delivery Visualizer Screen */
+        .delivery-visualizer {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .delivery-visualizer.active {
+            display: flex;
+        }
+
+        .step-loader {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 16px;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .step-loader.completed .spinner {
+            border: 3px solid var(--accent-cyan);
+            animation: none;
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .step-loader.pending .spinner {
+            border: 3px solid rgba(255,255,255,0.05);
+            animation: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .delivery-file-card {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .delivery-file-card.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            width: 100%;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Layouts */
+        @media (max-width: 960px) {
+            .col-8 { grid-column: span 12; }
+            .col-4 { grid-column: span 6; }
+            .hero-section { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-text h1 { font-size: 3rem; }
+        }
+
+        @media (max-width: 600px) {
+            .col-4 { grid-column: span 12; }
+            .filters { flex-direction: column; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">
+                <div class="logo-symbol">S</div>
+                <span>SoloVend</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#assets">Assets</a></li>
+                <li><a href="#roi">Calculator</a></li>
+            </ul>
+            <div class="paypal-status-badge">
+                <div class="dot"></div>
+                PayPal Checkout Ready
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-text">
+                <h1>Global AI & Automation Vending Machine</h1>
+                <p>Buy premium, production-ready Make.com blueprints and n8n workflows directly to your inbox. No signups, no subscriptions. Pure automated digital asset delivery.</p>
+                <a href="#assets" class="btn-buy" style="text-decoration: none; font-size: 1.1rem; padding: 0.9rem 2rem;">
+                    Browse Assets
+                </a>
+            </div>
+            <div class="hero-image-container">
+                <img src="solovend_hero.png" alt="SoloVend Digital Vending Machine Hero Image">
+            </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="section-header" id="assets">
+            <div class="section-title">
+                <h2>Digital Assets</h2>
+                <p>Click "Buy Now" to checkout instantly with PayPal sandbox</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterAssets('all', this)">All</button>
+                <button class="filter-btn" onclick="filterAssets('make', this)">Make.com</button>
+                <button class="filter-btn" onclick="filterAssets('n8n', this)">n8n</button>
+            </div>
+        </div>
+
+        <!-- Bento Grid Assets -->
+        <div class="bento-grid">
+            
+            <!-- Asset 1 (Col-8, Row-2) -->
+            <div class="bento-card col-8 row-2 asset-card" data-category="make">
+                <div class="card-header">
+                    <span class="badge">Make.com + Claude</span>
+                    <div class="ice-rating"><span>★</span> ICE: 8.67</div>
+                </div>
+                <div class="card-content">
+                    <h3>Auto-Blogging SEO Machine</h3>
+                    <p>Pulls daily trending topics from RSS feeds, performs deep context filtering, synthesizes high-quality, fully localized blog posts using Claude 3.5 Sonnet, and publishes automatically to your WordPress REST API while you sleep.</p>
+                    
+                    <div class="flow-visualizer">
+                        <span class="flow-step">RSS Feed</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">Claude 3.5</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">WP REST</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">Live Post</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="price">$9.99 <span>one-time</span></div>
+                    <button class="btn-buy" onclick="openCheckout('Auto-Blogging SEO Machine', 9.99, 'make_seo_blueprint.json')">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- ROI Calculator Card (Col-4, Row-2) -->
+            <div class="bento-card col-4 row-2 calculator-card" id="roi">
+                <span class="badge prompt">Interactive</span>
+                <h3 class="calc-title">ROI Estimator</h3>
+                <div class="input-group">
+                    <label>Articles / Tasks Per Month</label>
+                    <input type="range" class="slider-input" min="5" max="100" value="30" id="taskCount" oninput="updateROI()">
+                    <span class="slider-val" id="taskCountVal">30 tasks</span>
+                </div>
+                <div class="input-group">
+                    <label>Estimated Manual Hour Per Task</label>
+                    <input type="range" class="slider-input" min="1" max="8" value="2" id="hourCost" oninput="updateROI()">
+                    <span class="slider-val" id="hourCostVal">2 hours</span>
+                </div>
+                
+                <div class="roi-results">
+                    <div class="roi-stat" id="roiEstimate">$1,800</div>
+                    <div class="roi-stat-label">Estimated Monthly Value Saved</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">Based on $30/hr freelance rate</div>
+                </div>
+            </div>
+
+            <!-- Asset 2 (Col-4, Row-1) -->
+            <div class="bento-card col-4 row-1 asset-card" data-category="n8n">
+                <div class="card-header">
+                    <span class="badge n8n">n8n + OpenAI</span>
+                    <div class="ice-rating"><span>★</span> ICE: 7.67</div>
+                </div>
+                <div class="card-content">
+                    <h3>Stripe Churn Predictor</h3>
+                    <p>Detects subscription cancel events and uses AI to send retention emails automatically.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="price">$14.99 <span>one-time</span></div>
+                    <button class="btn-buy" onclick="openCheckout('Stripe Churn Predictor', 14.99, 'n8n_churn_workflow.json')">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Asset 3 (Col-4, Row-1) -->
+            <div class="bento-card col-4 row-1 asset-card" data-category="make">
+                <div class="card-header">
+                    <span class="badge">Make.com</span>
+                    <div class="ice-rating"><span>★</span> ICE: 8.17</div>
+                </div>
+                <div class="card-content">
+                    <h3>Warm Pitch-Deck Auto-Sender</h3>
+                    <p>Automates personalized cold emailing using Gmail and startup databases.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="price">$19.99 <span>one-time</span></div>
+                    <button class="btn-buy" onclick="openCheckout('Warm Pitch-Deck Auto-Sender', 19.99, 'pitch_deck_sender.json')">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Asset 4 (Col-4, Row-1) -->
+            <div class="bento-card col-4 row-1 asset-card" data-category="n8n">
+                <div class="card-header">
+                    <span class="badge n8n">n8n</span>
+                    <div class="ice-rating"><span>★</span> ICE: 8.00</div>
+                </div>
+                <div class="card-content">
+                    <h3>Social Proof Badge Generator</h3>
+                    <p>Flashes real-time PayPal revenues on widgets for social media proofing.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="price">$7.99 <span>one-time</span></div>
+                    <button class="btn-buy" onclick="openCheckout('Social Proof Badge Generator', 7.99, 'social_proof_badge.json')">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeCheckout()">✕</button>
+            
+            <div id="checkoutFormSection">
+                <div class="modal-header">
+                    <h3 id="modalProductTitle">Checkout</h3>
+                    <p>Input email to receive your secure download link instantly after payment</p>
+                </div>
+                
+                <div class="modal-body">
+                    <input type="email" class="input-text" id="buyerEmail" placeholder="your-email@example.com" required>
+                    
+                    <!-- Sandbox PayPal Checkout Button simulation -->
+                    <button class="paypal-checkout-btn" onclick="startSimulatedPayment()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        Checkout with PayPal
+                    </button>
+                    
+                    <div style="font-size: 0.8rem; text-align: center; color: var(--text-muted)">
+                        Secure PayPal Sandbox Transaction. No account required.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Visualizer -->
+            <div id="deliverySection" class="delivery-visualizer">
+                <div class="modal-header">
+                    <h3>Fulfilling Order...</h3>
+                    <p>Make.com integration scenario running webhook pipeline</p>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="step-loader" id="step1">
+                        <div class="spinner"></div>
+                        <div>
+                            <strong style="display:block; font-size: 0.95rem;">Webhook Received (PayPal API)</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);" id="step1Status">Awaiting transaction webhook...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-loader pending" id="step2">
+                        <div class="spinner"></div>
+                        <div>
+                            <strong style="display:block; font-size: 0.95rem;">Fetch Blueprint Code</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);" id="step2Status">Pending...</span>
+                        </div>
+                    </div>
+
+                    <div class="step-loader pending" id="step3">
+                        <div class="spinner"></div>
+                        <div>
+                            <strong style="display:block; font-size: 0.95rem;">Send Email Delivery</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);" id="step3Status">Pending...</span>
+                        </div>
+                    </div>
+
+                    <div class="delivery-file-card" id="deliveryFileCard">
+                        <h4 style="font-size: 1.1rem; color: #22d3ee; margin-bottom: 0.5rem;">🎉 Order Delivered!</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-subtle); margin-bottom: 1rem;" id="successMailMessage">We have sent the file to your email.</p>
+                        <a id="downloadAssetLink" href="#" download class="btn-buy" style="font-size: 0.9rem; padding: 0.6rem 1.2rem; width: 100%; justify-content: center; text-decoration: none;">
+                            Download File Locally
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 SoloVend. Built with Autopus-ADK and Antigravity-IDE. 100% serverless & automated.</p>
+    </footer>
+
+    <script>
+        let currentProduct = null;
+        let currentPrice = 0.00;
+        let currentFile = "";
+
+        function filterAssets(category, btn) {
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter cards
+            document.querySelectorAll('.asset-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function updateROI() {
+            const count = document.getElementById('taskCount').value;
+            const hour = document.getElementById('hourCost').value;
+            
+            document.getElementById('taskCountVal').innerText = `${count} tasks`;
+            document.getElementById('hourCostVal').innerText = `${hour} hours`;
+
+            // Savings calculation: count * hour * $30 hourly rate
+            const savings = count * hour * 30;
+            document.getElementById('roiEstimate').innerText = `$${savings.toLocaleString()}`;
+        }
+
+        function openCheckout(title, price, file) {
+            currentProduct = title;
+            currentPrice = price;
+            currentFile = file;
+
+            document.getElementById('modalProductTitle').innerText = `Checkout: ${title}`;
+            document.getElementById('downloadAssetLink').setAttribute('href', 'ai_automation_pack/' + file);
+            document.getElementById('downloadAssetLink').setAttribute('download', file);
+
+            // Open Modal
+            document.getElementById('checkoutFormSection').style.display = 'block';
+            document.getElementById('deliverySection').classList.remove('active');
+            document.getElementById('checkoutModal').classList.add('active');
+            
+            // Reset loaders
+            resetDeliveryLoader();
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function resetDeliveryLoader() {
+            for(let i=1; i<=3; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.className = "step-loader pending";
+            }
+            document.getElementById('step1Status').innerText = "Awaiting transaction webhook...";
+            document.getElementById('step2Status').innerText = "Pending...";
+            document.getElementById('step3Status').innerText = "Pending...";
+            document.getElementById('deliveryFileCard').classList.remove('active');
+        }
+
+        function startSimulatedPayment() {
+            const emailInput = document.getElementById('buyerEmail');
+            if (!emailInput.value || !emailInput.checkValidity()) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            const email = emailInput.value;
+
+            // Transition to Delivery Visualizer
+            document.getElementById('checkoutFormSection').style.display = 'none';
+            document.getElementById('deliverySection').classList.add('active');
+
+            // Trigger Make.com simulation steps
+            setTimeout(() => {
+                // Step 1 Completed
+                const step1 = document.getElementById('step1');
+                step1.className = "step-loader completed";
+                document.getElementById('step1Status').innerText = `Webhook captured for payment of $${currentPrice}`;
+                
+                // Step 2 Running
+                const step2 = document.getElementById('step2');
+                step2.className = "step-loader";
+                document.getElementById('step2Status').innerText = `Fetching ${currentFile} from secure storage...`;
+
+                setTimeout(() => {
+                    // Step 2 Completed
+                    step2.className = "step-loader completed";
+                    document.getElementById('step2Status').innerText = `Retrieved successfully. Code size verified.`;
+
+                    // Step 3 Running
+                    const step3 = document.getElementById('step3');
+                    step3.className = "step-loader";
+                    document.getElementById('step3Status').innerText = `Sending email with encrypted key to ${email}...`;
+
+                    setTimeout(() => {
+                        // Step 3 Completed
+                        step3.className = "step-loader completed";
+                        document.getElementById('step3Status').innerText = `Mail sent successfully via SendGrid!`;
+
+                        // Show download card
+                        document.getElementById('successMailMessage').innerText = `We have sent the file code for ${currentProduct} to ${email}.`;
+                        document.getElementById('deliveryFileCard').classList.add('active');
+                    }, 1500);
+
+                }, 1200);
+
+            }, 1000);
+        }
+
+        // Run ROI calculation initially
+        updateROI();
+    </script>
+</body>
+</html>
