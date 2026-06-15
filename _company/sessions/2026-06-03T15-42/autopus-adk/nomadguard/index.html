@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadGuard AI | Global Risk Management for Digital Nomads</title>
+    <meta name="description" content="Protect your income abroad. AI-powered tax, visa, and compliance risk scanner for digital nomads and remote workers.">
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="nomadguard.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="glow-bg-right"></div>
+
+    <header class="app-header">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-shield-halved"></i></span>
+            <span class="logo-text">Nomad<span class="logo-accent">Guard</span> <span class="logo-text">AI</span></span>
+            <span class="badge-demo">Interactive Simulation</span>
+        </div>
+        
+        <div class="header-nav">
+            <div class="btn-tier-display trial" id="current-tier-badge">
+                <i class="fa-solid fa-circle-dot"></i> <span>Trial Mode</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        
+        <!-- SECTION 1: Step-by-Step Risk Diagnosis Survey (Trial Initial State) -->
+        <section class="card layout-centered" id="survey-section">
+            <div class="survey-header">
+                <h1>Global Tax & Visa Risk Scanner</h1>
+                <p>Uncover hidden compliance gaps, double-taxation traps, and visa regulation penalties you may be overlooking as a digital nomad — in under 2 minutes.</p>
+            </div>
+
+            <!-- Steps bar -->
+            <div class="survey-steps">
+                <div class="step-indicator active" id="step-ind-1">1</div>
+                <div class="step-indicator" id="step-ind-2">2</div>
+                <div class="step-indicator" id="step-ind-3">3</div>
+            </div>
+
+            <form id="risk-survey-form">
+                <!-- Step 1: Base Location & Nationality -->
+                <div class="survey-step-content active" id="survey-step-1">
+                    <div class="form-group">
+                        <label for="citizenship">Your Citizenship</label>
+                        <select id="citizenship">
+                            <option value="KR">South Korea</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="DE">Germany</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="target-country">Country of Residence / Planned Stay</label>
+                        <select id="target-country">
+                            <option value="ES">Spain — Digital Nomad Visa eligible</option>
+                            <option value="TH">Thailand — LTR or tourist visa stay</option>
+                            <option value="DE">Germany — Freelancer visa or temporary residence</option>
+                            <option value="SE">Sweden — Temporary stay & unregistered freelancing</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Income & Employment Type -->
+                <div class="survey-step-content" id="survey-step-2">
+                    <div class="form-group">
+                        <label for="monthly-income">Average Monthly Remote Income (USD)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="monthly-income" value="4500" min="0" step="500">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Remote Work Employment Type</label>
+                        <div class="option-cards">
+                            <div class="option-card selected" data-value="freelancer">
+                                <i class="fa-solid fa-laptop-code"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Independent Freelancer</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Direct client contracts</div>
+                                </div>
+                            </div>
+                            <div class="option-card" data-value="employee">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Remote Employee</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Employed by a foreign company</div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="employment-type" value="freelancer">
+                    </div>
+                </div>
+
+                <!-- Step 3: Tax Residency & Stay Duration -->
+                <div class="survey-step-content" id="survey-step-3">
+                    <div class="form-group">
+                        <label for="stay-duration">Planned Annual Stay Duration in This Country</label>
+                        <select id="stay-duration">
+                            <option value="under90">Under 90 days (short-term tourist stay)</option>
+                            <option value="under183">90 – 183 days (medium-term stay)</option>
+                            <option value="over183">Over 183 days (long-term — tax residency risk)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tax-status">Current Tax Filing Status</label>
+                        <select id="tax-status">
+                            <option value="home">I only file taxes in my home country</option>
+                            <option value="both">I file taxes in both my home and host country</option>
+                            <option value="none">I'm unsure / not filing anywhere (non-filer)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Navigation buttons -->
+                <div class="survey-nav">
+                    <button type="button" class="btn btn-secondary" id="btn-prev" disabled><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary" id="btn-next">Next <i class="fa-solid fa-arrow-right"></i></button>
+                    <button type="button" class="btn btn-danger" id="btn-submit" style="display: none;"><i class="fa-solid fa-radiation"></i> Run Risk Analysis</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SECTION 2: Aha-Moment Risk Diagnosis Report (Trial State Result) -->
+        <section class="card layout-centered risk-output-card" id="risk-report-section" style="display: none;">
+            <div class="risk-heading">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <h2>Warning: Severe Tax & Compliance Risks Detected</h2>
+            </div>
+
+            <div class="risk-score-wrapper">
+                <div class="risk-meter-container">
+                    <svg class="svg-meter" width="140" height="140">
+                        <circle class="bg" cx="70" cy="70" r="60"></circle>
+                        <circle class="progress" id="risk-score-circle" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle>
+                    </svg>
+                    <span class="risk-meter-value" id="risk-score-text">0%</span>
+                </div>
+                <div class="risk-summary-text">
+                    <h3 id="risk-title-heading">Potential Residency Compliance Violation</h3>
+                    <p id="risk-desc-text">Based on your input, you may be exposed to unreported tax obligations, illegal labor classification, or forced deportation and penalty risks under local law.</p>
+                </div>
+            </div>
+
+            <div class="risk-penalty-box">
+                <span class="label"><i class="fa-solid fa-circle-dollar-to-slot"></i> Estimated Penalties & Surcharges</span>
+                <span class="amount" id="risk-penalty-val">$1,850+</span>
+            </div>
+
+            <div class="risk-details-list" id="risk-details-container">
+                <!-- Dynamic risk warnings inserted here -->
+            </div>
+
+            <!-- Affiliate Partner Recommendations (Quick-Win #2) -->
+            <div class="affiliate-section" id="affiliate-recommendations">
+                <h4 style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-handshake"></i> Recommended Solutions Based on Your Risk Profile
+                </h4>
+                <div class="affiliate-grid" id="affiliate-cards-container">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <div style="text-align: center; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                <button class="btn btn-primary btn-lg" id="btn-go-to-paywall" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                    <i class="fa-solid fa-lock-open"></i> Activate Real-Time Risk Protection
+                </button>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Upgrade to a plan with real-time compliance monitoring and tax optimization.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Paywall Upgrades (Trial -> Basic / Premium) -->
+        <section class="paywall-container" id="paywall-section" style="display: none;">
+            <div class="paywall-header">
+                <h2>NomadGuard AI Subscription Plans</h2>
+                <p>Eliminate the Cost of Ignorance. Protect your income from anywhere in the world.</p>
+            </div>
+
+            <!-- Monthly / Annual Toggle -->
+            <div class="billing-toggle-wrapper">
+                <span class="billing-label" id="label-monthly">Monthly</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="billing-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="billing-label" id="label-annual">Annual <span class="annual-save-badge">Save 20%</span></span>
+            </div>
+
+            <div class="pricing-grid pricing-grid-3">
+                <!-- Basic Plan -->
+                <div class="pricing-card popular" id="plan-basic-card">
+                    <span class="pricing-badge">Recommended</span>
+                    <h3 class="pricing-name">Basic Plan</h3>
+                    <div class="pricing-price" id="price-basic-display">$29<span>/mo</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Real-time visa stay day counter</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Multi-country income & double-tax tracker</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Instant push alerts on regulatory changes</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Standard tax compliance diagnostics</li>
+                    </ul>
+
+                    <button class="btn btn-primary" id="btn-buy-basic" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-shield-halved"></i> Get Started with Basic
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card premium" id="plan-premium-card">
+                    <span class="pricing-badge gold">AI Predictive Engine</span>
+                    <h3 class="pricing-name" style="color: var(--accent-gold);">Premium Plan</h3>
+                    <div class="pricing-price" id="price-premium-display">$79<span>/mo</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Everything in Basic</li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>AI Predictive Risk Simulator</strong></li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Penalty & Tax Dispute Modeling</strong></li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> Verified local tax advisor matching (30% off)</li>
+                        <li class="premium-feature"><i class="fa-solid fa-wand-magic-sparkles"></i> Global emergency legal support hotline</li>
+                    </ul>
+
+                    <button class="btn btn-gold" id="btn-buy-premium" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-crown"></i> Get Full Protection with Premium
+                    </button>
+                </div>
+
+                <!-- Enterprise Plan (B2B Expansion) -->
+                <div class="pricing-card enterprise" id="plan-enterprise-card">
+                    <span class="pricing-badge" style="background: linear-gradient(135deg, #06b6d4, #0891b2); color: white;">B2B / Teams</span>
+                    <h3 class="pricing-name" style="color: #22d3ee;">Enterprise</h3>
+                    <div class="pricing-price">Custom<span> pricing</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Everything in Premium</li>
+                        <li><i class="fa-solid fa-building"></i> <strong>Employee Safety Dashboard</strong></li>
+                        <li><i class="fa-solid fa-building"></i> <strong>Per-seat team management</strong></li>
+                        <li><i class="fa-solid fa-building"></i> Multi-country workforce compliance</li>
+                        <li><i class="fa-solid fa-building"></i> Dedicated account manager & SLA</li>
+                        <li><i class="fa-solid fa-building"></i> Custom API integration</li>
+                    </ul>
+
+                    <button class="btn btn-enterprise" id="btn-contact-sales" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-paper-plane"></i> Contact Sales
+                    </button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" id="btn-back-to-survey"><i class="fa-solid fa-arrow-left"></i> Back to Risk Report</button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Dashboard Panel (Visible when user has subscribed to Basic or Premium) -->
+        <section id="dashboard-app-section" style="display: none;">
+            <div class="dashboard-grid">
+                
+                <!-- Sidebar Navigation -->
+                <aside class="db-sidebar">
+                    <div class="card" style="padding: 1.25rem;">
+                        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Membership</div>
+                        <div style="font-weight: 700; display: flex; align-items: center; gap: 0.5rem;" id="db-membership-title">
+                            <i class="fa-solid fa-shield-halved" style="color: var(--accent-indigo);"></i> Basic Member
+                        </div>
+                    </div>
+                    
+                    <nav style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                        <button class="sidebar-btn active" id="db-nav-overview">
+                            <i class="fa-solid fa-chart-line"></i> Risk Overview
+                        </button>
+                        <button class="sidebar-btn" id="db-nav-monitoring">
+                            <i class="fa-solid fa-eye"></i> Live Regulatory Feed
+                        </button>
+                        <button class="sidebar-btn premium-only" id="db-nav-simulator">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Risk Predictor
+                        </button>
+                    </nav>
+
+                    <div style="margin-top: auto; padding: 0 0.5rem;">
+                        <button class="btn btn-secondary" id="btn-reset-demo" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Demo
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Dashboard Main Panels -->
+                <div class="db-main-content">
+                    
+                    <!-- PANEL A: Overview -->
+                    <div class="db-panel active" id="panel-overview">
+                        <div class="card">
+                            <div class="section-title">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <span>Global Risk Status Summary</span>
+                            </div>
+
+                            <!-- Metrics Row -->
+                            <div class="metrics-grid">
+                                <div class="metric-card critical">
+                                    <div class="metric-info">
+                                        <h4>Legal Stay Remaining</h4>
+                                        <div class="value" id="db-metric-days">84 days</div>
+                                    </div>
+                                    <div class="metric-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                                </div>
+                                
+                                <div class="metric-card safe">
+                                    <div class="metric-info">
+                                        <h4>Double-Tax Shield Score</h4>
+                                        <div class="value">92%</div>
+                                    </div>
+                                    <div class="metric-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                </div>
+
+                                <div class="metric-card monitoring">
+                                    <div class="metric-info">
+                                        <h4>Regulations Tracked</h4>
+                                        <div class="value">14 active</div>
+                                    </div>
+                                    <div class="metric-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                                </div>
+                            </div>
+
+                            <!-- Current Country Card -->
+                            <div style="background: rgba(30, 41, 59, 0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                    <h4 style="font-size: 1.1rem; font-weight: 600;"><i class="fa-solid fa-location-dot"></i> Active Tracking: <span id="db-current-country-txt">Spain</span></h4>
+                                    <span class="badge-demo" style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3);" id="db-visa-type-txt">Digital Nomad Visa</span>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                                    NomadGuard monitors your stay duration based on your connected trips and flight confirmations. We protect your privacy while ensuring you stay compliant with local tax regulations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL B: Realtime Monitoring -->
+                    <div class="db-panel" id="panel-monitoring">
+                        <div class="card">
+                            <div class="section-title">
+                                <i class="fa-solid fa-bell"></i>
+                                <span>Live Regulatory & Tax Alerts</span>
+                            </div>
+                            
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Personalized alerts filtered by your location and income type, with recommended action steps.</p>
+
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.03); border-radius: 10px; padding: 1.25rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <strong style="color: var(--accent-danger);"><i class="fa-solid fa-circle-exclamation"></i> Spain: 183-Day Tax Residency Rule Warning</strong>
+                                        <span style="font-size: 0.8rem; color: var(--text-muted);">Updated 2026-06-01</span>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+                                        Spanish tax authorities have recently warned that remote workers with local rental agreements may be classified as tax residents even if their stay is under 183 days, provided a significant portion of their income is generated locally.
+                                    </p>
+                                </div>
+
+                                <div style="border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1.25rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <strong style="color: #60a5fa;"><i class="fa-solid fa-info-circle"></i> Thailand: Digital Nomad Visa Regulation Update</strong>
+                                        <span style="font-size: 0.8rem; color: var(--text-muted);">Updated 2026-05-20</span>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+                                        According to Thailand's Board of Investment (BOI), the LTR visa income requirements for remote workers are expected to be partially relaxed. The current annual income threshold of $80,000+ may be lowered, reducing the barrier for prosumer-tier professionals planning their next visa route.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL C: AI Predictor (Premium Only / Lock Interface for Basic) -->
+                    <div class="db-panel" id="panel-simulator">
+                        <!-- Lock Wrapper -->
+                        <div class="card locked-overlay" id="simulator-locked-wrapper" style="display: none;">
+                            <div class="locked-shield">
+                                <i class="fa-solid fa-lock"></i>
+                                <h4>Premium Feature: Predictive Risk Simulator</h4>
+                                <p>What if you moved to another country? How would your tax liability and penalty risks change based on your income? Simulate a safe global route with AI.</p>
+                                <button class="btn btn-gold" id="btn-upgrade-from-sim"><i class="fa-solid fa-crown"></i> Unlock with Premium</button>
+                            </div>
+                            
+                            <!-- Fake background to show blur effect -->
+                            <div style="opacity: 0.15; pointer-events: none;">
+                                <div class="section-title">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span>AI Future Risk Prediction & Route Matching</span>
+                                </div>
+                                <div class="sim-input-row">
+                                    <div class="form-group">
+                                        <label>Target Relocation Country</label>
+                                        <select disabled><option>Thailand</option></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Projected Monthly Income (USD)</label>
+                                        <input type="number" value="6000" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real Active UI for Premium Members -->
+                        <div class="card simulator-card" id="simulator-active-wrapper">
+                            <div class="section-title" style="color: var(--accent-gold);">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>AI Future Risk Prediction & Route Matching</span>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                                Simulate how your global tax obligations and visa risks change when you relocate or increase your income — powered by our AI compliance engine.
+                            </p>
+
+                            <div class="sim-input-row">
+                                <div class="form-group">
+                                    <label for="sim-target-country">Target Relocation Country</label>
+                                    <select id="sim-target-country">
+                                        <option value="TH">Thailand</option>
+                                        <option value="ES">Spain</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="SE">Sweden</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sim-monthly-income">Projected Monthly Income (USD)</label>
+                                    <input type="number" id="sim-monthly-income" value="6000" min="0" step="500">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sim-stay-duration">Estimated Stay Duration</label>
+                                <select id="sim-stay-duration">
+                                    <option value="under90">Under 90 days (short-term)</option>
+                                    <option value="under183">90 – 183 days (medium-term)</option>
+                                    <option value="over183" selected>Over 183 days (long-term — tax residency trigger)</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-gold" id="btn-run-sim" style="width: 100%; justify-content: center; font-weight: 700;">
+                                <i class="fa-solid fa-brain"></i> Run AI Risk Scenario Prediction
+                            </button>
+
+                            <div class="sim-results" id="sim-results-box" style="display: none;">
+                                <h4><i class="fa-solid fa-circle-check"></i> AI Scenario Analysis Results</h4>
+                                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;" id="sim-results-text">
+                                    <!-- Results dynamically generated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SECTION 5: Floating A/B testing controller (Developer HUD UI) -->
+    <div class="ab-control-hud" id="ab-hud">
+        <div class="ab-hud-header">
+            <h4><i class="fa-solid fa-flask"></i> A/B WTP Test Controller</h4>
+            <button class="btn-hud-toggle" id="btn-hud-minimize" aria-label="Minimize HUD"><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        
+        <div class="hud-body" id="hud-body">
+            <div>
+                <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.4rem;">Select A/B Test Group</label>
+                <div class="ab-group-selector">
+                    <button class="ab-group-btn" data-group="A" id="btn-group-a">Group A (Volume)</button>
+                    <button class="ab-group-btn active" data-group="B" id="btn-group-b">Group B (Value)</button>
+                    <button class="ab-group-btn" data-group="C" id="btn-group-c">Group C (Premium)</button>
+                </div>
+            </div>
+
+            <div class="hud-info-row">
+                <strong>[Active Prices]</strong><br>
+                - Basic Plan: <span id="hud-price-basic">$29</span> / mo<br>
+                - Premium Plan: <span id="hud-price-premium">$79</span> / mo
+            </div>
+
+            <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.3;">
+                * Switching groups instantly updates pricing cards on the paywall, enabling real-time WTP conversion monitoring.
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7: Fake Checkout Modal (Email Collection) -->
+    <div class="success-modal" id="checkout-modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-icon" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-indigo);">
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <h3 id="checkout-modal-title">Activate Your Compliance Shield</h3>
+            <p id="checkout-modal-desc" style="margin-bottom: 1.5rem;">You're one step away from global protection. Enter your email to create your account and complete activation.</p>
+            
+            <form id="checkout-form" style="text-align: left; width: 100%;">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="checkout-email" style="font-size: 0.9rem; color: var(--text-secondary);">Email Address</label>
+                    <input type="email" id="checkout-email" placeholder="name@domain.com" required style="width: 100%;">
+                    <span id="checkout-error-msg" style="display: none; color: var(--accent-danger); font-size: 0.8rem; margin-top: 0.5rem;"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid email address.</span>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-secondary" id="btn-checkout-cancel" style="flex: 1; justify-content: center;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-checkout-submit" style="flex: 1; justify-content: center;">
+                        <i class="fa-solid fa-circle-check"></i> Activate Shield
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SECTION 6: Success Modal for Checkout -->
+    <div class="success-modal" id="purchase-success-modal">
+        <div class="modal-content">
+            <div class="modal-icon"><i class="fa-solid fa-check"></i></div>
+            <h3 id="modal-success-title">Membership Activated</h3>
+            <p id="modal-success-desc">Your subscription has been successfully processed. You now have full access to your real-time compliance dashboard.</p>
+            <button class="btn btn-primary" id="btn-modal-close" style="width: 100%; justify-content: center;">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <script src="nomadguard.js"></script>
+</body>
+</html>
