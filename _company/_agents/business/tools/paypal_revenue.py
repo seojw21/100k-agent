@@ -398,16 +398,24 @@ def _json_dump(txs, default_currency: str = ""):
 def main():
     cfg = _load()
     mode = (cfg.get("MODE") or "sandbox").strip().lower()
-    client_id = (cfg.get("CLIENT_ID") or "").strip()
-    client_secret = (cfg.get("CLIENT_SECRET") or "").strip()
+
+    # Mode-specific credentials with fallback to generic CLIENT_ID/CLIENT_SECRET
+    if mode == "live":
+        client_id = (cfg.get("LIVE_CLIENT_ID") or cfg.get("CLIENT_ID") or "").strip()
+        client_secret = (cfg.get("LIVE_CLIENT_SECRET") or cfg.get("CLIENT_SECRET") or "").strip()
+    else:
+        client_id = (cfg.get("SANDBOX_CLIENT_ID") or cfg.get("CLIENT_ID") or "").strip()
+        client_secret = (cfg.get("SANDBOX_CLIENT_SECRET") or cfg.get("CLIENT_SECRET") or "").strip()
+
     lookback = int(os.environ.get("LOOKBACK_DAYS", cfg.get("LOOKBACK_DAYS", 30)))
     currency = (cfg.get("CURRENCY") or "").strip().upper()
     output_mode = (os.environ.get("OUTPUT") or "markdown").strip().lower()
 
     if not client_id or not client_secret:
-        _log("CLIENT_ID 또는 CLIENT_SECRET 비어있음. PayPal Developer Dashboard 에서 발급:", "err")
+        _log(f"{mode.upper()} 모드의 API 키(Client ID/Secret)가 설정되지 않았습니다.", "err")
+        _log("paypal_revenue.json 파일을 열고 알맞은 키를 입력해 주세요.", "info")
         _log("  https://developer.paypal.com/dashboard/applications", "info")
-        _log("  → Apps & Credentials → 본인 앱 → Client ID + Secret 복사", "info")
+        _log("  → Apps & Credentials → 본인 앱 → Client ID + Secret(Show 클릭) 복사", "info")
         sys.exit(1)
 
     base = _base_url(mode)
