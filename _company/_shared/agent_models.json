@@ -6,6 +6,6 @@
   "business": "google/gemma-4-12b:2",
   "secretary": "google/gemma-4-12b:2",
   "editor": "google/gemma-4-12b:2",
-  "writer": "google/gemma-4-12b:2",
-  "researcher": "google/gemma-4-12b:2"
+  "writer": "qwen3.6-35b-a3b-mlx",
+  "researcher": "qwen3.6-35b-a3b-mlx"
 }
