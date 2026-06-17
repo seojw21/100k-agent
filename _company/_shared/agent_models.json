@@ -1,0 +1,12 @@
+{
+  "ceo": "gemma4:latest",
+  "youtube": "gemma4:26b",
+  "instagram": "gemma4:12b",
+  "designer": "gemma4:latest",
+  "developer": "qwen2.5-coder:latest",
+  "business": "gemma4:12b",
+  "secretary": "gemma4:latest",
+  "editor": "gemma4:12b",
+  "writer": "gemma4:12b",
+  "researcher": "gemma4:26b"
+}
