@@ -1,0 +1,11 @@
+{
+  "YOUTUBE_API_KEY": "AIzaSyCDy9omR4wcw66CaOe4OEt0KfmllZiOwtQ",
+  "MY_CHANNEL_HANDLE": "",
+  "MY_CHANNEL_ID": "",
+  "WATCHED_CHANNELS": [],
+  "COMPETITOR_CHANNELS": [],
+  "TELEGRAM_BOT_TOKEN": "",
+  "TELEGRAM_CHAT_ID": "",
+  "LLM_URL": "http://localhost:11434",
+  "MODEL": "qwen3.6:35b"
+}
