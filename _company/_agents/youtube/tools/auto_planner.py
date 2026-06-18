@@ -39,11 +39,12 @@ def main():
     test_proc = subprocess.run([sys.executable, SNIPER_PATH], capture_output=True, text=True, timeout=300)
     if test_proc.returncode != 0:
         print(f"❌ trend_sniper.py 검증 실패 (exit {test_proc.returncode})")
-        print("   먼저 trend_sniper.py 단독으로 ▶ 실행해서 설정·키워드·LLM 연결 확인 후 재시도.")
+        if test_proc.stdout.strip():
+            print("   --- STDOUT ---")
+            print(test_proc.stdout)
         if test_proc.stderr.strip():
-            print("   에러 일부:")
-            for line in test_proc.stderr.splitlines()[-5:]:
-                print(f"   {line}")
+            print("   --- STDERR ---")
+            print(test_proc.stderr)
         sys.exit(1)
     print("✅ 검증 완료. 본 루프 시작.\n")
     start = time.time()
