@@ -1,0 +1,123 @@
+{
+  "tasks": [
+    {
+      "id": "20260618014812-gp3v",
+      "title": "Week 1: 리드 마그넷 콘텐츠 기획 및 초안 작성 (현빈 담당)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.719Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.576Z"
+    },
+    {
+      "id": "20260618014812-jds5",
+      "title": "Week 2: 랜딩 페이지 디자인 및 제작 (Designer 협업)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.732Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.583Z"
+    },
+    {
+      "id": "20260618014812-seq8",
+      "title": "Week 3: 자동화 이메일 시퀀스 설정 및 CRM 연동",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.753Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.591Z"
+    },
+    {
+      "id": "20260618014812-cxv6",
+      "title": "Week 4: 트래픽 테스트 및 초기 데이터 분석",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.769Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.598Z"
+    },
+    {
+      "id": "20260618021903-mvo6",
+      "title": "Does this sentence sound like me? (Self-Audit)",
+      "description": "자동 등록 (Researcher 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "researcher"
+      ],
+      "createdAt": "2026-06-18T02:19:03.261Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T02-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
+      "completedAt": "2026-06-18T02:30:26.695Z"
+    },
+    {
+      "id": "20260618021903-outm",
+      "title": "Is the vocabulary too 'AI-standard'? (Vocabulary Check)",
+      "description": "자동 등록 (Researcher 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "researcher"
+      ],
+      "createdAt": "2026-06-18T02:19:03.269Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T02-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
+      "completedAt": "2026-06-18T02:30:26.704Z"
+    },
+    {
+      "id": "20260618021903-vm09",
+      "title": "Does it reflect my unique perspective/opinion? (Perspective Check)",
+      "description": "자동 등록 (Researcher 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "researcher"
+      ],
+      "createdAt": "2026-06-18T02:19:03.277Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T02-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
+      "completedAt": "2026-06-18T02:30:26.712Z"
+    }
+  ]
+}
