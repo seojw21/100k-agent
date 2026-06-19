@@ -1,12 +1,11 @@
 {
   "ceo": "gemma4:12b",
-  "youtube": "gemma4:26b",
-  "instagram": "gemma4:12b",
   "designer": "gemma4:latest",
   "developer": "qwen2.5-coder:latest",
-  "business": "gemma4:12b",
+  "business": "hf.co/seoart/sks0321-v4:latest",
   "secretary": "gemma4:latest",
-  "editor": "gemma4:12b",
-  "writer": "gemma4:12b",
-  "researcher": "gemma4:26b"
+  "editor": "hf.co/seoart/sks0321-v4:latest",
+  "instagram": "hf.co/seoart/seoart-v4:Q4_K_M",
+  "researcher": "gemma4:12b",
+  "youtube": "google/gemma-4-12b"
 }

@@ -36,7 +36,7 @@ def main():
         sys.exit(1)
     # 첫 실행 전 trend_sniper.py가 정상 동작하는지 빠르게 검증
     print("🔍 trend_sniper.py 첫 회차 검증 중 (~30초)...")
-    test_proc = subprocess.run([sys.executable, SNIPER_PATH], capture_output=True, text=True, timeout=300)
+    test_proc = subprocess.run([sys.executable, SNIPER_PATH], capture_output=True, text=True, timeout=240)
     if test_proc.returncode != 0:
         print(f"❌ trend_sniper.py 검증 실패 (exit {test_proc.returncode})")
         if test_proc.stdout.strip():

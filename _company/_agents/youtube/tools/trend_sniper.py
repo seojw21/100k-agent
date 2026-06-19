@@ -107,7 +107,7 @@ def main():
 2. 🎯 빈집 털기 전략 — 차별화 가능한 틈새 주제
 3. 🎬 파괴적 영상 기획안 — 썸네일 카피, 제목 3개, 후킹 오프닝(첫 5초)
 
-⚠️ 중요: 60초 타임아웃 제한이 있으므로, 각 항목은 1~2줄의 핵심 불릿포인트 요약으로만 매우 간결하게 작성하십시오.
+⚠️ 중요: 120초 타임아웃 제한이 있으므로, 각 항목은 1~2줄의 핵심 불릿포인트 요약으로만 매우 간결하게 작성하십시오.
 """
 
     # v2.89.70 — LM Studio (OpenAI 호환 API) + Ollama 둘 다 지원. URL/포트로 자동 감지.
@@ -154,7 +154,7 @@ def main():
                     "stream": False,
                     "max_tokens": 2048,
                 },
-                timeout=60,
+                timeout=120,
             )
             r.raise_for_status()
             report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
@@ -162,7 +162,7 @@ def main():
             r = requests.post(
                 f"{ollama_url}/api/generate",
                 json={"model": model, "prompt": prompt, "stream": False},
-                timeout=60,
+                timeout=120,
             )
             r.raise_for_status()
             report = r.json().get("response", "").strip()
