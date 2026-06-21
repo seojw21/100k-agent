@@ -1,12 +1,12 @@
 {
   "ceo": "gemma4:12b",
-  "designer": "zai-org/glm-4.7-flash",
+  "designer": "gemma-4-12b-coder-fable5-composer2.5-v1",
   "developer": "qwen2.5-coder:7b",
   "business": "gemma4:12b",
   "secretary": "hf.co/seoart/sks0321-v4:latest",
   "editor": "gemma4:12b",
   "writer": "gemma4:12b",
   "researcher": "gemma4:12b",
-  "instagram": "zai-org/glm-4.7-flash",
-  "youtube": "zai-org/glm-4.7-flash"
+  "instagram": "gemma-4-12b-coder-fable5-composer2.5-v1",
+  "youtube": "gemma-4-12b-coder-fable5-composer2.5-v1"
 }
