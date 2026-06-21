@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Trend Sniper — pulls top YouTube videos for target keywords, asks a local
-LLM (Ollama/LM Studio) to extract the algorithmic patterns, and writes a
+LLM (LM Studio) to extract the algorithmic patterns, and writes a
 planning report next to this script.
 
-Shared keys (API key, OLLAMA_URL, MODEL) come from youtube_account.json so
+Shared keys (API key, LLM_URL, MODEL) come from youtube_account.json so
 you only set them once. Per-tool keys (TARGET_KEYWORDS) come from
 trend_sniper.json. If a key exists in both, trend_sniper.json wins.
 
@@ -55,7 +55,10 @@ def main():
     if not target_keywords:
         print("⚠️  TARGET_KEYWORDS가 비어있어요. 분석할 키워드를 1개 이상 추가하세요.")
         sys.exit(1)
-    ollama_url = (_shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:11434") or "http://127.0.0.1:11434").rstrip("/")
+    
+    lm_studio_url = (_shared(cfg, acct, "LM_STUDIO_URL") or _shared(cfg, acct, "LLM_URL") or _shared(cfg, acct, "OLLAMA_URL") or "http://127.0.0.1:1234").rstrip("/")
+    if "11434" in lm_studio_url:
+        lm_studio_url = lm_studio_url.replace("11434", "1234")
     model = _shared(cfg, acct, "MODEL", "") or ""
     pick = min(2, len(target_keywords))
     chosen = random.sample(target_keywords, pick)
@@ -74,7 +77,7 @@ def main():
 
     print(f"\n🎯 [트렌드 스나이퍼] 키워드 {chosen} 스캔 시작...")
     youtube = build('youtube', 'v3', developerKey=api_key)
-    last_month = (datetime.datetime.utcnow() - datetime.timedelta(days=30)).isoformat("T") + "Z"
+    last_month = (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(days=30)).isoformat("T") + "Z"
     sniper_data = []
     for q in chosen:
         print(f"📡 [{q}] 검색 중...")
@@ -106,67 +109,79 @@ def main():
 1. 🌍 트렌드 해킹 분석 — 어떤 패턴이 조회수를 끌고 있는지
 2. 🎯 빈집 털기 전략 — 차별화 가능한 틈새 주제
 3. 🎬 파괴적 영상 기획안 — 썸네일 카피, 제목 3개, 후킹 오프닝(첫 5초)
+
+⚠️ 중요: 120초 타임아웃 제한이 있으므로, 각 항목은 1~2줄의 핵심 불릿포인트 요약으로만 매우 간결하게 작성하십시오.
 """
 
-    # v2.89.70 — LM Studio (OpenAI 호환 API) + Ollama 둘 다 지원. URL/포트로 자동 감지.
-    is_lm_studio = ('1234' in ollama_url) or ('/v1' in ollama_url)
-    print(f"🧠 [LLM 분석 중... 엔진: {'LM Studio' if is_lm_studio else 'Ollama'}]")
+    print(f"🧠 [LLM 분석 중... 엔진: LM Studio]")
 
-    # 모델 자동 선택 — 엔진별로 다른 endpoint
+    report = ""
+    # 모델 자동 선택 — LM Studio 전용 (OpenAI 호환 API /v1/models)
     if not model:
         try:
-            if is_lm_studio:
-                # LM Studio: GET /v1/models (OpenAI 호환)
-                base = ollama_url.rstrip('/')
-                if not base.endswith('/v1'):
-                    base = base + '/v1'
-                r = requests.get(f"{base}/models", timeout=5)
-                r.raise_for_status()
-                models = [m["id"] for m in r.json().get("data", [])]
-            else:
-                # Ollama: GET /api/tags
-                r = requests.get(f"{ollama_url}/api/tags", timeout=5)
-                r.raise_for_status()
-                models = [m["name"] for m in r.json().get("models", [])]
-            if not models:
-                print(f"❌ 로컬 LLM에 설치된 모델이 없어요. {'LM Studio' if is_lm_studio else 'Ollama'} 에서 모델 로드/풀하세요.")
-                sys.exit(1)
-            model = models[0]
-            print(f"   자동 선택 모델: {model}")
-        except Exception as e:
-            print(f"❌ 로컬 LLM 연결 실패 ({ollama_url}): {e}")
-            print(f"   엔진 실행 확인: {'LM Studio (포트 1234)' if is_lm_studio else 'Ollama (포트 11434)'}")
-            sys.exit(1)
-
-    # 추론 호출 — 엔진별 다른 endpoint·payload 형식
-    try:
-        if is_lm_studio:
-            base = ollama_url.rstrip('/')
+            base = lm_studio_url
             if not base.endswith('/v1'):
                 base = base + '/v1'
-            r = requests.post(
-                f"{base}/chat/completions",
-                json={
-                    "model": model,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "stream": False,
-                    "max_tokens": 2048,
-                },
-                timeout=180,
-            )
+            r = requests.get(f"{base}/models", timeout=5)
             r.raise_for_status()
-            report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-        else:
-            r = requests.post(
-                f"{ollama_url}/api/generate",
-                json={"model": model, "prompt": prompt, "stream": False},
-                timeout=180,
-            )
-            r.raise_for_status()
-            report = r.json().get("response", "").strip()
-    except Exception as e:
-        print(f"❌ LLM 호출 실패: {e}")
-        sys.exit(1)
+            models = [m["id"] for m in r.json().get("data", [])]
+            if not models:
+                print(f"❌ LM Studio에 활성화된 모델이 없어요. LM Studio에서 모델을 로드하세요.")
+                model = None
+            else:
+                model = models[0]
+                print(f"   자동 선택 모델: {model}")
+        except Exception as e:
+            print(f"❌ LM Studio 연결 실패 ({lm_studio_url}): {e}")
+            print(f"   엔진 실행 확인: LM Studio (포트 1234 또는 설정 포트)")
+            model = None
+
+    # 추론 호출 — LM Studio 전용
+    if model:
+        max_retries = 3
+        retry_delay = 10
+        for attempt in range(max_retries):
+            try:
+                base = lm_studio_url
+                if not base.endswith('/v1'):
+                    base = base + '/v1'
+                r = requests.post(
+                    f"{base}/chat/completions",
+                    json={
+                        "model": model,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "stream": False,
+                        "max_tokens": 2048,
+                    },
+                    timeout=300,
+                )
+                r.raise_for_status()
+                report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+                break
+            except Exception as e:
+                err_msg = ""
+                if 'r' in locals() and hasattr(r, 'text'):
+                    err_msg = r.text
+                
+                # LM Studio가 다른 모델을 언로드하고 새 모델을 메모리에 로드하는 중 발생할 수 있는 오류들 대응
+                if "reloaded" in err_msg.lower() or "loading" in err_msg.lower() or "loaded" in err_msg.lower() or (attempt < max_retries - 1 and getattr(e, 'response', None) is not None and e.response.status_code == 400):
+                    print(f"⚠️  LM Studio 모델 로딩/교체 감지. {retry_delay}초 대기 후 재시도... (시도 {attempt+1}/{max_retries})")
+                    time.sleep(retry_delay)
+                    continue
+                
+                print(f"❌ LM Studio 호출 실패: {e}")
+                if err_msg:
+                    print(f"   서버 응답 상세: {err_msg}")
+                report = ""
+                break
+
+    # LM Studio 호출이 실패했거나 모델이 없는 경우 폴백 텍스트 설정
+    if not report:
+        print("⚠️  LM Studio를 통한 요약 보고서 작성을 건너뜁니다. 수집된 로우 데이터를 저장합니다.")
+        report = f"""⚠️ LM Studio 연결 실패로 분석 보고서를 완성하지 못했습니다. 수집된 트렌드 원본 데이터를 기록합니다.
+
+### 📡 수집된 유튜브 떡상 영상 목록
+{data_text}"""
 
     print("\n" + "="*60)
     print(report)
