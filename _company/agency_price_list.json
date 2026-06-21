@@ -1,1 +1,19 @@
-{"agencies": [{"name": "부산대리점", "fixed_price": 490000, "variable_rate": 129000}, {"name": "울산대리점", "fixed_price": 790000, "variable_rate": 159000}, {"name": "경남대리점", "fixed_price": 1290000, "variable_rate": 189000}]}
+{
+  "agencies": [
+    {
+      "id": "부산",
+      "fixed_rate": 5000,
+      "variable_rate": 1200
+    },
+    {
+      "id": "울산",
+      "fixed_rate": 4800,
+      "variable_rate": 1100
+    },
+    {
+      "id": "경남",
+      "fixed_rate": 5200,
+      "variable_rate": 1300
+    }
+  ]
+}
