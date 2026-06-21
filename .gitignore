@@ -1,5 +1,8 @@
 # Connect AI auto-generated
 .DS_Store
+.env
+.env.local
+.env.*.local
 .obsidian/
 .trash/
 node_modules/

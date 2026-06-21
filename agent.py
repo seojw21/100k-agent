@@ -90,10 +90,24 @@ def write_brain_node(title: str, markdown_content: str, source_task: str) -> str
 
 def run_terminal_command(command: str) -> str:
     """Execute a shell command on the user's computer safely and return stdout/stderr."""
-    # Simple security check to prevent harmful shell commands
-    forbidden_keywords = ["rm ", "sudo", "mv ", ">", "chmod", "chown", "mkfs", "dd ", ":(){:|:&};:"]
+    # Safe command allowlist
+    allowlist = ["python", "python3", "pip", "git", "ls", "echo", "cat"]
+    
+    tokens = command.strip().split()
+    if not tokens:
+        return "Error: Empty command."
+        
+    first_cmd = tokens[0].lower()
+    if "/" in first_cmd or "\\" in first_cmd:
+        first_cmd = Path(first_cmd).name.lower()
+        
+    if first_cmd not in allowlist:
+        return f"Error: Command execution blocked. The command '{tokens[0]}' is not in the safe allowlist ({', '.join(allowlist)})."
+
+    # Forbidden arguments or patterns (blacklist fallback)
+    forbidden_patterns = ["rm ", "sudo", ">", "chmod", "chown", "mkfs", "dd ", ":(){:|:&};:"]
     command_lower = command.lower()
-    for kw in forbidden_keywords:
+    for kw in forbidden_patterns:
         if kw in command_lower:
             return f"Error: Command execution blocked. Command contains forbidden keyword/pattern '{kw}' for security reasons."
 
@@ -119,23 +133,39 @@ def run_terminal_command(command: str) -> str:
         return f"Error executing command: {e}"
 
 def write_file(path: str, content: str) -> str:
-    """Create or overwrite any file on the local disk."""
+    """Create or overwrite a file on the local disk, restricted to BASE_DIR."""
     try:
+        base_resolved = BASE_DIR.resolve()
+        
         file_path = Path(path)
         if not file_path.is_absolute():
-            file_path = BASE_DIR / file_path
+            file_path = base_resolved / file_path
         
-        file_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(file_path, "w", encoding="utf-8") as f:
+        resolved_path = file_path.resolve()
+        
+        try:
+            resolved_path.relative_to(base_resolved)
+        except ValueError:
+            return f"Error: Path Traversal detected. The path '{path}' resolves outside the allowed workspace directory."
+
+        resolved_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(resolved_path, "w", encoding="utf-8") as f:
             f.write(content)
-        return f"Success: File successfully written to {file_path}"
+        return f"Success: File successfully written to {resolved_path}"
     except Exception as e:
         return f"Error writing file: {e}"
 
 # Context management
 def _estimate_tokens(text: str) -> int:
-    """Rough token estimate. ~3 chars/token is conservative for mixed KO/EN text."""
-    return len(text) // 3 + 1
+    """Rough token estimate. Mixed KO/EN text is handled more accurately.
+    - Korean/Non-ASCII characters: ~1.5 tokens per char
+    - English/ASCII characters: ~0.3 tokens per char
+    """
+    if not text:
+        return 0
+    non_ascii = sum(1 for c in text if ord(c) > 127)
+    ascii_chars = len(text) - non_ascii
+    return int(non_ascii * 1.5 + ascii_chars * 0.3) + 1
 
 
 def trim_messages(messages, num_ctx=OLLAMA_NUM_CTX, reserve=OLLAMA_OUTPUT_RESERVE):
@@ -162,30 +192,55 @@ def trim_messages(messages, num_ctx=OLLAMA_NUM_CTX, reserve=OLLAMA_OUTPUT_RESERV
 
 
 # Model Connector
-def ask_gemma_action(messages):
-    """Call LM Studio model to output the next JSON action."""
-    try:
-        base = LM_STUDIO_URL
-        r_models = requests.get(f"{base}/models", timeout=5)
-        model = r_models.json()["data"][0]["id"]
+def ask_gemma_action(messages, retries=3, delay=10):
+    """Call LM Studio model to output the next JSON action with retry logic."""
+    for attempt in range(retries):
+        try:
+            base = LM_STUDIO_URL
+            r_models = requests.get(f"{base}/models", timeout=5)
+            models_data = r_models.json().get("data", [])
+            
+            # 'gemma' 단어가 포함된 모델 우선 검색
+            model = None
+            for m in models_data:
+                if "gemma" in m["id"].lower():
+                    model = m["id"]
+                    break
+                    
+            if not model and models_data:
+                model = models_data[0]["id"]
+                
+            if not model:
+                model = "local-model"
 
-        r_chat = requests.post(
-            f"{base}/chat/completions",
-            json={
-                "model": model,
-                "messages": messages,
-                "stream": False,
-                "response_format": {"type": "json_object"},
-                "temperature": 0.2,
-                "max_tokens": 4096
-            },
-            timeout=120
-        )
-        r_chat.raise_for_status()
-        return r_chat.json()["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        print(f"❌ Model connection failed (LM Studio): {e}")
-        return None
+            r_chat = requests.post(
+                f"{base}/chat/completions",
+                json={
+                    "model": model,
+                    "messages": messages,
+                    "stream": False,
+                    "response_format": {"type": "json_object"},
+                    "temperature": 0.2,
+                    "max_tokens": 4096
+                },
+                timeout=120
+            )
+            
+            if r_chat.status_code == 200:
+                res_json = r_chat.json()
+                if "choices" in res_json:
+                    return res_json["choices"][0]["message"]["content"].strip()
+            
+            print(f"⚠️ Model request attempt {attempt+1}: LM Studio API status {r_chat.status_code}")
+        except Exception as e:
+            print(f"⚠️ Model request attempt {attempt+1} failed: {e}")
+            
+        if attempt < retries - 1:
+            print(f"⏳ Waiting {delay}s before retrying LLM action...")
+            time.sleep(delay)
+            
+    print("❌ All LLM action requests failed.")
+    return None
 
 # ReAct Loop Orchestrator
 def process_task(task: dict):
