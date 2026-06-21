@@ -74,7 +74,7 @@ def main():
 
     print(f"\n🎯 [트렌드 스나이퍼] 키워드 {chosen} 스캔 시작...")
     youtube = build('youtube', 'v3', developerKey=api_key)
-    last_month = (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(days=30)).isoformat("T") + "Z"
+    last_month = (datetime.datetime.utcnow() - datetime.timedelta(days=30)).isoformat("T") + "Z"
     sniper_data = []
     for q in chosen:
         print(f"📡 [{q}] 검색 중...")
@@ -106,15 +106,12 @@ def main():
 1. 🌍 트렌드 해킹 분석 — 어떤 패턴이 조회수를 끌고 있는지
 2. 🎯 빈집 털기 전략 — 차별화 가능한 틈새 주제
 3. 🎬 파괴적 영상 기획안 — 썸네일 카피, 제목 3개, 후킹 오프닝(첫 5초)
-
-⚠️ 중요: 120초 타임아웃 제한이 있으므로, 각 항목은 1~2줄의 핵심 불릿포인트 요약으로만 매우 간결하게 작성하십시오.
 """
 
     # v2.89.70 — LM Studio (OpenAI 호환 API) + Ollama 둘 다 지원. URL/포트로 자동 감지.
     is_lm_studio = ('1234' in ollama_url) or ('/v1' in ollama_url)
     print(f"🧠 [LLM 분석 중... 엔진: {'LM Studio' if is_lm_studio else 'Ollama'}]")
 
-    report = ""
     # 모델 자동 선택 — 엔진별로 다른 endpoint
     if not model:
         try:
@@ -133,53 +130,43 @@ def main():
                 models = [m["name"] for m in r.json().get("models", [])]
             if not models:
                 print(f"❌ 로컬 LLM에 설치된 모델이 없어요. {'LM Studio' if is_lm_studio else 'Ollama'} 에서 모델 로드/풀하세요.")
-                model = None
-            else:
-                model = models[0]
-                print(f"   자동 선택 모델: {model}")
+                sys.exit(1)
+            model = models[0]
+            print(f"   자동 선택 모델: {model}")
         except Exception as e:
             print(f"❌ 로컬 LLM 연결 실패 ({ollama_url}): {e}")
             print(f"   엔진 실행 확인: {'LM Studio (포트 1234)' if is_lm_studio else 'Ollama (포트 11434)'}")
-            model = None
+            sys.exit(1)
 
     # 추론 호출 — 엔진별 다른 endpoint·payload 형식
-    if model:
-        try:
-            if is_lm_studio:
-                base = ollama_url.rstrip('/')
-                if not base.endswith('/v1'):
-                    base = base + '/v1'
-                r = requests.post(
-                    f"{base}/chat/completions",
-                    json={
-                        "model": model,
-                        "messages": [{"role": "user", "content": prompt}],
-                        "stream": False,
-                        "max_tokens": 2048,
-                    },
-                    timeout=600,
-                )
-                r.raise_for_status()
-                report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-            else:
-                r = requests.post(
-                    f"{ollama_url}/api/generate",
-                    json={"model": model, "prompt": prompt, "stream": False},
-                    timeout=600,
-                )
-                r.raise_for_status()
-                report = r.json().get("response", "").strip()
-        except Exception as e:
-            print(f"❌ LLM 호출 실패: {e}")
-            report = ""
-
-    # LLM이 실패했거나 모델이 없는 경우 폴백 텍스트 설정
-    if not report:
-        print("⚠️  LLM을 통한 요약 보고서 작성을 건너뜁니다. 수집된 로우 데이터를 저장합니다.")
-        report = f"""⚠️ 로컬 LLM 연결 실패로 분석 보고서를 완성하지 못했습니다. 수집된 트렌드 원본 데이터를 기록합니다.
-
-### 📡 수집된 유튜브 떡상 영상 목록
-{data_text}"""
+    try:
+        if is_lm_studio:
+            base = ollama_url.rstrip('/')
+            if not base.endswith('/v1'):
+                base = base + '/v1'
+            r = requests.post(
+                f"{base}/chat/completions",
+                json={
+                    "model": model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "stream": False,
+                    "max_tokens": 2048,
+                },
+                timeout=180,
+            )
+            r.raise_for_status()
+            report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+        else:
+            r = requests.post(
+                f"{ollama_url}/api/generate",
+                json={"model": model, "prompt": prompt, "stream": False},
+                timeout=180,
+            )
+            r.raise_for_status()
+            report = r.json().get("response", "").strip()
+    except Exception as e:
+        print(f"❌ LLM 호출 실패: {e}")
+        sys.exit(1)
 
     print("\n" + "="*60)
     print(report)

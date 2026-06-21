@@ -1788,3 +1788,43 @@ AI 비즈니스/마케팅 트렌드에 대해 최근 30일간 조회수가 높�
 [마케팅 트렌드] 채널: 메이커 에반 | Maker Evan | 제목: 클로드 코워크로 업무 자동화 끝냈습니다
 
 ---
+
+
+# 🎯 트렌드 스나이핑 보고서 — 2026-06-21 20:20:58
+## 📡 키워드: 생산성 툴, 마케팅 트렌드
+
+⚠️ LM Studio 연결 실패로 분석 보고서를 완성하지 못했습니다. 수집된 트렌드 원본 데이터를 기록합니다.
+
+### 📡 수집된 유튜브 떡상 영상 목록
+[생산성 툴] 채널: 할리노트 | 제목: 구독에 지친 당신을 구원할 신박한 무료 생산성 툴 4가지 (회의록/유튜브 필기/시각화 앱)
+[생산성 툴] 채널: Prime Care | 제목: Boosting Solo Construction Productivity with Budget-Friendly Homemade Tools
+[생산성 툴] 채널: Kyle takes notes | 제목: Which of these tools do you use? #productivity #sleep #college #studywithme
+[생산성 툴] 채널: Status fair official | 제목: Top Productivity Tools 2026🔥 #shorts #shortsfeed #viralshorts🔥🙏
+[생산성 툴] 채널: SetupsAI | 제목: Find almost any tools #tool #tools #productivity
+[마케팅 트렌드] 채널: Criteo_Korea | 제목: [Criteo Commerce Forum 2026 하이라이트] 커머스 인텔리전스, 그 다음 챕터를 열다
+[마케팅 트렌드] 채널: 땡스큐레이터 | 제목: 🫧AI가 발달할수록 웰니스가 더 커지는 이유 | 지금 가장 강력한 소비 트렌드를 뜯어봤습니다
+[마케팅 트렌드] 채널: 땡스큐레이터 | 제목: 요즘 MZ들의 웰니스, 사우나♨️
+[마케팅 트렌드] 채널: 삼성웰스토리 | 제목: 마케터인데..’트렌드&#39;를 언급하지 말라구요? 아슬아슬 금지어 인터뷰, 사무실 딥토크🤫
+[마케팅 트렌드] 채널: 메이커 에반 | Maker Evan | 제목: 클로드 코워크로 업무 자동화 끝냈습니다
+
+---
+
+
+# 🎯 트렌드 스나이핑 보고서 — 2026-06-21 20:22:41
+## 📡 키워드: 생산성 툴, 유튜브 자동화
+
+⚠️ LM Studio 연결 실패로 분석 보고서를 완성하지 못했습니다. 수집된 트렌드 원본 데이터를 기록합니다.
+
+### 📡 수집된 유튜브 떡상 영상 목록
+[생산성 툴] 채널: 할리노트 | 제목: 구독에 지친 당신을 구원할 신박한 무료 생산성 툴 4가지 (회의록/유튜브 필기/시각화 앱)
+[생산성 툴] 채널: Prime Care | 제목: Boosting Solo Construction Productivity with Budget-Friendly Homemade Tools
+[생산성 툴] 채널: Kyle takes notes | 제목: Which of these tools do you use? #productivity #sleep #college #studywithme
+[생산성 툴] 채널: Status fair official | 제목: Top Productivity Tools 2026🔥 #shorts #shortsfeed #viralshorts🔥🙏
+[생산성 툴] 채널: SetupsAI | 제목: Find almost any tools #tool #tools #productivity
+[유튜브 자동화] 채널: Danny Why | 제목: Claude Code + YouTube = $62,000/Month
+[유튜브 자동화] 채널: Lumente Shorts  | 제목: The Smartest YouTube Trick Ever...
+[유튜브 자동화] 채널: 유미카 | 제목: [최철웅 몰아보기] 현대자동차의 로봇 자동화 수준 보고 충격에 얼어붙은 북한사람들!
+[유튜브 자동화] 채널: SAGAR THE TECH | 제목: How I Made $36,677.43 🤑 with YouTube Shorts Automation | Full Course | USA Channel Idea 2026
+[유튜브 자동화] 채널: 데키랩 | 제목: 10분 안에 배우는 AI 영상 편집 자동화 (편집 시간 90% 단축)
+
+---
