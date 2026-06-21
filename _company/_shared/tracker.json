@@ -118,6 +118,66 @@
       "preAlarmsSent": [],
       "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
       "completedAt": "2026-06-18T02:30:26.712Z"
+    },
+    {
+      "id": "20260621143542-nris",
+      "title": "**시공팀별 가용 시간 DB** (요일/시간대, 지역 정보 포함)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.966Z",
+      "status": "pending",
+      "sessionDir": "2026-06-21T14-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": []
+    },
+    {
+      "id": "20260621143542-4okv",
+      "title": "**패키지별 표준 소요 시간(H)** (난이도 가중치 산출 근거)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.968Z",
+      "status": "pending",
+      "sessionDir": "2026-06-21T14-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": []
+    },
+    {
+      "id": "20260621143542-71e0",
+      "title": "**지역별 평균 시공 거리 및 이동비** (배정 최적화용)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.968Z",
+      "status": "pending",
+      "sessionDir": "2026-06-21T14-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": []
+    },
+    {
+      "id": "20260621143542-oolr",
+      "title": "**재질/특수 옵션 유형 리스트와 각각의 추가 비용표**",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.969Z",
+      "status": "pending",
+      "sessionDir": "2026-06-21T14-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": []
     }
   ]
 }
