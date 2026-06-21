@@ -20,6 +20,11 @@ config (paypal_revenue.json):
 """
 import os, sys, json, base64, urllib.request, urllib.parse, urllib.error
 from datetime import datetime, timedelta, timezone
+import ssl
+try:
+    ssl._create_default_https_context = ssl._create_unverified_context
+except Exception:
+    pass
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -398,8 +403,22 @@ def _json_dump(txs, default_currency: str = ""):
 def main():
     cfg = _load()
     mode = (cfg.get("MODE") or "sandbox").strip().lower()
+    
+    # 만약 CLIENT_ID/SECRET이 비어 있으면 SANDBOX 또는 LIVE 전용 키로 폴백 매칭
     client_id = (cfg.get("CLIENT_ID") or "").strip()
+    if not client_id:
+        if mode == "live":
+            client_id = (cfg.get("LIVE_CLIENT_ID") or "").strip()
+        else:
+            client_id = (cfg.get("SANDBOX_CLIENT_ID") or "").strip()
+
     client_secret = (cfg.get("CLIENT_SECRET") or "").strip()
+    if not client_secret:
+        if mode == "live":
+            client_secret = (cfg.get("LIVE_CLIENT_SECRET") or "").strip()
+        else:
+            client_secret = (cfg.get("SANDBOX_CLIENT_SECRET") or "").strip()
+            
     lookback = int(os.environ.get("LOOKBACK_DAYS", cfg.get("LOOKBACK_DAYS", 30)))
     currency = (cfg.get("CURRENCY") or "").strip().upper()
     output_mode = (os.environ.get("OUTPUT") or "markdown").strip().lower()
