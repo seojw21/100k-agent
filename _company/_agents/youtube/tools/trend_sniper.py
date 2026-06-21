@@ -150,7 +150,7 @@ def main():
                         "stream": False,
                         "max_tokens": 2048,
                     },
-                    timeout=180,
+                    timeout=300,
                 )
                 r.raise_for_status()
                 report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
