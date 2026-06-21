@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List
 import os
 import json
+import math
 
 
 class FilmPackage(BaseModel):
@@ -63,7 +64,7 @@ def calculate_package_price(
     Ps: 난이도별 고정 단가 (49/79/129만원 기준 -> 원화 단위 변환)
     W: 작업 인원수
     B: 가변비 합계 (film_volume * 최종 단가)
-    최종 단가: 대리점 시공 원가 + 1m당 플러스 마진(1,000원 ~ 1,500원)
+    최종 단가: 대리점 시공 원가 + 1m당 플러스 마진(1,000원 ~ 1,500원)을 500원 단위로 올림(Ceiling) 처리
               (단, 예림 브랜드의 방염 요청 시 원가에 +4,400원 가산)
     """
     # 1. 부산·울산·경남 지역 3단계 고정 단가 적용 (단위: 만원 -> 원화 환산)
@@ -82,7 +83,10 @@ def calculate_package_price(
     # 3. 가변 단가 = 원가 + 마진(1,000 ~ 1,500원)
     # margin_per_meter 값 범위 제한 보장
     actual_margin = max(1000.0, min(1500.0, margin_per_meter))
-    variable_unit_cost = base_cost + actual_margin
+    raw_unit_cost = base_cost + actual_margin
+
+    # 3.1. 계산 편의성을 위한 500원 단위 올림(Ceiling) 처리
+    variable_unit_cost = math.ceil(raw_unit_cost / 500.0) * 500.0
 
     # 4. 가변비 합계 B = film_volume * variable_unit_cost
     b = film_volume * variable_unit_cost
