@@ -13,7 +13,7 @@
 | `COMPETITOR_CHANNELS` | 경쟁 채널 분석 대상 | 같은 형식. 경쟁 채널 분석 도구가 패턴을 뽑아 다음 액션을 추천합니다. |
 | `TELEGRAM_BOT_TOKEN` | (선택) 봇 토큰 | **권장: 비서(Secretary) 에이전트의 `_agents/secretary/config.md`에 입력하세요.** 거기 넣으면 모든 에이전트가 공유. 여기 입력해도 동작은 하지만 fallback일 뿐. |
 | `TELEGRAM_CHAT_ID` | (선택) chat_id | 위와 같음 — Secretary가 우선. |
-| `OLLAMA_URL` | 로컬 LLM 주소 | 기본 `http://127.0.0.1:11434`. LM Studio면 보통 `http://127.0.0.1:1234`. |
+| `OLLAMA_URL` | 로컬 LLM 주소 | 기본 `http://127.0.0.1:1234`. Ollama면 보통 `http://127.0.0.1:11434`. |
 | `MODEL` | 분석에 쓸 모델 이름 | 비워두면 첫 번째로 발견된 모델을 자동 선택. |
 
 ## 실행하면?
