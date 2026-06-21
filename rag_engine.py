@@ -57,7 +57,7 @@ def get_rag_response(query: str, retries=3, delay=10) -> str:
         # LM Studio 호출 (재시도 루프)
         for attempt in range(retries):
             try:
-                # LM Studio 모델 정보 자동 감지 및 gemma 우선순위
+                # LM Studio 모델 정보 자동 감지 및 gemma 우선순위 (Gemma 4 12b 서브)
                 r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
                 models_data = r_models.json().get("data", [])
                 

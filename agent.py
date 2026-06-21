@@ -200,10 +200,10 @@ def ask_gemma_action(messages, retries=3, delay=10):
             r_models = requests.get(f"{base}/models", timeout=5)
             models_data = r_models.json().get("data", [])
             
-            # 'gemma' 단어가 포함된 모델 우선 검색
+            # 'glm' 단어가 포함된 모델 우선 검색 (GLM 4.7 Flash 메인)
             model = None
             for m in models_data:
-                if "gemma" in m["id"].lower():
+                if "glm" in m["id"].lower():
                     model = m["id"]
                     break
                     
