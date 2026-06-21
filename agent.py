@@ -20,12 +20,9 @@ from datetime import datetime
 # Path Configurations
 BASE_DIR = Path(__file__).parent
 TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
-OLLAMA_URL = "http://localhost:11434/v1"
-OLLAMA_NATIVE_URL = "http://localhost:11434/api"
-# Context window for the model. The default Ollama context (8192) overflows once
-# the ReAct loop accumulates tool outputs, so request a larger window explicitly.
+LM_STUDIO_URL = "http://localhost:1234/v1"
+# Context window for the model.
 OLLAMA_NUM_CTX = 32768
-# Reserve part of the window for the model's response so the input never fills it.
 OLLAMA_OUTPUT_RESERVE = 4096
 # Cap a single tool output so one large result (e.g. a search dump) cannot
 # overflow the context on its own.
@@ -166,30 +163,28 @@ def trim_messages(messages, num_ctx=OLLAMA_NUM_CTX, reserve=OLLAMA_OUTPUT_RESERV
 
 # Model Connector
 def ask_gemma_action(messages):
-    """Call Ollama model to output the next JSON action."""
+    """Call LM Studio model to output the next JSON action."""
     try:
-        r_models = requests.get(f"{OLLAMA_URL}/models", timeout=5)
+        base = LM_STUDIO_URL
+        r_models = requests.get(f"{base}/models", timeout=5)
         model = r_models.json()["data"][0]["id"]
 
-        # Use the native /api/chat endpoint so we can raise num_ctx; the OpenAI
-        # compatible /v1 endpoint ignores it and rejects long prompts with HTTP 400.
         r_chat = requests.post(
-            f"{OLLAMA_NATIVE_URL}/chat",
+            f"{base}/chat/completions",
             json={
                 "model": model,
                 "messages": messages,
                 "stream": False,
-                "format": "json",
-                "options": {
-                    "temperature": 0.2,
-                    "num_ctx": OLLAMA_NUM_CTX,
-                },
+                "response_format": {"type": "json_object"},
+                "temperature": 0.2,
+                "max_tokens": 4096
             },
             timeout=120
         )
-        return r_chat.json()["message"]["content"].strip()
+        r_chat.raise_for_status()
+        return r_chat.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
-        print(f"❌ Model connection failed: {e}")
+        print(f"❌ Model connection failed (LM Studio): {e}")
         return None
 
 # ReAct Loop Orchestrator
