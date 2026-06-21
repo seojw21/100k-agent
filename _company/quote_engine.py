@@ -9,9 +9,10 @@ class FilmPackage(BaseModel):
     labor_count: int = Field(..., gt=0)             # 작업 인원 수
     film_volume: float = Field(..., gt=0.0)         # m² 또는 롤 단위 가변비용 대상 (미터 단위)
     submaterial_cost: float = Field(default=0.0, ge=0.0)  # 부자재 비용
-    brand: str = Field(default="한솔")               # 대리점 브랜드 (한솔, 삼성, 현대, LX, 영림)
+    brand: str = Field(default="한솔")               # 대리점 브랜드 (한솔, 삼성, 현대, LX, 영림, 예림)
     product_type: str = Field(default="단색(솔리드)")  # 품명 또는 제품 코드 분류
     margin_per_meter: float = Field(default=1200.0, ge=1000.0, le=1500.0) # 1m당 플러스 마진 (1000원 ~ 1500원)
+    is_fire_resistant: bool = Field(default=False)    # 방염 여부 (예림 브랜드 등 가산 비용 처리용)
 
 
 def get_base_price(brand: str, product_type: str) -> float:
@@ -26,7 +27,7 @@ def get_base_price(brand: str, product_type: str) -> float:
         data = json.load(f)
         
     if brand not in data:
-        raise ValueError(f"존재하지 않는 대리점 브랜드입니다: {brand}. (한솔, 삼성, 현대, LX, 영림 중 입력)")
+        raise ValueError(f"존재하지 않는 대리점 브랜드입니다: {brand}. (한솔, 삼성, 현대, LX, 영림, 예림 중 입력)")
         
     brand_data = data[brand]
     prices = brand_data["prices"]
@@ -54,7 +55,8 @@ def calculate_package_price(
     submaterial_cost: float,
     brand: str = "한솔",
     product_type: str = "단색(솔리드)",
-    margin_per_meter: float = 1200.0
+    margin_per_meter: float = 1200.0,
+    is_fire_resistant: bool = False
 ) -> float:
     """
     확정된 견적 수식 C = Ps + (W × B) + submaterial_cost 구현.
@@ -62,6 +64,7 @@ def calculate_package_price(
     W: 작업 인원수
     B: 가변비 합계 (film_volume * 최종 단가)
     최종 단가: 대리점 시공 원가 + 1m당 플러스 마진(1,000원 ~ 1,500원)
+              (단, 예림 브랜드의 방염 요청 시 원가에 +4,400원 가산)
     """
     # 1. 부산·울산·경남 지역 3단계 고정 단가 적용 (단위: 만원 -> 원화 환산)
     fixed_prices = {1: 49, 2: 79, 3: 129}
@@ -70,6 +73,11 @@ def calculate_package_price(
 
     # 2. 대리점 가격표에서 시공 원가 가져오기
     base_cost = get_base_price(brand, product_type)
+
+    # 2.1. 예림 브랜드이고 방염인 경우 시공자 단가 4,400원 가산 적용
+    if brand == "예림":
+        if is_fire_resistant or "방염" in product_type:
+            base_cost += 4400.0
 
     # 3. 가변 단가 = 원가 + 마진(1,000 ~ 1,500원)
     # margin_per_meter 값 범위 제한 보장
