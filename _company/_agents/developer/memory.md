@@ -95,3 +95,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-21] 의사결정 로그(2026-06-21T16:31)에 따라 quote_engine.py에 대리점별 최종 가격표 매핑 로직을 업데이트하고 export_agency_price_list() 메서드를 통해 JSON 배포 준비를 완료하세요. → 산출물 sessions/2026-06-21T17-01/developer.md
 - [2026-06-21] quote_engine.py의 export_agency_price_list() 메서드를 호출하여 확정된 대리점별 고정/가변비 매핑 데이터를 JSON 파일로 추출하고 배포 준비를 완료하세요. → 산출물 sessions/2026-06-21T17-16/developer.md
 - [2026-06-21] quote_engine.py에 브랜드별 고정/가변비 매핑 테이블과 export_agency_price_list() 메서드를 구현하고, 첫 달 유입 경로(Source) 태깅 로직을 통합한 뒤 테스트를 거쳐 JSON으로 배포하세요. → 산출물 sessions/2026-06-21T17-31/developer.md
+- [2026-06-21] 코다리가 배포 준비를 완료한 대리점별 고정/가변비 매핑 테이블 JSON과 첫 달 유입 경로(Source) 태깅 자동화 로직을 운영 환경에 정상 반영하고, 실제 데이터 추출 및 태깅이 의도대로 작동하는지 최종 테스트 후 보고하세요. → 산출물 sessions/2026-06-21T17-46/developer.md
