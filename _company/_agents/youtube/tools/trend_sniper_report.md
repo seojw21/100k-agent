@@ -1768,3 +1768,23 @@ AI 비즈니스/마케팅 트렌드에 대해 최근 30일간 조회수가 높�
 ⚠️ 위의 오프닝 스타일은 유튜브에서 가장 오래 보이는 시각적 특징(고대비, 대비가 강한 문구)과 공감을 immediately 자극하는 강력한 메시지를 포함합니다.
 
 ---
+
+
+# 🎯 트렌드 스나이핑 보고서 — 2026-06-21 20:11:06
+## 📡 키워드: AI 비즈니스, 마케팅 트렌드
+
+⚠️ 로컬 LLM 연결 실패로 분석 보고서를 완성하지 못했습니다. 수집된 트렌드 원본 데이터를 기록합니다.
+
+### 📡 수집된 유튜브 떡상 영상 목록
+[AI 비즈니스] 채널: Bloomberg Originals | 제목: Inside Anthropic, the $965 Billion AI Juggernaut | The Circuit
+[AI 비즈니스] 채널: Economy Media | 제목: Why Tech Companies Are Quietly Cancelling AI Data Centers
+[AI 비즈니스] 채널: Tasklet | 제목: AI With Company Context
+[AI 비즈니스] 채널: Raj Shamani | 제목: How To Grow Your Salary To ₹1 Crore Using AI | Vaibhav Sisinty | FO514 Raj Shamani
+[AI 비즈니스] 채널: The Economist | 제목: Can Elon Musk pull off the biggest IPO in history?
+[마케팅 트렌드] 채널: Criteo_Korea | 제목: [Criteo Commerce Forum 2026 하이라이트] 커머스 인텔리전스, 그 다음 챕터를 열다
+[마케팅 트렌드] 채널: 땡스큐레이터 | 제목: 🫧AI가 발달할수록 웰니스가 더 커지는 이유 | 지금 가장 강력한 소비 트렌드를 뜯어봤습니다
+[마케팅 트렌드] 채널: 땡스큐레이터 | 제목: 요즘 MZ들의 웰니스, 사우나♨️
+[마케팅 트렌드] 채널: 삼성웰스토리 | 제목: 마케터인데..’트렌드&#39;를 언급하지 말라구요? 아슬아슬 금지어 인터뷰, 사무실 딥토크🤫
+[마케팅 트렌드] 채널: 메이커 에반 | Maker Evan | 제목: 클로드 코워크로 업무 자동화 끝냈습니다
+
+---
