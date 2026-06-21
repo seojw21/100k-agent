@@ -1828,3 +1828,23 @@ AI 비즈니스/마케팅 트렌드에 대해 최근 30일간 조회수가 높�
 [유튜브 자동화] 채널: 데키랩 | 제목: 10분 안에 배우는 AI 영상 편집 자동화 (편집 시간 90% 단축)
 
 ---
+
+
+# 🎯 트렌드 스나이핑 보고서 — 2026-06-21 21:20:59
+## 📡 키워드: 마케팅 트렌드, AI 비즈니스
+
+⚠️ LM Studio 연결 실패로 분석 보고서를 완성하지 못했습니다. 수집된 트렌드 원본 데이터를 기록합니다.
+
+### 📡 수집된 유튜브 떡상 영상 목록
+[마케팅 트렌드] 채널: Criteo_Korea | 제목: [Criteo Commerce Forum 2026 하이라이트] 커머스 인텔리전스, 그 다음 챕터를 열다
+[마케팅 트렌드] 채널: 8am_NEWS | 제목: “수지가 수지 됐다” 이수지 패러디 광고 화제 (2026.06.03) #이수지 #처음처럼 #광고 #마케팅트렌드
+[마케팅 트렌드] 채널: 곽팀장 | 제목: 챗GPT 쓰는데 왜 업무 생산성은 그대로일까?
+[마케팅 트렌드] 채널: 곽팀장 | 제목: AI 시대의 역설, 사람들은 다시 진짜를 찾는다
+[마케팅 트렌드] 채널: 곽팀장 | 제목: 스타벅스가 쌓아온 10년, 악몽 같았던 10일
+[AI 비즈니스] 채널: Bloomberg Originals | 제목: Inside Anthropic, the $965 Billion AI Juggernaut | The Circuit
+[AI 비즈니스] 채널: Economy Media | 제목: Why Tech Companies Are Quietly Cancelling AI Data Centers
+[AI 비즈니스] 채널: Tasklet | 제목: AI With Company Context
+[AI 비즈니스] 채널: Raj Shamani | 제목: How To Grow Your Salary To ₹1 Crore Using AI | Vaibhav Sisinty | FO514 Raj Shamani
+[AI 비즈니스] 채널: The Economist | 제목: Can Elon Musk pull off the biggest IPO in history?
+
+---
