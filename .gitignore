@@ -7,3 +7,20 @@ node_modules/
 *.log
 .cache/
 Thumbs.db
+
+# Local credentials
+_agents/youtube/tools/youtube_account.json
+
+# Local large databases
+knowledge/chroma_db/
+
+# Python cache & virtualenv
+__pycache__/
+.venv/
+**/__pycache__/
+**/.venv/
+
+# IDE / tool configs
+.claude/
+.autopus/
+.mcp.json

@@ -21,6 +21,15 @@ from datetime import datetime
 BASE_DIR = Path(__file__).parent
 TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
 OLLAMA_URL = "http://localhost:11434/v1"
+OLLAMA_NATIVE_URL = "http://localhost:11434/api"
+# Context window for the model. The default Ollama context (8192) overflows once
+# the ReAct loop accumulates tool outputs, so request a larger window explicitly.
+OLLAMA_NUM_CTX = 32768
+# Reserve part of the window for the model's response so the input never fills it.
+OLLAMA_OUTPUT_RESERVE = 4096
+# Cap a single tool output so one large result (e.g. a search dump) cannot
+# overflow the context on its own.
+MAX_TOOL_OUTPUT_CHARS = 8000
 MD_BRAIN_DIR = BASE_DIR / "knowledge" / "md_brain"
 JSONL_LOG_PATH = BASE_DIR / "knowledge" / "antigravity_brain.jsonl"
 
@@ -126,24 +135,59 @@ def write_file(path: str, content: str) -> str:
     except Exception as e:
         return f"Error writing file: {e}"
 
+# Context management
+def _estimate_tokens(text: str) -> int:
+    """Rough token estimate. ~3 chars/token is conservative for mixed KO/EN text."""
+    return len(text) // 3 + 1
+
+
+def trim_messages(messages, num_ctx=OLLAMA_NUM_CTX, reserve=OLLAMA_OUTPUT_RESERVE):
+    """Drop the oldest conversational turns until the prompt fits the context.
+
+    The system prompt (index 0) and the initial task message (index 1) are always
+    kept; only the accumulated assistant/tool-output tail is trimmed.
+    """
+    if len(messages) <= 2:
+        return messages
+
+    budget = num_ctx - reserve
+    head = messages[:2]
+    tail = messages[2:]
+
+    def total(msgs):
+        return sum(_estimate_tokens(m.get("content", "")) for m in msgs)
+
+    while tail and total(head + tail) > budget:
+        # Drop the oldest tail turn first.
+        tail.pop(0)
+
+    return head + tail
+
+
 # Model Connector
 def ask_gemma_action(messages):
     """Call Ollama model to output the next JSON action."""
     try:
         r_models = requests.get(f"{OLLAMA_URL}/models", timeout=5)
         model = r_models.json()["data"][0]["id"]
-        
+
+        # Use the native /api/chat endpoint so we can raise num_ctx; the OpenAI
+        # compatible /v1 endpoint ignores it and rejects long prompts with HTTP 400.
         r_chat = requests.post(
-            f"{OLLAMA_URL}/chat/completions",
+            f"{OLLAMA_NATIVE_URL}/chat",
             json={
                 "model": model,
                 "messages": messages,
-                "temperature": 0.2,
-                "response_format": {"type": "json_object"}
+                "stream": False,
+                "format": "json",
+                "options": {
+                    "temperature": 0.2,
+                    "num_ctx": OLLAMA_NUM_CTX,
+                },
             },
             timeout=120
         )
-        return r_chat.json()["choices"][0]["message"]["content"].strip()
+        return r_chat.json()["message"]["content"].strip()
     except Exception as e:
         print(f"❌ Model connection failed: {e}")
         return None
@@ -177,6 +221,7 @@ Output only a single JSON object matching this schema in every turn:
     
     while steps < max_steps:
         steps += 1
+        messages = trim_messages(messages)
         raw_response = ask_gemma_action(messages)
         if not raw_response:
             break
@@ -237,9 +282,12 @@ Output only a single JSON object matching this schema in every turn:
         else:
             result = f"Unknown tool: {tool}"
             
-        # Update messages
+        # Update messages (cap oversized tool output to protect the context window)
+        result_str = str(result)
+        if len(result_str) > MAX_TOOL_OUTPUT_CHARS:
+            result_str = result_str[:MAX_TOOL_OUTPUT_CHARS] + "\n...[truncated]"
         messages.append({"role": "assistant", "content": raw_response})
-        messages.append({"role": "user", "content": f"Tool Output: {result}"})
+        messages.append({"role": "user", "content": f"Tool Output: {result_str}"})
         time.sleep(1)
         
     return False
