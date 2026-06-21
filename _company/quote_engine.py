@@ -95,3 +95,15 @@ def calculate_package_price(
     # 최종 금액 = 고정비 + (인원수 * 가변비) + 부자재 비용
     total_price = ps_krw + (w * b) + submaterial_cost
     return total_price
+
+
+def export_agency_price_list() -> dict:
+    """
+    film_prices.json 파일로부터 전체 대리점 가격표 데이터를 로드하여 딕셔너리 형태로 반환합니다.
+    """
+    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "film_prices.json")
+    if not os.path.exists(db_path):
+        raise FileNotFoundError(f"인테리어필름 가격표 데이터베이스 파일을 찾을 수 없습니다: {db_path}")
+        
+    with open(db_path, "r", encoding="utf-8") as f:
+        return json.load(f)
