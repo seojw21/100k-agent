@@ -111,3 +111,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-22] 이전 세션에서 확인된 누락된 PROJECT_PATH와 web_init 설정 파일을 생성하거나 수정하고, 전체 개발 환경에 대해 lint_test.py를 재실행하여 기초 결함을 제거하세요. → 산출물 sessions/2026-06-22T00-31/developer.md
 - [2026-06-22] 도구 오류 로그에 명시된 잘못된 playlistId를 올바른 값으로 수정하고, 누락되었던 PROJECT_PATH와 web_init 설정을 생성/복구한 뒤 lint_test.py로 환경 무결성을 검증하세요. → 산출물 sessions/2026-06-22T01-01/developer.md
 - [2026-06-22] tools/lint_test.py 존재 여부를 먼저 확인하고, web_init.json의 ID가 404를 유발하지 않도록 재수정 후 전체 개발 환경 무결성을 최종 검증하세요. → 산출물 sessions/2026-06-22T01-16/developer.md
+- [2026-06-22] web_init.json 파일 내 playlistId를 로그에 명시된 correct_playlist_id_from_log로 수정한 뒤 lint_test.py를 실행하여 환경 무결성을 확정하세요. → 산출물 sessions/2026-06-22T01-31/developer.md
