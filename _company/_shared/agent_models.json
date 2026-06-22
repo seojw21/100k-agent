@@ -1,11 +1,11 @@
 {
   "ceo": "gemma4:12b",
-  "designer": "gemma4:latest",
+  "designer": "qwopus3.6-27b-coder-mtp",
   "developer": "qwen2.5-coder:latest",
   "business": "hf.co/seoart/sks0321-v4:latest",
   "secretary": "gemma4:latest",
   "editor": "hf.co/seoart/sks0321-v4:latest",
-  "instagram": "hf.co/seoart/seoart-v4:Q4_K_M",
   "researcher": "gemma4:12b",
-  "youtube": "google/gemma-4-12b"
+  "youtube": "qwopus3.6-27b-coder-mtp",
+  "instagram": "qwopus3.6-27b-coder-mtp"
 }

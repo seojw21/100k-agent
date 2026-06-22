@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+# version: telegram_v3
 """Competitor Brief — for every channel in COMPETITOR_CHANNELS, pulls their
-recent top-performing videos and asks the local LLM for a *prescriptive*
+recent top-performing videos and asks the local LLM (LM Studio) for a *prescriptive*
 brief: what should YOU do next, given what's working for them.
 
-Reads youtube_account.json (api key, competitors, ollama, model) and
-competitor_brief.json (volume)."""
+Reads youtube_account.json (api key, competitors, LM_STUDIO_URL, model) and
+competitor_brief.json (volume).
+"""
 import os, json, sys, time, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -56,7 +58,10 @@ def main():
         sys.exit(1)
     top_n = int(cfg.get("TOP_N_PER_CHANNEL", 5))
     lookback = int(cfg.get("LOOKBACK_DAYS", 30))
-    ollama_url = (acct.get("OLLAMA_URL") or "http://127.0.0.1:11434").rstrip("/")
+    
+    lm_studio_url = (acct.get("LM_STUDIO_URL") or acct.get("LLM_URL") or acct.get("OLLAMA_URL") or "http://127.0.0.1:1234").rstrip("/")
+    if "11434" in lm_studio_url:
+        lm_studio_url = lm_studio_url.replace("11434", "1234")
     model = acct.get("MODEL") or ""
 
     try:
@@ -66,7 +71,7 @@ def main():
         print("❌ pip install google-api-python-client requests")
         sys.exit(1)
     youtube = build("youtube", "v3", developerKey=api_key)
-    after = (datetime.datetime.utcnow() - datetime.timedelta(days=lookback)).isoformat("T") + "Z"
+    after = (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(days=lookback)).isoformat("T") + "Z"
 
     snapshot = []
     for ch in competitors:
@@ -75,21 +80,24 @@ def main():
             print(f"⚠️  {ch} 채널 못 찾음")
             continue
         print(f"🔭 [{ch}] 최근 영상 분석 중...")
-        sr = youtube.search().list(part="snippet", channelId=cid, maxResults=top_n,
-                                    order="viewCount", publishedAfter=after, type="video").execute()
-        ids = [it["id"]["videoId"] for it in sr.get("items", [])]
-        if not ids:
-            continue
-        st = youtube.videos().list(part="statistics,snippet", id=",".join(ids)).execute()
-        for it in st.get("items", []):
-            stats = it.get("statistics", {})
-            snip = it.get("snippet", {})
-            snapshot.append({
-                "channel": ctitle,
-                "title": snip.get("title", ""),
-                "views": int(stats.get("viewCount", 0)),
-                "published": snip.get("publishedAt", "")[:10],
-            })
+        try:
+            sr = youtube.search().list(part="snippet", channelId=cid, maxResults=top_n,
+                                        order="viewCount", publishedAfter=after, type="video").execute()
+            ids = [it["id"]["videoId"] for it in sr.get("items", [])]
+            if not ids:
+                continue
+            st = youtube.videos().list(part="statistics,snippet", id=",".join(ids)).execute()
+            for it in st.get("items", []):
+                stats = it.get("statistics", {})
+                snip = it.get("snippet", {})
+                snapshot.append({
+                    "channel": ctitle,
+                    "title": snip.get("title", ""),
+                    "views": int(stats.get("viewCount", 0)),
+                    "published": snip.get("publishedAt", "")[:10],
+                })
+        except Exception as e:
+            print(f"❌ 검색 오류 ({ch}): {e}")
 
     if not snapshot:
         print("❌ 데이터 수집 실패.")
@@ -99,18 +107,27 @@ def main():
     data_text = "\n".join(f"[{r['channel']}] {r['views']:,}회 · {r['published']} · {r['title']}"
                            for r in snapshot[:25])
 
+    print(f"🧠 [LLM 분석 중... 엔진: LM Studio]")
+
+    # 모델 자동 선택 — LM Studio 전용 (OpenAI 호환 API /v1/models)
     if not model:
         try:
-            r = requests.get(f"{ollama_url}/api/tags", timeout=5)
+            base = lm_studio_url
+            if not base.endswith('/v1'):
+                base = base + '/v1'
+            r = requests.get(f"{base}/models", timeout=5)
             r.raise_for_status()
-            models = [m["name"] for m in r.json().get("models", [])]
+            models = [m["id"] for m in r.json().get("data", [])]
             if not models:
-                print("❌ 로컬 LLM에 모델이 없어요.")
-                sys.exit(1)
-            model = models[0]
+                print("❌ LM Studio에 활성화된 모델이 없어요. LM Studio에서 모델을 로드하세요.")
+                model = None
+            else:
+                model = models[0]
+                print(f"   자동 선택 모델: {model}")
         except Exception as e:
-            print(f"❌ LLM 연결 실패: {e}")
-            sys.exit(1)
+            print(f"❌ LM Studio 연결 실패 ({lm_studio_url}): {e}")
+            print(f"   엔진 실행 확인: LM Studio (포트 1234 또는 설정 포트)")
+            model = None
 
     prompt = f"""당신은 유튜브 알고리즘 전략가입니다. 아래는 경쟁 채널들의 최근 {lookback}일간 상위 영상 데이터입니다.
 
@@ -131,16 +148,53 @@ def main():
 ## 4) 한 줄 요약
 - 다음 영상의 핵심 컨셉을 한 문장으로
 """
-    print("🧠 [LLM 분석 중...]")
-    try:
-        r = requests.post(f"{ollama_url}/api/generate",
-                          json={"model": model, "prompt": prompt, "stream": False, "options": {"num_ctx": 8192}},
-                          timeout=240)
-        r.raise_for_status()
-        brief = r.json().get("response", "").strip()
-    except Exception as e:
-        print(f"❌ LLM 실패: {e}")
-        sys.exit(1)
+    brief = ""
+    # 추론 호출 — LM Studio 전용
+    if model:
+        max_retries = 3
+        retry_delay = 10
+        for attempt in range(max_retries):
+            try:
+                base = lm_studio_url
+                if not base.endswith('/v1'):
+                    base = base + '/v1'
+                r = requests.post(
+                    f"{base}/chat/completions",
+                    json={
+                        "model": model,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "stream": False,
+                        "max_tokens": 2048,
+                    },
+                    timeout=300,
+                )
+                r.raise_for_status()
+                brief = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+                break
+            except Exception as e:
+                err_msg = ""
+                if 'r' in locals() and hasattr(r, 'text'):
+                    err_msg = r.text
+                
+                # LM Studio가 다른 모델을 언로드하고 새 모델을 메모리에 로드하는 중 발생할 수 있는 오류들 대응
+                if "reloaded" in err_msg.lower() or "loading" in err_msg.lower() or "loaded" in err_msg.lower() or (attempt < max_retries - 1 and getattr(e, 'response', None) is not None and e.response.status_code == 400):
+                    print(f"⚠️  LM Studio 모델 로딩/교체 감지. {retry_delay}초 대기 후 재시도... (시도 {attempt+1}/{max_retries})")
+                    time.sleep(retry_delay)
+                    continue
+                
+                print(f"❌ LM Studio 호출 실패: {e}")
+                if err_msg:
+                    print(f"   서버 응답 상세: {err_msg}")
+                report = ""
+                break
+
+    # LM Studio 호출이 실패했거나 모델이 없는 경우 폴백 텍스트 설정
+    if not brief:
+        print("⚠️  LM Studio를 통한 경쟁사 요약 보고서 작성을 건너뜁니다. 수집된 로우 데이터를 저장합니다.")
+        brief = f"""⚠️ LM Studio 연결 실패로 경쟁 채널 요약 분석 보고서를 완성하지 못했습니다. 수집된 원본 데이터를 기록합니다.
+
+### 📡 수집된 경쟁사 떡상 영상 목록
+{data_text}"""
 
     ts = time.strftime('%Y-%m-%d %H:%M')
     out = f"# 🔭 경쟁 채널 브리프 — {ts}\n\n채널: {', '.join(competitors)} · 최근 {lookback}일\n\n{brief}\n"

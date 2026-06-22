@@ -55,7 +55,7 @@ def main():
     if not target_keywords:
         print("⚠️  TARGET_KEYWORDS가 비어있어요. 분석할 키워드를 1개 이상 추가하세요.")
         sys.exit(1)
-    ollama_url = (_shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:11434") or "http://127.0.0.1:11434").rstrip("/")
+    ollama_url = (_shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:1234") or "http://127.0.0.1:1234").rstrip("/")
     model = _shared(cfg, acct, "MODEL", "") or ""
     pick = min(2, len(target_keywords))
     chosen = random.sample(target_keywords, pick)
@@ -106,8 +106,6 @@ def main():
 1. 🌍 트렌드 해킹 분석 — 어떤 패턴이 조회수를 끌고 있는지
 2. 🎯 빈집 털기 전략 — 차별화 가능한 틈새 주제
 3. 🎬 파괴적 영상 기획안 — 썸네일 카피, 제목 3개, 후킹 오프닝(첫 5초)
-
-⚠️ 중요: 120초 타임아웃 제한이 있으므로, 각 항목은 1~2줄의 핵심 불릿포인트 요약으로만 매우 간결하게 작성하십시오.
 """
 
     # v2.89.70 — LM Studio (OpenAI 호환 API) + Ollama 둘 다 지원. URL/포트로 자동 감지.
@@ -154,7 +152,7 @@ def main():
                     "stream": False,
                     "max_tokens": 2048,
                 },
-                timeout=120,
+                timeout=180,
             )
             r.raise_for_status()
             report = r.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
@@ -162,7 +160,7 @@ def main():
             r = requests.post(
                 f"{ollama_url}/api/generate",
                 json={"model": model, "prompt": prompt, "stream": False},
-                timeout=120,
+                timeout=180,
             )
             r.raise_for_status()
             report = r.json().get("response", "").strip()

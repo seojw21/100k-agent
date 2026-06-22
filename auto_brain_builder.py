@@ -4,10 +4,14 @@ import json
 import time
 import requests
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
-# Path Configuration
-BASE_DIR = "/Users/seojeong-won/GEMMA 4"
-LM_STUDIO_URL = "http://localhost:11434/v1"
+# Path Configuration - 상대 경로 자동 획득으로 하드코딩 제거
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# LM Studio 포트 설정 (1234)
+LM_STUDIO_URL = "http://localhost:1234/v1"
 MD_BRAIN_DIR = os.path.join(BASE_DIR, "knowledge", "md_brain")
 JSONL_LOG_PATH = os.path.join(BASE_DIR, "knowledge", "antigravity_brain.jsonl")
 RAW_EVENTS_DIR = os.path.join(BASE_DIR, "knowledge", "raw_events")
@@ -16,13 +20,33 @@ RAW_EVENTS_DIR = os.path.join(BASE_DIR, "knowledge", "raw_events")
 os.makedirs(MD_BRAIN_DIR, exist_ok=True)
 os.makedirs(RAW_EVENTS_DIR, exist_ok=True)
 
-def ask_gemma_to_structure(raw_content):
-    """Query the local Gemma 4 model via LM Studio to parse and analyze the raw trend data."""
-    try:
-        r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
-        model = r_models.json()["data"][0]["id"]
-        
-        prompt = f"""Analyze the following raw trend/complaint data and format it as a Connect-AI knowledge node.
+# Thread Pool for non-blocking file processing
+executor = ThreadPoolExecutor(max_workers=2)
+
+def ask_gemma_to_structure(raw_content, retries=3, delay=10):
+    """Query the local GLM model via LM Studio with robust retry logic for loading delays."""
+    for attempt in range(retries):
+        try:
+            r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
+            models_data = r_models.json().get("data", [])
+            
+            # 'glm' 단어가 포함된 모델 우선 검색 (GLM 4.7 Flash 메인)
+            model = None
+            for m in models_data:
+                if "glm" in m["id"].lower():
+                    model = m["id"]
+                    break
+                    
+            if not model and models_data:
+                model = models_data[0]["id"]
+                
+            if not model:
+                model = "local-model"
+                
+            if attempt == 0:
+                print(f"🧠 Selected LLM Model: {model}")
+            
+            prompt = f"""Analyze the following raw trend/complaint data and format it as a Connect-AI knowledge node.
 
 Raw Data:
 {raw_content}
@@ -38,20 +62,33 @@ Formatting Rules:
    - Monetization Strategy (how to capture value?)
 4. Add wiki links at the bottom connecting it to other nodes in your Second Brain (e.g. [[NomadGuard AI]], [[SveaTax]]).
 """
-        
-        r_chat = requests.post(
-            f"{LM_STUDIO_URL}/chat/completions",
-            json={
-                "model": model,
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.7
-            },
-            timeout=120
-        )
-        return r_chat.json()["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        print(f"❌ LLM request failed: {e}")
-        return None
+            
+            r_chat = requests.post(
+                f"{LM_STUDIO_URL}/chat/completions",
+                json={
+                    "model": model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.7
+                },
+                timeout=120
+            )
+            
+            if r_chat.status_code == 200:
+                res_json = r_chat.json()
+                if "choices" in res_json:
+                    return res_json["choices"][0]["message"]["content"].strip()
+                    
+            print(f"⚠️ Attempt {attempt+1}: LM Studio API status {r_chat.status_code}. Response: {r_chat.text[:200]}")
+            
+        except Exception as e:
+            print(f"⚠️ Attempt {attempt+1} exception: {e}")
+            
+        if attempt < retries - 1:
+            print(f"⏳ Waiting {delay}s before retry...")
+            time.sleep(delay)
+            
+    print("❌ All LLM structure requests failed.")
+    return None
 
 def save_to_brain(title, content_md, file_source):
     """Store raw JSONL entry and output the Markdown node for Connect-AI Lab."""
@@ -74,40 +111,86 @@ def save_to_brain(title, content_md, file_source):
         f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
     print(f"💾 Data accumulated in: {JSONL_LOG_PATH}")
 
-def check_for_events():
-    """Scan the events directory for new files to process."""
+def process_single_file(filepath):
+    """Process a single raw event file and structure it via LLM."""
+    try:
+        if not os.path.exists(filepath):
+            return
+        
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read().strip()
+        
+        if not content:
+            try:
+                os.remove(filepath)
+            except Exception:
+                pass
+            return
+            
+        filename = os.path.basename(filepath)
+        print(f"📡 Processing event file: {filename}")
+        analyzed_md = ask_gemma_to_structure(content)
+        
+        if analyzed_md:
+            title = os.path.splitext(filename)[0]
+            save_to_brain(title, analyzed_md, filename)
+            
+        try:
+            os.remove(filepath)
+            print(f"🗑️ Cleaned up event file: {filename}")
+        except Exception as e:
+            print(f"⚠️ Could not delete processed file {filepath}: {e}")
+    except Exception as e:
+        print(f"❌ Error processing event file {filepath}: {e}")
+
+def process_single_file_with_delay(filepath, delay=0.5):
+    """Wait briefly before processing to ensure file write is complete."""
+    time.sleep(delay)
+    process_single_file(filepath)
+
+def initial_scan():
+    """Scan existing files in RAW_EVENTS_DIR before starting watchdog."""
     if not os.path.exists(RAW_EVENTS_DIR):
         return
-        
     files = [f for f in os.listdir(RAW_EVENTS_DIR) if f.endswith('.txt')]
     for file in files:
         full_path = os.path.join(RAW_EVENTS_DIR, file)
-        try:
-            with open(full_path, "r", encoding="utf-8") as f:
-                content = f.read().strip()
+        process_single_file(full_path)
+
+class EventFileHandler(FileSystemEventHandler):
+    """Watchdog event handler for raw event files."""
+    def on_created(self, event):
+        if event.is_directory:
+            return
+        if event.src_path.endswith('.txt'):
+            print(f"🔔 File created event: {event.src_path}")
+            executor.submit(process_single_file_with_delay, event.src_path)
             
-            if not content:
-                os.remove(full_path)
-                continue
-                
-            print(f"📡 Event detected: {file}")
-            # Request Gemma 4 analysis
-            analyzed_md = ask_gemma_to_structure(content)
-            
-            if analyzed_md:
-                # Derive title from filename
-                title = os.path.splitext(file)[0]
-                save_to_brain(title, analyzed_md, file)
-                
-            os.remove(full_path)
-        except Exception as e:
-            print(f"❌ Error processing event file {file}: {e}")
+    def on_moved(self, event):
+        if event.is_directory:
+            return
+        if event.dest_path.endswith('.txt'):
+            print(f"🔔 File moved/renamed event: {event.dest_path}")
+            executor.submit(process_single_file_with_delay, event.dest_path)
 
 def main():
-    print("🤖 Connect-AI Zero-Touch Loop active. Scanning for new events...")
-    while True:
-        check_for_events()
-        time.sleep(5)
+    print("🤖 Connect-AI Zero-Touch Loop active. Watching RAW_EVENTS_DIR...")
+    # 1. Scan pre-existing files
+    initial_scan()
+    
+    # 2. Start watchdog observer
+    event_handler = EventFileHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path=RAW_EVENTS_DIR, recursive=False)
+    observer.start()
+    
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+    executor.shutdown(wait=True)
 
 if __name__ == "__main__":
     main()

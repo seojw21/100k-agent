@@ -37,12 +37,23 @@ PAIN_DB_PATH = KNOWLEDGE_DIR / "pain_db.json"
 INDEX_PATH = KNOWLEDGE_DIR / "index.json"
 
 class KnowledgeSearch:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(KnowledgeSearch, cls).__new__(cls)
+            cls._instance._initialized = False
+        return cls._instance
+
     def __init__(self):
+        if getattr(self, "_initialized", False):
+            return
         self._db: list[dict] = []
         self._index: dict = {}
         self._chroma_collection = None
         self._load_json_db()
         self._load_chromadb()
+        self._initialized = True
 
     # ─────────────────────────────────────────────
     # 초기화
