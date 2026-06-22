@@ -114,3 +114,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-22] web_init.json 파일 내 playlistId를 로그에 명시된 correct_playlist_id_from_log로 수정한 뒤 lint_test.py를 실행하여 환경 무결성을 확정하세요. → 산출물 sessions/2026-06-22T01-31/developer.md
 - [2026-06-22] lint_test.py를 재실행하여 개발 환경 무결성을 최종 확인한 후 youtube 에이전트의 검증 결과와 대조해 보세요. → 산출물 sessions/2026-06-22T01-46/developer.md
 - [2026-06-22] PROJECT_PATH 및 web_init 설정을 복구하고 lint_test.py를 재실행하여 개발 환경 무결성을 확정하세요. → 산출물 sessions/2026-06-22T02-01/developer.md
+- [2026-06-22] web_init.json 내 PROJECT_PATH와 playlistId를 로그의 correct_playlist_id_from_log 값으로 수정하고, lint_test.py를 실행하여 개발 환경 무결성을 최종 확정하세요. → 산출물 sessions/2026-06-22T02-16/developer.md
