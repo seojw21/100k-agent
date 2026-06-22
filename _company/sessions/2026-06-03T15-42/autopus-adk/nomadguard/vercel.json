@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "nomadguard.css", "use": "@vercel/static" },
+    { "src": "nomadguard.js", "use": "@vercel/static" }
+  ]
+}

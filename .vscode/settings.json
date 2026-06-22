@@ -1,0 +1,30 @@
+{
+  "connect-ai.knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connect-ai.knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connectAi.knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connectAi.knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connect-ai-lab.knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connect-ai-lab.knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connectAiLab.knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connectAiLab.knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connectAiLab.localBrainPath": "/Users/seojeong-won/GEMMA 4/knowledge/md_brain",
+  "connectAiLab.localBrainFolder": "/Users/seojeong-won/GEMMA 4/knowledge/md_brain",
+  "ezerai.knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "ezerai.knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "ezerAi.knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "ezerAi.knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
+
+  "connect-ai.knowledgePath_uppercase": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connect-ai.knowledgeFolder_uppercase": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connect-ai.knowledgePath_forward": "/Users/seojeong-won/GEMMA 4/knowledge",
+  "connect-ai.knowledgeFolder_forward": "/Users/seojeong-won/GEMMA 4/knowledge",
+
+  "connect-ai-brain.knowledgePath": "/Users/seojeong-won/.connect-ai-brain",
+  "connect-ai-brain.knowledgeFolder": "/Users/seojeong-won/.connect-ai-brain",
+  "connectAiBrain.knowledgePath": "/Users/seojeong-won/.connect-ai-brain",
+  "connectAiBrain.knowledgeFolder": "/Users/seojeong-won/.connect-ai-brain",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/.venv/lib/python3.14/site-packages"
+  ]
+}
