@@ -120,3 +120,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-22] lint_test.py 결과를 기반으로 web_init.json 내 PROJECT_PATH와 playlistId를 실제 로그 값으로 업데이트하고 재검증을 수행하세요. → 산출물 sessions/2026-06-22T03-31/developer.md
 - [2026-06-22] lint_test.py 결과에서 확인된 실제 경로를 바탕으로 PROJECT_PATH와 web_init.json 내 playlistId를 정확한 값으로 업데이트하고, 수정 후 다시 lint_test.py를 실행하여 개발 환경 무결성을 최종 검증하세요. → 산출물 sessions/2026-06-22T03-46/developer.md
 - [2026-06-22] PayPal 및 Stripe API 연동을 포함한 결제 데이터 수집부터 정산까지의 기술 검증 및 실제 데이터 정합성 확인 → 산출물 sessions/2026-06-22T05-16/developer.md
+- [2026-06-22] PayPal/Stripe 기반 결제 데이터 수집부터 정산까지의 자동화 파이프라인 기술 검증 및 실제 데이터 정합성 확인 → 산출물 sessions/2026-06-22T05-39/developer.md
