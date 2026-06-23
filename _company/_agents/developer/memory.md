@@ -129,3 +129,5 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-23] PROJECT_PATH와 KIT_NAME 등 누락된 환경 변수를 바로잡고, 실제 PayPal API 키를 반영하여 paypal_revenue 도구 설정을 정상화한 후 기술적 무결성 재검증을 수행하세요. → 산출물 sessions/2026-06-23T08-57/developer.md
 - [2026-06-23] PROJECT_PATH 등 누락된 환경 변수를 보정하고, 사용자가 발급한 실제 PayPal API 키를 paypal_revenue.json에 반영하여 기술적 무결성 검증 루프(lint_test)를 실행하세요. → 산출물 sessions/2026-06-23T09-17/developer.md
 - [2026-06-23] 사용자가 발급한 PayPal Client ID와 Secret을 paypal_revenue.json에 반영하고 lint_test로 기술적 무결성 재검증 → 산출물 sessions/2026-06-23T09-47/developer.md
+- [2026-06-23] paypal_revenue.json에 실제 PayPal API 키를 반영하고 lint_test로 기술적 무결성을 재검증하세요. → 산출물 sessions/2026-06-23T10-02/developer.md
+- [2026-06-23] lint_test 실행 시 PROJECT_PATH가 비어 있어 발생하는 오류를 해결하기 위해 환경 변수를 보정하고 기술적 무결성 검증 루프를 재실행하세요. → 산출물 sessions/2026-06-23T10-17/developer.md
