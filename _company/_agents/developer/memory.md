@@ -127,3 +127,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-23] PayPal/Stripe API 연동을 포함한 결제 데이터 수집 및 정산 자동화 파이프라인의 기술적 무결성을 검증하고, 실제 매출 데이터와의 정합성을 확인하세요. → 산출물 sessions/2026-06-23T08-27/developer.md
 - [2026-06-23] PROJECT_PATH와 KIT_NAME 등 누락된 환경 변수를 수정하고, 실제 PayPal API 키를 확보하여 paypal_revenue 도구 설정을 정상화한 후 기술적 무결성 재검증을 수행하세요. → 산출물 sessions/2026-06-23T08-42/developer.md
 - [2026-06-23] PROJECT_PATH와 KIT_NAME 등 누락된 환경 변수를 바로잡고, 실제 PayPal API 키를 반영하여 paypal_revenue 도구 설정을 정상화한 후 기술적 무결성 재검증을 수행하세요. → 산출물 sessions/2026-06-23T08-57/developer.md
+- [2026-06-23] PROJECT_PATH 등 누락된 환경 변수를 보정하고, 사용자가 발급한 실제 PayPal API 키를 paypal_revenue.json에 반영하여 기술적 무결성 검증 루프(lint_test)를 실행하세요. → 산출물 sessions/2026-06-23T09-17/developer.md
