@@ -6,6 +6,6 @@
   "secretary": "gemma4:latest",
   "editor": "hf.co/seoart/sks0321-v4:latest",
   "researcher": "gemma4:12b",
-  "youtube": "qwopus3.6-27b-coder-mtp",
+  "youtube": "gemma4:31b-it-qat",
   "instagram": "qwopus3.6-27b-coder-mtp"
 }

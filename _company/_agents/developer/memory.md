@@ -134,3 +134,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-23] 최근 의사결정 로그에 기록된 PayPal API 키 설정, lint_test 검증 루프, 결제 파이프라인 예외 처리 및 재시도 로직의 최신 상태를 확인하고 프로젝트 진행 상황을 요약하세요. → 산출물 sessions/2026-06-23T13-02/developer.md
 - [2026-06-24] 최근 의사결정에서 확정된 paypal_revenue.json 실제 키 반영 및 lint_test 검증 루프 상태를 최종 확인하고 기술적 무결성 요약 보고서를 작성하세요. → 산출물 sessions/2026-06-24T11-35/developer.md
 - [2026-06-24] 결제 예외 처리와 지수 백오프 재시도 로직을 포함하여 실제 매출로 이어지는 자동화 파이프라인 구축을 완성하세요. → 산출물 sessions/2026-06-24T11-50/developer.md
+- [2026-06-24] lint_test.json 확인 및 paypal_revenue.json에 실제 API 키를 반영하고, Idempotency Key와 지수 백오프 재시도 로직이 포함된 결제 함수 구현 → 산출물 sessions/2026-06-24T12-05/developer.md
