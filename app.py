@@ -1,5 +1,7 @@
 
 import streamlit as st
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src", "core"))
 from rag_engine import engine
 
 st.set_page_config(page_title="사내 지식 베이스 챗봇", page_icon="🤖")
