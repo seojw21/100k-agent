@@ -27,3 +27,13 @@ __pycache__/
 .claude/
 .autopus/
 .mcp.json
+
+# 대용량 파일
+*.pdf
+*.zip
+archive/
+오늘업무_*/
+.telegram_*.json
+.telegram_poll.lock
+레딧\ *.txt
+*.jsonl
