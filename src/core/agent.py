@@ -20,7 +20,7 @@ from datetime import datetime
 # Path Configurations
 BASE_DIR = Path(__file__).parent
 TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
-LM_STUDIO_URL = "http://localhost:1234/v1"
+OLLAMA_URL = "http://localhost:11434/v1"
 # Context window for the model.
 OLLAMA_NUM_CTX = 32768
 OLLAMA_OUTPUT_RESERVE = 4096
@@ -193,17 +193,18 @@ def trim_messages(messages, num_ctx=OLLAMA_NUM_CTX, reserve=OLLAMA_OUTPUT_RESERV
 
 # Model Connector
 def ask_gemma_action(messages, retries=3, delay=10):
-    """Call LM Studio model to output the next JSON action with retry logic."""
+    """Call Ollama model to output the next JSON action with retry logic."""
     for attempt in range(retries):
         try:
-            base = LM_STUDIO_URL
+            base = OLLAMA_URL
             r_models = requests.get(f"{base}/models", timeout=5)
             models_data = r_models.json().get("data", [])
             
-            # 'glm' 단어가 포함된 모델 우선 검색 (GLM 4.7 Flash 메인)
+            # 'gemma' 또는 'glm' 단어가 포함된 모델 우선 검색
             model = None
             for m in models_data:
-                if "glm" in m["id"].lower():
+                model_id_lower = m["id"].lower()
+                if "gemma" in model_id_lower or "glm" in model_id_lower:
                     model = m["id"]
                     break
                     
@@ -231,7 +232,7 @@ def ask_gemma_action(messages, retries=3, delay=10):
                 if "choices" in res_json:
                     return res_json["choices"][0]["message"]["content"].strip()
             
-            print(f"⚠️ Model request attempt {attempt+1}: LM Studio API status {r_chat.status_code}")
+            print(f"⚠️ Model request attempt {attempt+1}: Ollama API status {r_chat.status_code}")
         except Exception as e:
             print(f"⚠️ Model request attempt {attempt+1} failed: {e}")
             

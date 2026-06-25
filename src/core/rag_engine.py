@@ -5,8 +5,8 @@ import requests
 from pathlib import Path
 from knowledge_search import KnowledgeSearch
 
-# LM Studio 포트 설정 (1234)
-LM_STUDIO_URL = "http://localhost:1234/v1"
+# Ollama 포트 설정 (11434)
+OLLAMA_URL = "http://localhost:11434/v1"
 
 # Hallucination 방지 및 전문 톤 유지를 위한 프롬프트 가이드라인
 SYSTEM_PROMPT = """당신은 기업의 내부 지식 베이스를 관리하는 전문 AI 비서입니다.
@@ -22,7 +22,7 @@ SYSTEM_PROMPT = """당신은 기업의 내부 지식 베이스를 관리하는 �
 def get_rag_response(query: str, retries=3, delay=10) -> str:
     """
     1. KnowledgeSearch 싱글톤을 이용하여 질문 관련 지식(Context)을 조회
-    2. LM Studio 로컬 LLM을 호출하여 정제된 비즈니스 답변을 생성 및 반환 (지연 시 재시도)
+    2. Ollama 로컬 LLM을 호출하여 정제된 비즈니스 답변을 생성 및 반환 (지연 시 재시도)
     """
     try:
         # KnowledgeSearch 인스턴스 획득 (싱글톤)
@@ -54,11 +54,11 @@ def get_rag_response(query: str, retries=3, delay=10) -> str:
 질문: {query}
 답변:"""
 
-        # LM Studio 호출 (재시도 루프)
+        # Ollama 호출 (재시도 루프)
         for attempt in range(retries):
             try:
-                # LM Studio 모델 정보 자동 감지 및 gemma 우선순위 (Gemma 4 12b 서브)
-                r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
+                # Ollama 모델 정보 자동 감지 및 gemma 우선순위 (Gemma 4 12b 서브)
+                r_models = requests.get(f"{OLLAMA_URL}/models", timeout=5)
                 models_data = r_models.json().get("data", [])
                 
                 model = None
@@ -83,13 +83,13 @@ def get_rag_response(query: str, retries=3, delay=10) -> str:
                     "max_tokens": 1024
                 }
                 
-                response = requests.post(f"{LM_STUDIO_URL}/chat/completions", json=payload, timeout=120)
+                response = requests.post(f"{OLLAMA_URL}/chat/completions", json=payload, timeout=120)
                 if response.status_code == 200:
                     res_json = response.json()
                     if "choices" in res_json:
                         return res_json["choices"][0]["message"]["content"].strip()
                 
-                print(f"⚠️ RAG attempt {attempt+1}: LM Studio API status {response.status_code}")
+                print(f"⚠️ RAG attempt {attempt+1}: Ollama API status {response.status_code}")
             except Exception as e:
                 print(f"⚠️ RAG attempt {attempt+1} failed: {e}")
                 
