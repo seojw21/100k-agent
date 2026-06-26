@@ -10,8 +10,8 @@ from watchdog.events import FileSystemEventHandler
 
 # Path Configuration - 상대 경로 자동 획득으로 하드코딩 제거
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# LM Studio 포트 설정 (1234)
-LM_STUDIO_URL = "http://localhost:1234/v1"
+# Ollama 포트 설정 (11434)
+OLLAMA_URL = "http://localhost:11434/v1"
 MD_BRAIN_DIR = os.path.join(BASE_DIR, "knowledge", "md_brain")
 JSONL_LOG_PATH = os.path.join(BASE_DIR, "knowledge", "antigravity_brain.jsonl")
 RAW_EVENTS_DIR = os.path.join(BASE_DIR, "knowledge", "raw_events")
@@ -24,16 +24,17 @@ os.makedirs(RAW_EVENTS_DIR, exist_ok=True)
 executor = ThreadPoolExecutor(max_workers=2)
 
 def ask_gemma_to_structure(raw_content, retries=3, delay=10):
-    """Query the local GLM model via LM Studio with robust retry logic for loading delays."""
+    """Query the local model via Ollama with robust retry logic for loading delays."""
     for attempt in range(retries):
         try:
-            r_models = requests.get(f"{LM_STUDIO_URL}/models", timeout=5)
+            r_models = requests.get(f"{OLLAMA_URL}/models", timeout=5)
             models_data = r_models.json().get("data", [])
             
-            # 'glm' 단어가 포함된 모델 우선 검색 (GLM 4.7 Flash 메인)
+            # 'gemma' 또는 'glm' 단어가 포함된 모델 우선 검색
             model = None
             for m in models_data:
-                if "glm" in m["id"].lower():
+                model_id_lower = m["id"].lower()
+                if "gemma" in model_id_lower or "glm" in model_id_lower:
                     model = m["id"]
                     break
                     
@@ -47,24 +48,24 @@ def ask_gemma_to_structure(raw_content, retries=3, delay=10):
                 print(f"🧠 Selected LLM Model: {model}")
             
             prompt = f"""Analyze the following raw trend/complaint data and format it as a Connect-AI knowledge node.
-
-Raw Data:
-{raw_content}
-
-Formatting Rules:
-1. Write a Frontmatter block (---) at the top with:
-   - 'tags: [trend, monetization]'
-   - 'id: SPEC-TREND-{int(time.time())}'
-2. Use a concise and engaging business title as the main heading (#).
-3. In the body, summarize:
-   - Core Pain Point (what is the user frustration?)
-   - Proposed Solution (how to resolve it?)
-   - Monetization Strategy (how to capture value?)
-4. Add wiki links at the bottom connecting it to other nodes in your Second Brain (e.g. [[NomadGuard AI]], [[SveaTax]]).
-"""
+ 
+ Raw Data:
+ {raw_content}
+ 
+ Formatting Rules:
+ 1. Write a Frontmatter block (---) at the top with:
+    - 'tags: [trend, monetization]'
+    - 'id: SPEC-TREND-{int(time.time())}'
+ 2. Use a concise and engaging business title as the main heading (#).
+ 3. In the body, summarize:
+    - Core Pain Point (what is the user frustration?)
+    - Proposed Solution (how to resolve it?)
+    - Monetization Strategy (how to capture value?)
+ 4. Add wiki links at the bottom connecting it to other nodes in your Second Brain (e.g. [[NomadGuard AI]], [[SveaTax]]).
+ """
             
             r_chat = requests.post(
-                f"{LM_STUDIO_URL}/chat/completions",
+                f"{OLLAMA_URL}/chat/completions",
                 json={
                     "model": model,
                     "messages": [{"role": "user", "content": prompt}],
@@ -78,7 +79,7 @@ Formatting Rules:
                 if "choices" in res_json:
                     return res_json["choices"][0]["message"]["content"].strip()
                     
-            print(f"⚠️ Attempt {attempt+1}: LM Studio API status {r_chat.status_code}. Response: {r_chat.text[:200]}")
+            print(f"⚠️ Attempt {attempt+1}: Ollama API status {r_chat.status_code}. Response: {r_chat.text[:200]}")
             
         except Exception as e:
             print(f"⚠️ Attempt {attempt+1} exception: {e}")
