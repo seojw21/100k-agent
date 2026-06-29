@@ -1,11 +1,12 @@
 {
-  "ceo": "gemma4:12b",
-  "designer": "qwopus3.6-27b-coder-mtp",
-  "developer": "qwen2.5-coder:latest",
-  "business": "hf.co/seoart/sks0321-v4:latest",
-  "secretary": "gemma4:latest",
-  "editor": "hf.co/seoart/sks0321-v4:latest",
-  "researcher": "gemma4:12b",
-  "youtube": "gemma4:31b-it-qat",
-  "instagram": "qwopus3.6-27b-coder-mtp"
+  "ceo": "batiai/qwen3.6-35b:iq4",
+  "designer": "gemma4:12b",
+  "developer": "batiai/qwen3.6-27b:q4",
+  "business": "gemma4:12b",
+  "secretary": "gemma4:12b",
+  "editor": "batiai/qwen3.6-35b:iq4",
+  "researcher": "batiai/qwen3.6-27b:q4",
+  "youtube": "batiai/qwen3.6-35b:iq4",
+  "instagram": "gemma4:12b",
+  "writer": "batiai/qwen3.6-27b:q4"
 }
