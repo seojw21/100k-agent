@@ -20,7 +20,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 KNOWLEDGE_DIR = BASE_DIR / "knowledge"
 RAW_COLLECTED_PATH = KNOWLEDGE_DIR / "raw_collected.jsonl"
 COLLECTED_IDS_PATH = KNOWLEDGE_DIR / "collected_ids.json"
