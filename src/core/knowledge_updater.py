@@ -21,7 +21,7 @@ import requests
 from datetime import datetime
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 KNOWLEDGE_DIR = BASE_DIR / "knowledge"
 CHROMA_DIR = KNOWLEDGE_DIR / "chroma_db"
 RAW_COLLECTED_PATH = KNOWLEDGE_DIR / "raw_collected.jsonl"
