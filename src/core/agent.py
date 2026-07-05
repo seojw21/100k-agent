@@ -375,9 +375,9 @@ def main():
                         print(f"Error saving tasks: {e}")
             else:
                 # Idle check
-                time.sleep(5)
+                break
         else:
-            time.sleep(5)
+            break
 
 # Duplicate code from original agent.py helper
 def fetch_daily_ideas():
