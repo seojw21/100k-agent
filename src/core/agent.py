@@ -18,7 +18,7 @@ from pathlib import Path
 from datetime import datetime
 
 # Path Configurations
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 TASKS_JSON_PATH = Path("/Users/seojeong-won/Library/Application Support/connect-ai-desktop/tasks.json")
 OLLAMA_URL = "http://localhost:11434/v1"
 # Context window for the model.
