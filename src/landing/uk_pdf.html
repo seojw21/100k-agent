@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK 기업정보 PDF 대량 다운로드 | dumpany</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%);
+            padding: 80px 0;
+            text-align: center;
+            border-bottom: 1px solid #21262d;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: #8b949e;
+            margin-bottom: 40px;
+        }
+        .hero .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 40px 0;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f85149;
+        }
+        .stat-label { font-size: 0.9rem; color: #8b949e; }
+        
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: #238636;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .cta-button:hover { background: #2ea043; transform: translateY(-2px); }
+        
+        /* Features */
+        .features { padding: 80px 0; }
+        .features h2 {
+            font-size: 2rem;
+            color: #58a6ff;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: #161b22;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #21262d;
+            transition: all 0.3s;
+        }
+        .feature-card:hover { border-color: #58a6ff; transform: translateY(-5px); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 15px; }
+        .feature-card h3 { color: #58a6ff; margin-bottom: 10px; }
+        
+        /* How it works */
+        .how-it-works {
+            background: #161b22;
+            padding: 80px 0;
+        }
+        .how-it-works h2 {
+            font-size: 2rem;
+            color: #58a6ff;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .step {
+            text-align: center;
+            max-width: 250px;
+        }
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #238636;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+        
+        /* Code block */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+        .code-block code {
+            font-family: 'Fira Code', monospace;
+            color: #7ee787;
+            font-size: 1.2rem;
+        }
+        
+        /* Warning */
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #0d1117;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #21262d;
+            color: #8b949e;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero .stats { flex-direction: column; gap: 20px; }
+            .steps { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>🇬🇧 UK 기업정보 PDF 대량 다운로드</h1>
+            <p class="subtitle">Companies House에서 500만개 기업의 문서를 한 번에 다운로드하세요</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">5M+</div>
+                    <div class="stat-label">활성 기업</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">PDF 문서</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">FREE</div>
+                    <div class="stat-label">오픈소스</div>
+                </div>
+            </div>
+            
+            <a href="https://github.com/pearswick/dumpany" class="cta-button" target="_blank">
+                🚀 dumpany 시작하기
+            </a>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2>✨ 주요 기능</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📥</div>
+                    <h3>대량 다운로드</h3>
+                    <p>특정 회사의 모든 PDF 문서를 한 번에 다운로드. Companies House API 연동.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI 분석 연동</h3>
+                    <p>다운로드한 데이터를 Google NotebookLM에 업로드하여 AI 분석 가능.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>오프라인 브라우징</h3>
+                    <p>인터넷 없이도 회사 문서를 로컬에서 검색하고 분석할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>🛠️ 사용 방법</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>설치</h3>
+                    <p>pip로 dumpany 설치</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>회사 번호 입력</h3>
+                    <p>Companies House에서 회사 번호 확인</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>다운로드</h3>
+                    <p>모든 PDF 자동 다운로드</p>
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <code>pip install dumpany<br>dumpany.py --company-number 12345678</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Warning -->
+    <div class="container">
+        <div class="warning">
+            ⚠️ <strong>주의:</strong> Companies House API는 분당 600회 rate limit이 있습니다. 
+            대량 다운로드 시 5분 간격으로 실행하세요.
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 UK Business Data Tools | Powered by Companies House API</p>
+            <p style="margin-top: 10px;">
+                <a href="https://github.com/pearswick/dumpany" style="color: #58a6ff;">GitHub</a> · 
+                <a href="https://developer.company-information.service.gov.uk/" style="color: #58a6ff;">API Docs</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

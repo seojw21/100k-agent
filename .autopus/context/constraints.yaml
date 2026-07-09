@@ -1,0 +1,17 @@
+deny:
+    - pattern: eval(
+      reason: code injection risk
+      suggest: use ast.literal_eval or safe parsing
+      category: security
+    - pattern: exec(
+      reason: arbitrary code execution
+      suggest: use subprocess with strict args
+      category: security
+    - pattern: import *
+      reason: pollutes namespace
+      suggest: import specific names
+      category: convention
+    - pattern: pickle.load
+      reason: deserialization attack risk
+      suggest: use JSON or safe format
+      category: security

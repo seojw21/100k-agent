@@ -1,0 +1,259 @@
+{
+  "tasks": [
+    {
+      "id": "20260618014812-gp3v",
+      "title": "Week 1: 리드 마그넷 콘텐츠 기획 및 초안 작성 (현빈 담당)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.719Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.576Z"
+    },
+    {
+      "id": "20260618014812-jds5",
+      "title": "Week 2: 랜딩 페이지 디자인 및 제작 (Designer 협업)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.732Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.583Z"
+    },
+    {
+      "id": "20260618014812-seq8",
+      "title": "Week 3: 자동화 이메일 시퀀스 설정 및 CRM 연동",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.753Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.591Z"
+    },
+    {
+      "id": "20260618014812-cxv6",
+      "title": "Week 4: 트래픽 테스트 및 초기 데이터 분석",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-18T01:48:12.769Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T01-35",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T01-35/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일\n- Researcher: 선택된 핵심 과제(리드 마겟트 제작)에 대해 해외 시장(영어권) 및 경쟁사 분석을 통해 실질적으로 수익화가 가능성이 높은 요소들을 데이터 기반으\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1000만원)를 검토하여 현재 시점에서 가장 가치 있는 단일 비즈니스 과이거는 리드 마그넷 제작 및 세일즈 파이프라인 구축이며, 구체적인 실행 로드맵과 KPI를 수립하십시오.\n>",
+      "completedAt": "2026-06-18T01:59:26.598Z"
+    },
+    {
+      "id": "20260618021903-mvo6",
+      "title": "Does this sentence sound like me? (Self-Audit)",
+      "description": "자동 등록 (Researcher 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "researcher"
+      ],
+      "createdAt": "2026-06-18T02:19:03.261Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T02-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
+      "completedAt": "2026-06-18T02:30:26.695Z"
+    },
+    {
+      "id": "20260618021903-outm",
+      "title": "Is the vocabulary too 'AI-standard'? (Vocabulary Check)",
+      "description": "자동 등록 (Researcher 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "researcher"
+      ],
+      "createdAt": "2026-06-18T02:19:03.269Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T02-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
+      "completedAt": "2026-06-18T02:30:26.704Z"
+    },
+    {
+      "id": "20260618021903-vm09",
+      "title": "Does it reflect my unique perspective/opinion? (Perspective Check)",
+      "description": "자동 등록 (Researcher 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "researcher"
+      ],
+      "createdAt": "2026-06-18T02:19:03.277Z",
+      "status": "done",
+      "sessionDir": "2026-06-18T02-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-18T02-05/_report.md\n- 현빈: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현\n- Researcher: 도출된 수익화 트리거(Notion 통합형 가이드, Authenticity 강조)를 기반으로 하여 3040 영어권 타겟의 전환율을 극대화할 수 있\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 최근 의사결정 로그와 회사 목표(수익화 1,000만원)를 검토하여 리드 마그넷 제작 및 세일즈 파이프라인 구축의 핵심 KPI를 달성하기 위해 현재 시점에서 가장 가루비가 높은 고단가 컨설팅 모델로 연결되는 구체적인 실",
+      "completedAt": "2026-06-18T02:30:26.712Z"
+    },
+    {
+      "id": "20260621143542-nris",
+      "title": "**시공팀별 가용 시간 DB** (요일/시간대, 지역 정보 포함)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.966Z",
+      "status": "done",
+      "sessionDir": "2026-06-21T14-31",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-21T14-31/_report.md\n- 현빈: 최근 의사결정(시공 서비스 중심 B2C 확장)과 각 에이전트의 개인 목표를 분석하여 현재 가장 가치 있는 단일 작업을 결정하고, 관련 에이전트에\n\nCEO 종합 요점: 💼 현빈: 작업 시작합니다.\n\n현재 리퍼코퍼레이션의 최우선 과제는 **인테리어필름 B2C 확장**입니다. 기존 B2B 중심에서 일반 소비자 대상 가이드형 서비스로 전환해야 하며, 이를 위해 단품이 아닌 패키지 중심 가격 책정과 시공 전후 대비를 극대화한 콘텐츠가 핵심입니다.\n\n최근 의사결정(2026-06-21)을 분석하면 이미 인스타그램 릴스 기획안과 게",
+      "completedAt": "2026-06-21T14:37:48.564Z"
+    },
+    {
+      "id": "20260621143542-4okv",
+      "title": "**패키지별 표준 소요 시간(H)** (난이도 가중치 산출 근거)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.968Z",
+      "status": "done",
+      "sessionDir": "2026-06-21T14-31",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-21T14-31/_report.md\n- 현빈: 최근 의사결정(시공 서비스 중심 B2C 확장)과 각 에이전트의 개인 목표를 분석하여 현재 가장 가치 있는 단일 작업을 결정하고, 관련 에이전트에\n\nCEO 종합 요점: 💼 현빈: 작업 시작합니다.\n\n현재 리퍼코퍼레이션의 최우선 과제는 **인테리어필름 B2C 확장**입니다. 기존 B2B 중심에서 일반 소비자 대상 가이드형 서비스로 전환해야 하며, 이를 위해 단품이 아닌 패키지 중심 가격 책정과 시공 전후 대비를 극대화한 콘텐츠가 핵심입니다.\n\n최근 의사결정(2026-06-21)을 분석하면 이미 인스타그램 릴스 기획안과 게",
+      "completedAt": "2026-06-21T14:37:48.564Z"
+    },
+    {
+      "id": "20260621143542-71e0",
+      "title": "**지역별 평균 시공 거리 및 이동비** (배정 최적화용)",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.968Z",
+      "status": "done",
+      "sessionDir": "2026-06-21T14-31",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-21T14-31/_report.md\n- 현빈: 최근 의사결정(시공 서비스 중심 B2C 확장)과 각 에이전트의 개인 목표를 분석하여 현재 가장 가치 있는 단일 작업을 결정하고, 관련 에이전트에\n\nCEO 종합 요점: 💼 현빈: 작업 시작합니다.\n\n현재 리퍼코퍼레이션의 최우선 과제는 **인테리어필름 B2C 확장**입니다. 기존 B2B 중심에서 일반 소비자 대상 가이드형 서비스로 전환해야 하며, 이를 위해 단품이 아닌 패키지 중심 가격 책정과 시공 전후 대비를 극대화한 콘텐츠가 핵심입니다.\n\n최근 의사결정(2026-06-21)을 분석하면 이미 인스타그램 릴스 기획안과 게",
+      "completedAt": "2026-06-21T14:37:48.565Z"
+    },
+    {
+      "id": "20260621143542-oolr",
+      "title": "**재질/특수 옵션 유형 리스트와 각각의 추가 비용표**",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-21T14:35:42.969Z",
+      "status": "done",
+      "sessionDir": "2026-06-21T14-31",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-21T14-31/_report.md\n- 현빈: 최근 의사결정(시공 서비스 중심 B2C 확장)과 각 에이전트의 개인 목표를 분석하여 현재 가장 가치 있는 단일 작업을 결정하고, 관련 에이전트에\n\nCEO 종합 요점: 💼 현빈: 작업 시작합니다.\n\n현재 리퍼코퍼레이션의 최우선 과제는 **인테리어필름 B2C 확장**입니다. 기존 B2B 중심에서 일반 소비자 대상 가이드형 서비스로 전환해야 하며, 이를 위해 단품이 아닌 패키지 중심 가격 책정과 시공 전후 대비를 극대화한 콘텐츠가 핵심입니다.\n\n최근 의사결정(2026-06-21)을 분석하면 이미 인스타그램 릴스 기획안과 게",
+      "completedAt": "2026-06-21T14:37:48.566Z"
+    },
+    {
+      "id": "20260622025147-turi",
+      "title": "Background is pure #000000 — no gray bleed",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-06-22T02:51:47.589Z",
+      "status": "done",
+      "sessionDir": "2026-06-22T02-46",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-22T02-46/_report.md\n- 레오: 확정된 영상 브리프와 시각적 정합성을 최종 확인하여 배포 승인 보고\n- Designer: 생성된 thumbnail_design.md 가이드를 바탕으로 실제 이미지 파일 제작 및 검증\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 📺 레오 _(Head of YouTube)_\n> 📋 **지시**: 확정된 영상 브리프와 시각적 정합성을 최종 확인하여 배포 승인 보고\n> 🔧 **도구 실행**: `my_videos_check.py (prefetch)`\n> 📊 **수집 데이터**: YouTube 채널 영상 분석 (실제 API 데이터)\n",
+      "completedAt": "2026-06-22T02:53:43.973Z"
+    },
+    {
+      "id": "20260622025147-m8id",
+      "title": "\"$62,000\" text uses Gold/Red with 48px emphasis principle (sessions/2026-06-14T04-58/designer.md)",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-06-22T02:51:47.590Z",
+      "status": "done",
+      "sessionDir": "2026-06-22T02-46",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-22T02-46/_report.md\n- 레오: 확정된 영상 브리프와 시각적 정합성을 최종 확인하여 배포 승인 보고\n- Designer: 생성된 thumbnail_design.md 가이드를 바탕으로 실제 이미지 파일 제작 및 검증\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 📺 레오 _(Head of YouTube)_\n> 📋 **지시**: 확정된 영상 브리프와 시각적 정합성을 최종 확인하여 배포 승인 보고\n> 🔧 **도구 실행**: `my_videos_check.py (prefetch)`\n> 📊 **수집 데이터**: YouTube 채널 영상 분석 (실제 API 데이터)\n",
+      "completedAt": "2026-06-22T02:53:43.973Z"
+    },
+    {
+      "id": "20260622025147-2egl",
+      "title": "Layout maintains \"overwhelming scale\" feel for the overseas English audience",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-06-22T02:51:47.590Z",
+      "status": "done",
+      "sessionDir": "2026-06-22T02-46",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-22T02-46/_report.md\n- 레오: 확정된 영상 브리프와 시각적 정합성을 최종 확인하여 배포 승인 보고\n- Designer: 생성된 thumbnail_design.md 가이드를 바탕으로 실제 이미지 파일 제작 및 검증\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 📺 레오 _(Head of YouTube)_\n> 📋 **지시**: 확정된 영상 브리프와 시각적 정합성을 최종 확인하여 배포 승인 보고\n> 🔧 **도구 실행**: `my_videos_check.py (prefetch)`\n> 📊 **수집 데이터**: YouTube 채널 영상 분석 (실제 API 데이터)\n",
+      "completedAt": "2026-06-22T02:53:43.974Z"
+    },
+    {
+      "id": "20260624233004-mwg5",
+      "title": "수익화 워크플로우(수익화 한달 1000만원)를 최종 확정하고 실행 가능한 KPI와 로드맵을 작성하십시오.",
+      "description": "자동 등록 (현빈 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "business"
+      ],
+      "createdAt": "2026-06-24T23:30:04.297Z",
+      "status": "done",
+      "sessionDir": "2026-06-24T23-17",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-24T23-17/_report.md\n- 현빈: 회사 목표, 에이전트 개인 목표(각 .md 파일), 최근 의사결정 및 메모리를 분석하여 현재 시점에서 비즈니스 성장을 위한 가장 가치 있는 단일\n\nCEO 종합 요점: [CEO의 지시]\n회사 목표, 에이전트 개인 목표(각 .md 파일), 최근 의사결정 및 메모리를 분석하여 현재 시점에서 비즈니스 성장을 위한 가장 가치 있는 단일 작업을 정의하고 실행 계획을 수립하십시오.\n\n[원 사용자 명령 참고]\n[자율 사이클 — 2026-06-24] 1인 기업 24시간 운영 중. 회사 목표·각 에이전트의 개인 목표(_agents/{id",
+      "completedAt": "2026-06-24T23:30:04.301Z"
+    }
+  ]
+}

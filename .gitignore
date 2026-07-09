@@ -1,0 +1,17 @@
+# Secrets — never commit
+.env
+.env.*
+**/*account.json
+**/config.md
+**/telegram_history.jsonl
+**/*_token*
+**/*credentials*
+**/*.pem
+
+# Rebuildable / noise
+knowledge/chroma_db/
+knowledge/raw_collected.jsonl
+knowledge/selfrag_log.jsonl
+knowledge/md_brain/
+**/__pycache__/
+.DS_Store

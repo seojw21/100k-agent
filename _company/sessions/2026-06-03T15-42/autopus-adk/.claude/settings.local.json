@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git ls-remote *)",
+      "Read(//private/tmp/autopus-adk-check/**)",
+      "Bash(command -v auto)",
+      "Bash(auto version *)",
+      "Bash(command -v go)",
+      "Bash(go version *)",
+      "Bash(curl -sSL \"https://api.github.com/repos/seojw21/autopus-adk/releases/latest\")",
+      "Bash(curl -sSL \"https://api.github.com/repos/Insajin/autopus-adk/releases/latest\")",
+      "Bash(export INSTALL_DIR=\"$HOME/.local/bin\")",
+      "Bash(mkdir -p /Users/seojeong-won/.local/bin)",
+      "Bash(curl -sSfL https://raw.githubusercontent.com/Insajin/autopus-adk/main/install.sh)",
+      "Bash(sh)",
+      "Bash(cd \"/Users/seojeong-won/GEMMA 4\"; echo \"=== top-level SPECs ===\"; ls -1 .autopus/specs/ 2>/dev/null || echo \"\\(none\\)\"; echo \"=== submodule SPECs ===\"; ls -d */.autopus/specs/*/ 2>/dev/null || echo \"\\(none\\)\"; echo \"=== brainstorms ===\"; ls -1 .autopus/brainstorms/ 2>/dev/null || echo \"\\(none\\)\"; ls -d */.autopus/brainstorms/*/ 2>/dev/null; echo \"=== product.md exists? ===\"; test -f .autopus/project/product.md && echo yes || echo no; echo \"=== grep tax-shield/tax shield anywhere ===\"; grep -ril \"tax-shield\\\\|tax shield\\\\|taxshield\" --include=\"*.md\" . 2>/dev/null | head -5 || echo \"\\(no matches\\)\")",
+      "Read(//Users/seojeong-won/GEMMA 4/**)",
+      "Bash(echo \"=== versions dir ===\"; ls -laR \"$HOME/.local/share/claude/versions\" 2>&1 | head -30 *)",
+      "Read(//Users/seojeong-won/.local/share/claude/versions/**)",
+      "Read(//Users/seojeong-won/.local/bin/**)"
+    ]
+  }
+}
