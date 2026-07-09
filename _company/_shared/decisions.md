@@ -743,3 +743,9 @@ _세션: 2026-07-07T16-31_
 - YouTube·Instagram 성장 목표 동결
 - 원칙·런북: `_shared/principles.md`, `OPERATING_RUNBOOK.md`
 - 백업: 100k-agent 3일 자동
+
+## [2026-07-09] _shared/goals.md, _shared/principles.md, _shared/OPERATING_R
+- PayPal 라이브 결제 재시도 전 Client ID/Secret 반드시 교차 검증.
+- WhatReview, 유튜브 제작, 신규 아이디어 발굴, git commit 금지.
+- r/FreightBrokers 참여 시 제품 링크 배제 및 도움 요청 톤 유지.
+_세션: 2026-07-09T15-23_
