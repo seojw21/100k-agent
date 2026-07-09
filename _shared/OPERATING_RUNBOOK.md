@@ -16,12 +16,24 @@
 - [ ] 나온 산출물 중 쓸 만한 것만 `business/` 또는 제품 폴더에 남기기  
 - [ ] PayPal/배포 막히면 본인이 콘솔 1스텝 (에이전트는 체크리스트만)
 
-## 자율 사이클 켤 때
+## 자동 커밋 루프 (중요 — 2026-07-10 차단)
 
-- **켜도 됨** — 단 goals에 “이번 주 밖 금지”가 박혀 있음  
-- 같은 리포트 반복하면: 사이클 끄거나 CEO에  
-  `반복 산출 금지. RateParse KPI 중 빈 칸 하나만.`  
-- YouTube/Instagram 구독자 목표는 **무시** (freight Reddit·GEO가 채널)
+**본질 원인 (3겹):**
+1. GitHub Actions `Knowledge Auto Collector` / `Daily Scan` — 매일 원격에서 `git commit`+`push`
+2. Connect AI **24h 자율 사이클** — 자리 비우면 에이전트가 파일 생성 → git 커밋 메시지(`feat: …`) 양산
+3. 두뇌 폴더(GEMMA 4) origin = **rateparse** — 위 커밋이 제품 저장소 히스토리에 섞임
+
+**조치 (적용됨):**
+- Actions 스케줄 **비활성** (수동 `workflow_dispatch`만)
+- `connectAiLab.autoCycleEnabled` = **false**
+- 백업은 3일 간격 **100k-agent** 스크립트만 (`chore(auto): brain backup…`)
+
+다시 키지 마세요. 필요 시 Actions → 해당 workflow → Enable 후 **Run workflow** 한 번만.
+
+## 자율 사이클
+
+- **기본 OFF.** 켜면 커밋·세션 노이즈가 다시 늘어남.
+- 켤 경우 goals “이번 주 밖 금지”만으로는 **git 커밋 자체는 막히지 않음.**
 
 ## 추천 첫 미션 (복붙)
 
