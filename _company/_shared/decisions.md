@@ -736,3 +736,10 @@ _세션: 2026-07-07T14-16_
 - 클릭과 전환 괴리 해소를 위해 ROI Index 단일 지표만 사용한다.
 - PayPal 트래픽 대시보드와 썸네일 데이터를 실시간 연동한다.
 _세션: 2026-07-07T16-31_
+
+## [2026-07-10] Connect AI 포트폴리오 운영 체제 고정
+- RateParse 메인 / WhatReview 주 5h 캡 (Study 후보군·계산적 다작)
+- 로컬 LLM only, Grok API 도입 보류
+- YouTube·Instagram 성장 목표 동결
+- 원칙·런북: `_shared/principles.md`, `OPERATING_RUNBOOK.md`
+- 백업: 100k-agent 3일 자동

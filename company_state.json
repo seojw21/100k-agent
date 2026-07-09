@@ -1,6 +1,15 @@
 {
   "tasksCompleted": 813,
   "knowledgeInjected": 5,
-  "lastSessionDate": "",
-  "foundedAt": "2026-06-17"
+  "lastSessionDate": "2026-07-10",
+  "foundedAt": "2026-06-17",
+  "portfolio": {
+    "primary": "RateParse",
+    "secondary": "WhatReview",
+    "secondaryWeeklyHoursCap": 5,
+    "killCriteriaPaid": 3,
+    "killWeeks": 8,
+    "llm": "local-only",
+    "setupDate": "2026-07-10"
+  }
 }

@@ -44,3 +44,9 @@
 - ✂️ **Editor** (Video & Content Editor): 영상 편집 디렉션, 컷 구성, B-roll 제안, 자막·타이틀, 스크립트 다듬기, 콘텐츠 폴리싱
 - ✍️ **Writer** (Copywriter): 카피라이팅, 영상 스크립트 초안, 인스타 캡션, 블로그 글, 메일 톤앤매너, 후크 작성
 - 🔍 **Researcher** (Trend & Data Researcher): 트렌드 리서치, 경쟁사 분석, 데이터 수집·요약, 인용 자료 정리, 사실 확인
+
+## 포트폴리오 (2026-07 운영)
+- 1순위 **RateParse** (`rateparse/`) — 8주 유료 3건 검증
+- 2순위 **WhatReview** (`whatsapp-review-saas/`) — 주 5h 캡
+- 원칙: `_shared/principles.md` · 실행: `_shared/OPERATING_RUNBOOK.md`
+- 백업: GitHub `100k-agent` (3일 자동)
