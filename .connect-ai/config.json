@@ -1,12 +1,18 @@
 {
-  "knowledgePath": "/Users/seojeong-won/GEMMA 4/knowledge",
-  "knowledgeFolder": "/Users/seojeong-won/GEMMA 4/knowledge",
-  "knowledgePath_upper": "/Users/seojeong-won/GEMMA 4/knowledge",
-  "knowledgeFolder_upper": "/Users/seojeong-won/GEMMA 4/knowledge",
-  "knowledgePath_forward": "/Users/seojeong-won/GEMMA 4/knowledge",
-  "knowledgeFolder_forward": "/Users/seojeong-won/GEMMA 4/knowledge",
-  "localBrainPath": "/Users/seojeong-won/GEMMA 4",
-  "localBrainFolder": "/Users/seojeong-won/GEMMA 4",
+  "knowledgePath": "/Users/seojeong-won/reaper-brain/knowledge",
+  "knowledgeFolder": "/Users/seojeong-won/reaper-brain/knowledge",
+  "knowledgePath_upper": "/Users/seojeong-won/reaper-brain/knowledge",
+  "knowledgeFolder_upper": "/Users/seojeong-won/reaper-brain/knowledge",
+  "knowledgePath_forward": "/Users/seojeong-won/reaper-brain/knowledge",
+  "knowledgeFolder_forward": "/Users/seojeong-won/reaper-brain/knowledge",
+  "localBrainPath": "/Users/seojeong-won/reaper-brain",
+  "localBrainFolder": "/Users/seojeong-won/reaper-brain",
   "brainPath": "/Users/seojeong-won/.connect-ai-brain",
-  "brainFolder": "/Users/seojeong-won/.connect-ai-brain"
+  "brainFolder": "/Users/seojeong-won/.connect-ai-brain",
+  "secondBrainRepo": "",
+  "productRepo": "https://github.com/seojw21/rateparse.git",
+  "extensionRepo": "https://github.com/seojw21/connect-ai.git",
+  "productWorkspace": "/Users/seojeong-won/GEMMA 4",
+  "backupRepo": "https://github.com/seojw21/100k-agent.git",
+  "note": "Canonical brain root. Align with GEMMA 4/.connect-ai. secondBrainRepo empty. Prefer intentional backup script over Connect auto-sync."
 }

@@ -15,3 +15,14 @@ knowledge/selfrag_log.jsonl
 knowledge/md_brain/
 **/__pycache__/
 .DS_Store
+
+# secrets / tool credentials (never push)
+_company/_agents/*/config.md
+_company/_agents/*/tools/*.json
+**/*.bak
+**/*.bak-*
+**/*.bak-paypal*
+**/paypal_revenue.json
+**/paypal_revenue.json.bak*
+**/config.md.bak*
+!.env.example

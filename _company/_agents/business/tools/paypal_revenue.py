@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# version: paypal_revenue_v3
-"""PayPal 매출 자동 분석 — Connect AI 비즈니스 에이전트 전용.
+# version: paypal_revenue_v4 · sentinel: paypal_revenue_v3
+"""PayPal 매출 자동 분석 — Connect AI 비즈니스 에이전트 전용 (v4 multi-cred).
 
 흐름:
   1. CLIENT_ID + CLIENT_SECRET 으로 OAuth2 access token 발급
@@ -34,6 +34,95 @@ CONFIG = os.path.join(HERE, "paypal_revenue.json")
 def _log(msg, kind="info"):
     prefix = {"info": "💰", "ok": "✅", "warn": "⚠️ ", "err": "❌", "step": "▸"}.get(kind, "•")
     print(f"{prefix} {msg}", file=sys.stderr, flush=True)
+
+
+
+def _parse_config_md(path: str) -> dict:
+    """Connect external panel also writes PAYPAL_* into business/config.md."""
+    out = {}
+    if not os.path.exists(path):
+        return out
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                for sep in (":", "：", "="):
+                    if sep in line:
+                        k, v = line.split(sep, 1)
+                        k, v = k.strip(), v.strip()
+                        if k.startswith("PAYPAL_"):
+                            out[k] = v
+                        break
+    except Exception:
+        pass
+    return out
+
+
+def _clean_secret(v: str) -> str:
+    if not v:
+        return ""
+    v = v.strip().strip('"').strip("'")
+    # strip accidental key prefixes pasted from UI
+    for prefix in ("PAYPAL_CLIENT_ID:", "PAYPAL_CLIENT_SECRET:", "CLIENT_ID:", "CLIENT_SECRET:"):
+        if v.startswith(prefix):
+            v = v[len(prefix):].strip()
+    return v.replace("\n", "").replace("\r", "").strip()
+
+
+def _credential_candidates(cfg: dict, mode: str):
+    """Ordered (label, client_id, client_secret, force_mode_or_None)."""
+    md = _parse_config_md(os.path.join(os.path.dirname(HERE), "..", "config.md"))
+    # env first (operator override)
+    env_id = _clean_secret(os.environ.get("PAYPAL_CLIENT_ID") or os.environ.get("CLIENT_ID") or "")
+    env_sec = _clean_secret(os.environ.get("PAYPAL_CLIENT_SECRET") or os.environ.get("CLIENT_SECRET") or "")
+    env_mode = _clean_secret(os.environ.get("PAYPAL_MODE") or os.environ.get("MODE") or "") or None
+
+    pairs = []
+    if env_id and env_sec:
+        pairs.append(("env", env_id, env_sec, env_mode.lower() if env_mode else None))
+
+    def add(label, cid, sec, force_mode=None):
+        cid, sec = _clean_secret(cid), _clean_secret(sec)
+        if cid and sec:
+            pairs.append((label, cid, sec, force_mode))
+
+    add("json.CLIENT", cfg.get("CLIENT_ID"), cfg.get("CLIENT_SECRET"))
+    add("json.LIVE", cfg.get("LIVE_CLIENT_ID"), cfg.get("LIVE_CLIENT_SECRET"), "live")
+    add("json.SANDBOX", cfg.get("SANDBOX_CLIENT_ID"), cfg.get("SANDBOX_CLIENT_SECRET"), "sandbox")
+    add("config.md", md.get("PAYPAL_CLIENT_ID"), md.get("PAYPAL_CLIENT_SECRET"),
+        (md.get("PAYPAL_MODE") or "").lower() or None)
+
+    # de-dupe by id+secret
+    seen = set()
+    out = []
+    for item in pairs:
+        key = (item[1], item[2])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(item)
+    return out
+
+
+def _oauth_try_modes(client_id: str, client_secret: str, preferred_mode: str):
+    """Try preferred mode first, then the other. Returns (mode, token_resp)."""
+    order = [preferred_mode] if preferred_mode in ("live", "sandbox") else ["live", "sandbox"]
+    if "live" not in order:
+        order.append("live")
+    if "sandbox" not in order:
+        order.append("sandbox")
+    errors = []
+    for m in order:
+        base = _base_url(m)
+        try:
+            resp = _get_access_token_full(base, client_id, client_secret)
+            if resp.get("access_token"):
+                return m, resp, base
+        except Exception as e:
+            errors.append(f"{m}: {e}")
+    raise RuntimeError(" | ".join(errors))
 
 
 def _load():
@@ -402,43 +491,51 @@ def _json_dump(txs, default_currency: str = ""):
 
 def main():
     cfg = _load()
-    mode = (cfg.get("MODE") or "sandbox").strip().lower()
-    
-    # 만약 CLIENT_ID/SECRET이 비어 있으면 SANDBOX 또는 LIVE 전용 키로 폴백 매칭
-    client_id = (cfg.get("CLIENT_ID") or "").strip()
-    if not client_id:
-        if mode == "live":
-            client_id = (cfg.get("LIVE_CLIENT_ID") or "").strip()
-        else:
-            client_id = (cfg.get("SANDBOX_CLIENT_ID") or "").strip()
+    mode = _clean_secret(cfg.get("MODE") or "sandbox").lower()
+    if mode not in ("live", "sandbox"):
+        mode = "sandbox"
 
-    client_secret = (cfg.get("CLIENT_SECRET") or "").strip()
-    if not client_secret:
-        if mode == "live":
-            client_secret = (cfg.get("LIVE_CLIENT_SECRET") or "").strip()
-        else:
-            client_secret = (cfg.get("SANDBOX_CLIENT_SECRET") or "").strip()
-            
     lookback = int(os.environ.get("LOOKBACK_DAYS", cfg.get("LOOKBACK_DAYS", 30)))
-    currency = (cfg.get("CURRENCY") or "").strip().upper()
-    output_mode = (os.environ.get("OUTPUT") or "markdown").strip().lower()
+    currency = _clean_secret(cfg.get("CURRENCY") or "").upper()
+    output_mode = _clean_secret(os.environ.get("OUTPUT") or "markdown").lower()
 
-    if not client_id or not client_secret:
+    candidates = _credential_candidates(cfg, mode)
+    if not candidates:
         _log("CLIENT_ID 또는 CLIENT_SECRET 비어있음. PayPal Developer Dashboard 에서 발급:", "err")
         _log("  https://developer.paypal.com/dashboard/applications", "info")
-        _log("  → Apps & Credentials → 본인 앱 → Client ID + Secret 복사", "info")
+        _log("  → Apps & Credentials → Live/Sandbox 토글 확인 → Client ID + Secret 복사", "info")
+        _log("  Connect: 외부 연결 패널 또는 connectAiLab.apiConnections.open", "info")
         sys.exit(1)
 
+    _log(f"PayPal 설정 모드={mode.upper()} · 최근 {lookback}일 분석 · 후보 {len(candidates)}쌍", "info")
+
+    token_resp = None
+    used_label = None
+    used_mode = mode
     base = _base_url(mode)
-    _log(f"PayPal {mode.upper()} 모드 · 최근 {lookback}일 분석", "info")
+    last_err = None
+    for label, client_id, client_secret, force_mode in candidates:
+        pref = force_mode or mode
+        try:
+            used_mode, token_resp, base = _oauth_try_modes(client_id, client_secret, pref)
+            used_label = label
+            _log(f"OAuth 인증 성공 ({label} · {used_mode})", "ok")
+            break
+        except Exception as e:
+            last_err = e
+            _log(f"OAuth 후보 실패 [{label}]: {e}", "warn")
 
-    try:
-        token_resp = _get_access_token_full(base, client_id, client_secret)
-        token = token_resp["access_token"]
-        _log("OAuth 인증 성공", "ok")
-    except Exception as e:
-        _log(f"OAuth 실패: {e}", "err")
+    if not token_resp:
+        _log(f"OAuth 실패: {last_err}", "err")
+        _log("자주 있는 원인:", "info")
+        _log("  1) Live 키를 Sandbox에(또는 반대) 넣음 — Dashboard 좌상단 Live/Sandbox 토글 확인", "info")
+        _log("  2) Client ID와 Secret이 서로 다른 앱 것", "info")
+        _log("  3) Secret 재발급 후 예전 Secret 사용 / 계정이 앱과 연결 안 됨 (Invalid account for relying party)", "info")
+        _log("  4) 외부 연결 패널에 저장 후 json·config.md 가 다시 덮였는지 확인", "info")
+        _log("  → https://developer.paypal.com/dashboard/applications", "info")
         sys.exit(1)
+
+    token = token_resp["access_token"]
 
     # v2: scope 검사 → Reporting (Transaction Search) 권한 없으면 친절 안내 후 종료
     if not _has_reporting_scope(token_resp):
@@ -456,15 +553,18 @@ def main():
                 "error": "reporting_scope_missing",
                 "message": "OAuth 토큰에 Transaction Search 권한 없음",
                 "scope": token_resp.get("scope", ""),
+                "used": used_label,
+                "mode": used_mode,
                 "fix": "PayPal Dashboard 앱 Features 에서 Transaction search 체크 + Save"
             }, ensure_ascii=False, indent=2))
         else:
-            print("# 💰 PayPal 매출 분석\n")
+            print("# 💰 PayPal 매출 분석")
+            print()
             print("> ❌ **Transaction Search 권한 없음** — PayPal Dashboard 에서 활성화 필요")
             print()
             print("**해결 단계:**")
             print("1. https://developer.paypal.com/dashboard/applications")
-            print("2. 좌상단 Sandbox/Live 토글 확인 (현재 모드: `" + mode + "`)")
+            print("2. 좌상단 Sandbox/Live 토글 확인 (현재 모드: `" + used_mode + "`)")
             print("3. 본인 앱 클릭")
             print("4. **Features** 섹션 → ☑ **Transaction search** 체크")
             print("5. 페이지 하단 **Save Changes** 클릭 (필수!)")
@@ -474,14 +574,13 @@ def main():
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=lookback)
     txs = _fetch_transactions(base, token, start, end, currency)
-    _log(f"총 {len(txs)}건 거래 수집", "ok")
+    _log(f"총 {len(txs)}건 거래 수집 (cred={used_label})", "ok")
 
     if output_mode == "json":
         print(json.dumps(_json_dump(txs, currency), ensure_ascii=False, indent=2))
     else:
         report = _summarize(txs, currency)
         print(report)
-
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 10. 오전 12:25:54_
+_업데이트: 2026. 7. 10. 오전 1:18:42_
 
 ## 📅 사람 일정 (Google Calendar)
 - **2026-06-25 11:00** · 영어회화 시작
@@ -17,9 +17,9 @@ _업데이트: 2026. 7. 10. 오전 12:25:54_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
-- [2026-07-07] 트래픽 유입을 위한 썸네일과 제목 A/B 테스트 브리프를 작성하세요. 현재 $62,000 프리미엄 메시지와 #000000 배경 비주얼 시스템을 활용하되, 클릭률을 극대화할 수 있는 변형 3종을 제안하세요. → 산출물 sessions/2026-07-07T14-16/youtube.md
-- [2026-07-07] 현재 $62,000 프리미엄 메시지와 #000000 배경 비주얼 시스템으로 제작된 썸네일 A/B 테스트 결과를 분석할 수 있는 지표를 정의하세요. 클릭률(CTR)과 전환율(CVR)을 연결하는 핵심 KPI를 3개 선정하고, 트래픽 대시보드와 연동 가능한 형식으로 정리하세요. → 산출물 sessions/2026-07-07T16-31/youtube.md
 - [2026-07-09] _shared/goals.md, _shared/principles.md, _shared/OPERATING_RUNBOOK.md, business/go_to_market_playbook.md, business/solo_operation_kit.md 만 사용해. WhatReview, 유튜브, 신규 아이디어, git commit 금지.  오늘 산출물 3개만, business/ 아래 md로 저장: 1) PayPal 라이브 결제 — 남은 단계 체크리스트 (한국어 요약 + 영어 키 문장) 2) r/FreightBrokers용 도움 댓글 영어 5
+- [2026-07-09] _shared/goals.md, _shared/principles.md, _shared/OPERATING_RUNBOOK.md, business/go_to_market_playbook.md, business/solo_operation_kit.md 만 사용해. WhatReview, 유튜브, 신규 아이디어, git commit 금지.  오늘 산출물 3개만, business/ 아래 md로 저장: 1) PayPal 라이브 결제 — 남은 단계 체크리스트 (한국어 요약 + 영어 키 문장) 2) r/FreightBrokers용 도움 댓글 영어 5
+- [2026-07-09] [운영 모드] 두뇌=reaper-brain, 코드=GEMMA 4. git commit/push 금지. autoCycle OFF. 메인 제품=RateParse만. WhatReview·유튜브·신규 아이디어 금지.  방금 PayPal LIVE OAuth는 성공했지만 최근 조회 거래 0건이다. 이 전제로 오늘 할 일만 처리:  1) RateParse 실제 결제가 어떤 PayPal 앱/계정으로 떨어지는지 문서화    (rateparse/.env 의 VITE_PAYPAL_* 와 매출 도구 키가 같은 앱인지 확인 방법만 정리. 시크릿 값 출력
 ### 📷 Instagram
 - [2026-06-21] 시공 전후 대비를 극대화한 릴스/피드 가이드라인(구도, 조명 등)을 작성하고 리뷰용 비포&애프터 소스 목록 리스트업 → 산출물 sessions/2026-06-21T14-32/instagram.md
 - [2026-06-21] 릴스 기획안 작성 및 게시 전략 수립 (19~21시 골든타임 활용) → 산출물 sessions/2026-06-21T14-46/instagram.md
@@ -33,9 +33,9 @@ _업데이트: 2026. 7. 10. 오전 12:25:54_
 - [2026-07-07] PayPal 결제 파이프라인에 대한 실제 트래픽 테스트 스크립트를 작성하세요. 모니터링 대시보드를 구축하고, 실시간 전환율 데이터를 수집할 수 있는 구조를 만들세요. → 산출물 sessions/2026-07-07T14-16/developer.md
 - [2026-07-07] PayPal 결제 파이프라인에 대한 실시간 트래픽 테스트 스크립트를 작성하세요. 모니터링 대시보드를 구축하고, 실시간 전환율 데이터를 수집할 수 있는 구조를 만드세요. Idempotency Key와 지수 백오프 재시도 로직이 이미 포함되었으므로, 실제 트래픽 시뮬레이션과 데이터 시각화 부분을 완성하는 데 집중하세요. → 산출물 sessions/2026-07-07T16-31/developer.md
 ### 💼 현빈
-- [2026-06-26] 회사 목표와 개별 에이전트의 목표(goal.md) 파일들을 검토하여 우선순위가 핵심 지표를 기반으로 분석하고, 현재 시점에서 가장 가치 있는 단일 작업 1개를 도출하십시오. → 산출물 sessions/2026-06-26T08-12/business.md
-- [2026-06-26] 기업 목표 및 각 에이전트의 개인 목표(goal.md) 파일을 검토하여 현재 시점에서 비즈니스 성장을 위한 핵심 과제와 우선순위를 도분석하십시오. → 산출물 sessions/2026-06-26T08-42/business.md
 - [2026-07-09] _shared/goals.md, _shared/principles.md, _shared/OPERATING_RUNBOOK.md, business/go_to_market_playbook.md, business/solo_operation_kit.md 만 사용해. WhatReview, 유튜브, 신규 아이디어, git commit 금지.  오늘 산출물 3개만, business/ 아래 md로 저장: 1) PayPal 라이브 결제 — 남은 단계 체크리스트 (한국어 요약 + 영어 키 문장) 2) r/FreightBrokers용 도움 댓글 영어 5
+- [2026-07-09] [운영 모드] 두뇌=reaper-brain, 코드=GEMMA 4. git commit/push 금지. autoCycle OFF. 메인 제품=RateParse만. WhatReview·유튜브·신규 아이디어 금지.  방금 PayPal LIVE OAuth는 성공했지만 최근 조회 거래 0건이다. 이 전제로 오늘 할 일만 처리:  1) RateParse 실제 결제가 어떤 PayPal 앱/계정으로 떨어지는지 문서화    (rateparse/.env 의 VITE_PAYPAL_* 와 매출 도구 키가 같은 앱인지 확인 방법만 정리. 시크릿 값 출력 
+- [2026-07-09] [운영 모드] 두뇌=reaper-brain. git commit/push 금지. 신규 제품·WhatReview·유튜브 작업 절대 금지.  읽을 것: _shared/goals.md, business/go_to_market_playbook.md, business/cold_outreach_kit.md, rateparse/README.md  산출물 3개를 reaper-brain/business/ 에 md로 저장: 1) 이번 주 ICP 한 줄 정의 + 제외 대상 (Exclusion) 2) Freight broker 타겟 영어 Outreach
 ### 📱 영숙
 - [2026-06-26] 선택된 핵심 작업의 진행 상황을 보고하고, 일정을 관리하며 24시간 내에 중복되는 작업이 발생하지 않도록 메모리를 대조하여 다른 각도로 진전시키십시오. → 산출물 sessions/2026-06-26T05-42/secretary.md
 - [2026-06-26] 최근 24시간 내에 수행된 작업과 메모리 내 유사 작업을 확인하여 중복 방지 및 새로운 관점에서의 진전이 필요하는 업무를 목록화하십시오. → 산출물 sessions/2026-06-26T06-12/secretary.md
