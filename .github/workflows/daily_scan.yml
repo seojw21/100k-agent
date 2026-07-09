@@ -1,16 +1,14 @@
 name: 100k Agent Daily Scan
 
+# DISABLED schedule (2026-07-10) — 자동 커밋 루프 방지. 수동만.
 on:
-  schedule:
-    # 한국 시간(KST) 오전 8시(23:00 UTC)와 오후 10시(13:00 UTC)에 실행
-    - cron: '0 13,23 * * *'
-  workflow_dispatch: # 수동으로도 실행 가능하게 설정
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # Node.js 24 경고 해결
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   PYTHONUNBUFFERED: '1'
   OMP_NUM_THREADS: '1'
   MKL_NUM_THREADS: '1'
