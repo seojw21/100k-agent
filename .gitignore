@@ -1,39 +1,55 @@
-# Connect AI auto-generated
+# OS / IDE
 .DS_Store
-.env
-.env.local
-.env.*.local
+Thumbs.db
 .obsidian/
 .trash/
-node_modules/
-*.tmp
-*.log
 .cache/
-Thumbs.db
-
-# Local credentials
-_agents/youtube/tools/youtube_account.json
-
-# Local large databases
-knowledge/chroma_db/
-
-# Python cache & virtualenv
-__pycache__/
-.venv/
-**/__pycache__/
-**/.venv/
-
-# IDE / tool configs
 .claude/
 .autopus/
-.mcp.json
+.codex/
+.vscode/
+*.tmp
+*.log
 
-# 대용량 파일
-*.pdf
-*.zip
-archive/
-오늘업무_*/
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*_account.json
 .telegram_*.json
 .telegram_poll.lock
-레딧\ *.txt
+_agents/**/config.md
+_company/_agents/**/config.md
+_company/_agents/secretary/telegram_history.jsonl
+
+# Dependencies / build
+node_modules/
+.venv/
+__pycache__/
+**/__pycache__/
+dist/
+build/
+*.pyc
+
+# Rebuildable / noise knowledge
+knowledge/chroma_db/
+knowledge/md_brain/
+knowledge/raw_collected.jsonl
+knowledge/selfrag_log.jsonl
+knowledge/antigravity_brain.jsonl
+knowledge/raw_events/
 *.jsonl
+
+# Archives & dumps (local only)
+archive/
+_archive/
+ideas/
+오늘업무_*/
+*.pdf
+*.zip
+
+# Large binaries
+*.bin
+*.sqlite3
+*.gguf
