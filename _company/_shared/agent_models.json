@@ -1,12 +1,13 @@
 {
-  "ceo": "ornith:35b",
-  "designer": "ornith:35b",
-  "developer": "ornith:35b",
+  "ceo": "gemma4:12b",
+  "designer": "gemma4:12b",
+  "developer": "gemma4:12b",
   "business": "gemma4:12b",
-  "secretary": "gemma4:26b",
-  "editor": "ornith:35b",
-  "researcher": "ornith:35b",
-  "youtube": "ornith:35b",
-  "instagram": "ornith:35b",
-  "writer": "gemma4:12b"
+  "secretary": "gemma4:12b",
+  "editor": "gemma4:12b",
+  "researcher": "gemma4:12b",
+  "youtube": "gemma4:12b",
+  "instagram": "gemma4:12b",
+  "writer": "gemma4:12b",
+  "_note": "2026-07-10: all gemma4:12b — ornith:35b thinking often empty/slow so agents look stuck"
 }
